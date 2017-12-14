@@ -79,13 +79,32 @@
 
 
 
-<meta property="og:type" content="website">
+<meta name="description" content="title:iOS进阶：RunLoop已入门？快来应用一下前言对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：[iOS实战：RunLoop入门，看我就够了]{https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Jabber_YQ&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/index.html">
 <meta property="og:site_name" content="Jabber_YQ&#39;s Blog">
+<meta property="og:description" content="title:iOS进阶：RunLoop已入门？快来应用一下前言对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：[iOS实战：RunLoop入门，看我就够了]{https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-12695eb31dc5556f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-a0f45bf496be8855.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-7f39b41c5d35a5bb.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-691dba1b9a1cf99a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-7ea6353316d5f884.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-350f0ebebca68157.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-61073ab8cfcc80e1.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-c58b2cf2fab030ad.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-a9dcd0038740fa9f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-df5ef52c41c3ff22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-7480b4e67acb65bd.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-c95ad9efe0ed495f.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-ece9770395b329cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-192c20a9ce7dd7c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-12-14T08:04:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jabber_YQ&#39;s Blog">
+<meta name="twitter:description" content="title:iOS进阶：RunLoop已入门？快来应用一下前言对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：[iOS实战：RunLoop入门，看我就够了]{https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2312304-12695eb31dc5556f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -115,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/"/>
 
 
 
 
 
-  <title>Jabber_YQ's Blog</title>
+  <title> | Jabber_YQ's Blog</title>
   
 
 
@@ -140,8 +159,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,188 +232,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/iOS进阶：RunLoop入门，看我就够了/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jabber_YQ">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jabber_YQ's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/14/iOS进阶：RunLoop入门，看我就够了/" itemprop="url">iOS进阶：RunLoop入门，看我就够了</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T10:18:30+08:00">
-                2017-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>刚刚听到RunLoop的时候我也是一脸懵逼，这是什么，有什么用呢，逼格貌似还挺高。然后就开始尝试去搞懂它，去找博客，但是几乎所有的博客都是枯燥乏味的，都是讲概念，然后给个实例，对于我这个小白来说，根本看不懂好吗！！<br>下面放几个比较好的讲解RunLoop的博客<br><a href="http://www.cocoachina.com/ios/20150601/11970.html" target="_blank" rel="noopener">http://www.cocoachina.com/ios/20150601/11970.html</a><br><a href="http://www.jianshu.com/p/b9426458fcf6" target="_blank" rel="noopener">http://www.jianshu.com/p/b9426458fcf6</a><br>下面开始讲讲我对RunLoop认识。</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>首先，先象征性的讲下RunLoop的概念<br>从字面上看，就可以看出就是兜圈圈，就是一个死循环嘛。</p>
-<h2 id="二、作用"><a href="#二、作用" class="headerlink" title="二、作用"></a>二、作用</h2><p>1.保持程序运行<br>2.处理app的各种事件（比如触摸，定时器等等）<br>3.节省CPU资源，提高性能。</p>
-<h2 id="三、枯燥知识"><a href="#三、枯燥知识" class="headerlink" title="三、枯燥知识"></a>三、枯燥知识</h2><p>下面是关于RunLoop的一些使用简述。也许有点枯燥，但是也是必须要知道的！（敲黑板ing），我尽量说的通俗易懂一点。</p>
-<h3 id="1-两个API"><a href="#1-两个API" class="headerlink" title="1.两个API"></a>1.两个API</h3><p>首先要知道iOS里面有两套API可以访问和使用RunLoop：</p>
-<h4 id="Foundation"><a href="#Foundation" class="headerlink" title="Foundation"></a>Foundation</h4><p>NSRunLoop</p>
-<h4 id="Core-Foundation"><a href="#Core-Foundation" class="headerlink" title="Core  Foundation"></a>Core  Foundation</h4><p>CFRunLoopRef</p>
-<p>上面两套都可以使用，但是要知道CFRunLoopRef是用c语言写的，是开源的，相比于NSRunLoop更加底层，而NSRunLoop其实是对CFRunLoopRef的一个简单的封装。便于使用而已。这样说来，显然CFRunLoopRef的性能要高一点。</p>
-<h3 id="2-RunLoop与线程"><a href="#2-RunLoop与线程" class="headerlink" title="2.RunLoop与线程"></a>2.RunLoop与线程</h3><p>1.每条线程都有唯一的与之对应的RunLoop对象。<br>2.主线程的RunLoop已经创建好了，而子线程的需要手动创建。（也就是说子线程的RunLoop默认是关闭的，因为有时候开了个线程但却没有必要开一个RunLoop，不然反而浪费了资源。 ）<br>3.RunLoop在第一次获取时创建，在线程结束时销毁。（这就相当于 线程是一个类，RunLoop是类里的实例变量，这样便于理解）</p>
-<h3 id="3-获取RunLoop对象"><a href="#3-获取RunLoop对象" class="headerlink" title="3.获取RunLoop对象"></a>3.获取RunLoop对象</h3><h4 id="Foundation-1"><a href="#Foundation-1" class="headerlink" title="Foundation"></a>Foundation</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[NSRunLoop currentRunLoop]; // 获得当前线程的RunLoop对象</span><br><span class="line">[NSRunLoop mainRunLoop]; // 获得主线程的RunLoop对象</span><br></pre></td></tr></table></figure>
-<h4 id="Core-Foundation-1"><a href="#Core-Foundation-1" class="headerlink" title="Core  Foundation"></a>Core  Foundation</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CFRunLoopGetCurrent(); // 获得当前线程的RunLoop对象</span><br><span class="line">CFRunLoopGetMain(); // 获得主线程的RunLoop对象</span><br></pre></td></tr></table></figure>
-<h3 id="4-RunLoop相关类"><a href="#4-RunLoop相关类" class="headerlink" title="4.RunLoop相关类"></a>4.RunLoop相关类</h3><p>在Core  Foundation中有RunLoop的五个类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CFRunLoopRef</span><br><span class="line">CFRunLoopModeRef</span><br><span class="line">CFRunLoopSourceRef</span><br><span class="line">CFRunLoopTimerRef</span><br><span class="line">CFRunLoopObserverRef</span><br></pre></td></tr></table></figure></p>
-<p>这五个类的关系如下<br><img src="http://upload-images.jianshu.io/upload_images/2312304-bd6975ea7d411fb9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CFRunLoopModeRef.png"><br>由图中可以得出以下几点：<br>1.CFRunLoopModeRef代表的是RunLoop的运行模式。<br>2.一个 RunLoop 包含若干个 Mode，每个 Mode 又包含若干个 Source/Timer/Observer。<br>3.每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。<br>4.如果需要切换 Mode，只能退出 Loop，再重新指定一个 Mode 进入。这样做主要是为了分隔开不同组的 Source/Timer/Observer，让其互不影响。</p>
-<h4 id="CFRunLoopModeRef"><a href="#CFRunLoopModeRef" class="headerlink" title="CFRunLoopModeRef"></a>CFRunLoopModeRef</h4><p>系统默认注册了5个mode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kCFRunLoopDefaultMode //App的默认Mode，通常主线程是在这个Mode下运行</span><br><span class="line">UITrackingRunLoopMode //界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响</span><br><span class="line">UIInitializationRunLoopMode // 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用</span><br><span class="line">GSEventReceiveRunLoopMode // 接受系统事件的内部 Mode，通常用不到</span><br><span class="line">kCFRunLoopCommonModes //这是一个占位用的Mode，不是一种真正的Mode</span><br></pre></td></tr></table></figure></p>
-<p>至于CFRunLoopModeRef的使用我会在 下面的实验三timer的使用中 详细说到。</p>
-<h4 id="CFRunLoopSourseRef"><a href="#CFRunLoopSourseRef" class="headerlink" title="CFRunLoopSourseRef"></a>CFRunLoopSourseRef</h4><p>CFRunLoopSourseRef是事件源，分为两种</p>
-<h5 id="sourse0：非基于port的-（port相当于是系统）"><a href="#sourse0：非基于port的-（port相当于是系统）" class="headerlink" title="sourse0：非基于port的 （port相当于是系统）"></a>sourse0：非基于port的 （port相当于是系统）</h5><p>自己写的方法，响应</p>
-<h5 id="sourse1：基于port的"><a href="#sourse1：基于port的" class="headerlink" title="sourse1：基于port的"></a>sourse1：基于port的</h5><p>系统提供的</p>
-<h4 id="CFRunLoopObserverRef"><a href="#CFRunLoopObserverRef" class="headerlink" title="CFRunLoopObserverRef"></a>CFRunLoopObserverRef</h4><p>CFRunLoopObserver是观察者，可以监听runLoop的状态改变<br>监听的状态如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) &#123; </span><br><span class="line">kCFRunLoopEntry = (1UL &lt;&lt; 0), //即将进入Runloop</span><br><span class="line">kCFRunLoopBeforeTimers = (1UL &lt;&lt; 1), //即将处理NSTimer </span><br><span class="line">kCFRunLoopBeforeSources = (1UL &lt;&lt; 2), //即将处理Sources </span><br><span class="line">kCFRunLoopBeforeWaiting = (1UL &lt;&lt; 5), //即将进入休眠 </span><br><span class="line">kCFRunLoopAfterWaiting = (1UL &lt;&lt; 6), //刚从休眠中唤醒 </span><br><span class="line">kCFRunLoopExit = (1UL &lt;&lt; 7), //即将退出runloop </span><br><span class="line">kCFRunLoopAllActivities = 0x0FFFFFFFU //所有状态改变&#125;;</span><br></pre></td></tr></table></figure></p>
-<h2 id="四、实验讲解"><a href="#四、实验讲解" class="headerlink" title="四、实验讲解"></a>四、实验讲解</h2><h3 id="一、main函数的实验"><a href="#一、main函数的实验" class="headerlink" title="一、main函数的实验"></a>一、main函数的实验</h3><p>先看几行我们很熟悉的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个是main函数里面的代码，当app打开后就进入这里。main函数返回类型是int，也就是返回的是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));</span><br></pre></td></tr></table></figure></p>
-<p>不知道你有没有想过，如果返回的是0或者1等等，会有什么结果呢，我们来试试。<br>首先我们先在vc中加一个按钮，然后添加一个相应，如图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-2bf3e436496a44d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoopTest1.png"><br>可以想到跑起来的结果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-14981c9b7d2c50e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoopTest2.png"><br>注意看Xcode左上角的按钮<br><img src="http://upload-images.jianshu.io/upload_images/2312304-08241325927686d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoopTest3.png"><br>始终处于运行状态，只有当我们点击停止才会停止程序。但是当我们改变代码后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再次run起来，发现如下结果：<br><img src="http://upload-images.jianshu.io/upload_images/2312304-8cac53b934be1697.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoopTest4.png"><br>其实可以猜到这样的结果，因为程序运行到return 0;这一行后就退出了，AppDeleage里面的所有方法都没有进去。<br>再来做个试验：在main里面输入以下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int res = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));</span><br><span class="line">NSLog(@&quot;-----&quot;);</span><br><span class="line">return res;</span><br></pre></td></tr></table></figure></p>
-<p>你猜会输出 “—–” 吗？答案是否定的，你会发现程序始终不会到NSLog(@”—–”);这一行来。这就说明了程序一直在运行着。其实这都是RunLoop的功劳，它的其中一个功能就是保持程序的持续运行。有了RunLoop，main里面相当于是这样的代码（伪代码）:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">BOOL running = YES;</span><br><span class="line">do &#123;</span><br><span class="line">   // 执行各种操作</span><br><span class="line">&#125; while (running);</span><br><span class="line">return 0;</span><br></pre></td></tr></table></figure></p>
-<p>程序是始终在while里面的，是一个死循环。<br>说到这里你肯定又会疑惑，RunLoop是什么时候创建的。其实在UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]))这个函数的内部就已经启动了一个RunLoop，所以函数一直没有返回，这才使得程序保持运行。<br>（注意：这个默认启动的RunLoop是和主线程相关的!!!）</p>
-<h3 id="二、尝试打印RunLoop对象"><a href="#二、尝试打印RunLoop对象" class="headerlink" title="二、尝试打印RunLoop对象"></a>二、尝试打印RunLoop对象</h3><p>既然在理论区学会了如何获得RunLoop对象，那么我们就打印看看到底是什么玩意。<br>在按钮的响应区添加一行输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)ButtonDidClick:(id)sender &#123;</span><br><span class="line">    NSLog(@&quot;ButtonDidClick&quot;);</span><br><span class="line">    NSLog(@&quot;----%@&quot;, [NSRunLoop currentRunLoop]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>结果你会得到下图的输出：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-5dd016d9e4bf580c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoopTest5.png"><br>这张截图只是输出的一部分，看不懂没关系，只要先看一下我圈出来的这几个名词，这在后面会有讲到。</p>
-<h3 id="三、NSTimer的使用"><a href="#三、NSTimer的使用" class="headerlink" title="三、NSTimer的使用"></a>三、NSTimer的使用</h3><p>在项目中用的NSTimer其实也和RunLoop有关系，下面我们来做个实验</p>
-<h4 id="实验一-scheduledTimer方法"><a href="#实验一-scheduledTimer方法" class="headerlink" title="实验一 scheduledTimer方法"></a>实验一 scheduledTimer方法</h4><p>修改一下button的响应以及timerTest方法，代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)ButtonDidClick:(id)sender &#123;</span><br><span class="line">    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerTest) userInfo:nil repeats:YES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)timerTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;timerTest----&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>点击button可以看到输出台每隔一秒钟就打印”timerTest—-“。</p>
-<h4 id="实验二-timerWithTime方法"><a href="#实验二-timerWithTime方法" class="headerlink" title="实验二 timerWithTime方法"></a>实验二 timerWithTime方法</h4><p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)ButtonDidClick:(id)sender &#123;</span><br><span class="line">    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerTest) userInfo:nil repeats:YES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)timerTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;timerTest----&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>但是实验结果是，点击button后没有反应。为什么呢？<br>噢~原来是少加了一句话，添加后的代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)ButtonDidClick:(id)sender &#123;</span><br><span class="line">    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerTest) userInfo:nil repeats:YES];</span><br><span class="line">    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)timerTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;timerTest----&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可是，为什么实验二比实验一要多加一句话呢？解：那是因为scheduledTimer方法会自动添加到当前的runloop里面去，而且runloop的运行模式kCFRunLoopDefaultMode，也就是说实验一已经将timer自动加入到了一个运行模式为kCFRunLoopDefaultMode的runloop中。</p>
-<h4 id="实验三-有scrollView的情况下使用Timer"><a href="#实验三-有scrollView的情况下使用Timer" class="headerlink" title="实验三 有scrollView的情况下使用Timer"></a>实验三 有scrollView的情况下使用Timer</h4><p>首先，按钮响应以及timerTest的方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)ButtonDidClick:(id)sender &#123;</span><br><span class="line">    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerTest) userInfo:nil repeats:YES];</span><br><span class="line">    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)timerTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;timerTest----&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后在vc中加一个textView，run起来，模拟器界面如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-106d74ec349de49e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoopTest6.png"><br>然后点击按钮，随后滑动textView，可以看到打印结果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-e55c5e033a5270dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoopTest7.png"></p>
-<p>没错，我在18：22：55秒钟滑动了textView，然后发现滑动的时候是不打印的，奇怪吧。其实说到底还是RunLoop搞的鬼。可以看到，我们把timer加到了NSDefaultRunLoopMode的runLoop中，而在滑动textview的时候，RunLoop就切换到UITrackingRunLoopMode模式，而上面有提到说：在每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。 所以定时器就不起作用了。<br>现在可以思考一下解决方法了！（敲黑板ing）<br>提示一下，问题出在了模式上面，是不是修改一下模式就好了呢。</p>
-<p>解决方法：<br>上面有提到过五个mode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kCFRunLoopDefaultMode //App的默认Mode，通常主线程是在这个Mode下运行</span><br><span class="line">UITrackingRunLoopMode //界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响</span><br><span class="line">UIInitializationRunLoopMode // 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用</span><br><span class="line">GSEventReceiveRunLoopMode // 接受系统事件的内部 Mode，通常用不到</span><br><span class="line">kCFRunLoopCommonModes //这是一个占位用的Mode，不是一种真正的Mode</span><br></pre></td></tr></table></figure></p>
-<p>其实如果把mode改为kCFRunLoopCommonModes的话就可以既支持kCFRunLoopDefaultMode又支持UITrackingRunLoopMode了。<br>修改如下：<br>修改mode类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)ButtonDidClick:(id)sender &#123;</span><br><span class="line">    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerTest) userInfo:nil repeats:YES];</span><br><span class="line">    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后run发现就算滚动textView也不会影响打印。有图有真相：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-31a2ee3ec4191631.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoopTest8.png"></p>
-<h3 id="四、有关CFRunLoopSourseRef的实验"><a href="#四、有关CFRunLoopSourseRef的实验" class="headerlink" title="四、有关CFRunLoopSourseRef的实验"></a>四、有关CFRunLoopSourseRef的实验</h3><p>我们在button的响应注释，然后打个断点，run后点击button会发现如下：<br><img src="http://upload-images.jianshu.io/upload_images/2312304-e8c52239980ff6bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoopTest9.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-132d34a65523ab42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoopTest10.png"><br>说明了button的点击是属于sourse0的。</p>
-<h3 id="五、有关CFRunLoopObserverRef的实验"><a href="#五、有关CFRunLoopObserverRef的实验" class="headerlink" title="五、有关CFRunLoopObserverRef的实验"></a>五、有关CFRunLoopObserverRef的实验</h3><p>首先回顾CFRunLoopObserverRef，是RunLoop的监听者，监听的状态如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) &#123; </span><br><span class="line">kCFRunLoopEntry = (1UL &lt;&lt; 0), //即将进入Runloop</span><br><span class="line">kCFRunLoopBeforeTimers = (1UL &lt;&lt; 1), //即将处理NSTimer </span><br><span class="line">kCFRunLoopBeforeSources = (1UL &lt;&lt; 2), //即将处理Sources </span><br><span class="line">kCFRunLoopBeforeWaiting = (1UL &lt;&lt; 5), //即将进入休眠 </span><br><span class="line">kCFRunLoopAfterWaiting = (1UL &lt;&lt; 6), //刚从休眠中唤醒 </span><br><span class="line">kCFRunLoopExit = (1UL &lt;&lt; 7), //即将退出runloop </span><br><span class="line">kCFRunLoopAllActivities = 0x0FFFFFFFU //所有状态改变&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>CF里面添加监听者的方法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CFRunLoopAddObserver(&lt;#CFRunLoopRef rl#&gt;, &lt;#CFRunLoopObserverRef observer#&gt;, &lt;#CFStringRef mode#&gt;)</span><br></pre></td></tr></table></figure></p>
-<p>第一个参数：RunLoop<br>第二个参数：observer<br>第三个参数：mode</p>
-<p>方法介绍完，开始敲代码，vc代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    [self createObserver];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)createObserver</span><br><span class="line">&#123;</span><br><span class="line">    CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(CFAllocatorGetDefault(), kCFRunLoopAllActivities, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) &#123;</span><br><span class="line">        NSLog(@&quot;--------%zd&quot;, activity);</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    CFRunLoopAddObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopDefaultMode);  // 添加监听者，关键！</span><br><span class="line">    CFRelease(observer); // 释放</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>run！<br>可以看到打印结果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-f9b514fd75875265.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoopTest11.png"><br>这就是监听的作用，可以知道当前的RunLoop状态。<br>下图是RunLoop的内部逻辑已经文字描述：（图片来自网络）</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-8e64b79a92d53567.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop内部逻辑.png"></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-8dbf27d0666fd544.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop的逻辑表述.png"></p>
-<p>#五、最后<br>其实上述只是runloop的一个入门而已，想要深入其中，还是需要在项目中尝试使用它。<br>最后的最后，这篇文章的发表经历了整整三天的时间，总结，实验，截图，码字。。。总之，如果你觉得对你有所帮助，就请给我点个赞呗~<br>最后的最后的最后，我的水平有限，肯定有很多错误和不足之处，请各位不吝赐教，谢谢。</p>
-<h1 id="六、更新"><a href="#六、更新" class="headerlink" title="六、更新"></a>六、更新</h1><p>也许你会觉得RunLoop的五个相关类会有点乱，下面我再来理一下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CFRunLoopRef</span><br><span class="line">CFRunLoopModeRef</span><br><span class="line">CFRunLoopSourceRef</span><br><span class="line">CFRunLoopTimerRef</span><br><span class="line">CFRunLoopObserverRef</span><br></pre></td></tr></table></figure></p>
-<p>我的理解是，CFRunLoopRef就是RunLoop，而SourceRef、TimerRef、ObserverRef是CFRunLoopRef的内容，而ModeRef指的是mode的属性。<br>先放个代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];</span><br></pre></td></tr></table></figure></p>
-<p>这句话的意思就是：给当前的RunLoop添加一个内容为Sourse的而且属性是NSDefaultRunLoopMode的mode。是不是一下子清楚了~如果还不懂，那就再举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerTest) userInfo:nil repeats:YES];</span><br><span class="line">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];</span><br></pre></td></tr></table></figure></p>
-<p>这句话的意思是：给当前的RunLoop添加一个内容为timer的而且属性是NSRunLoopCommonModes的mode。<br>现在是不是懂了呢~</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
 
   
 
@@ -425,9 +264,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/" itemprop="url">未命名</a></h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -477,9 +314,7 @@
       
 
       
-        
-          
-            <hr>
+        <hr>
 <h2 id="title-iOS进阶：RunLoop已入门？快来应用一下"><a href="#title-iOS进阶：RunLoop已入门？快来应用一下" class="headerlink" title="title:iOS进阶：RunLoop已入门？快来应用一下"></a>title:iOS进阶：RunLoop已入门？快来应用一下</h2><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：[iOS实战：RunLoop入门，看我就够了]{<a href="https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B%E6%88%91%E5%B0%B1%E5%A4%9F%E4%BA%86/}" target="_blank" rel="noopener">https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B%E6%88%91%E5%B0%B1%E5%A4%9F%E4%BA%86/}</a><br>那么剩下的同学一定是对RunLoop有所了解的，那么我们就开始应用RunLoop吧~</p>
 <h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="1-UIImageView的使用"><a href="#1-UIImageView的使用" class="headerlink" title="1.UIImageView的使用"></a>1.UIImageView的使用</h2><h3 id="a-目的"><a href="#a-目的" class="headerlink" title="a.目的"></a>a.目的</h3><p>我们做这个应用的目的是为了了解RunLoop和performSelector这个方法的关系</p>
 <h3 id="b-过程"><a href="#b-过程" class="headerlink" title="b.过程"></a>b.过程</h3><p>首先新建一个项目，在vc上拉一个UIImageView控件和UITextView控件。截图如下：</p>
@@ -528,8 +363,6 @@
 <p><img src="http://upload-images.jianshu.io/upload_images/2312304-192c20a9ce7dd7c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用12.png"><br>没有输出，为什么呢。想到上一篇有提到，就只有主线程的RunLoop会自动开启，而子线程的需要手动开启，而本次实验中，timer是子线程中的，而RunLoop没有开启，timer自然不会起到作用啦。<br>解决方法：开启RunLoop，怎么做？自己去试！！！</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实本篇应用篇还是围绕着概念来的。还是那句话，光看是很难提升与理解的，还是要自己动手去实验，也许会有新的发现。最后，这篇文章是全是我试验出来的，概念也是自己琢磨出来，所以很有可能会有理解不当，如果有错误，一定要指出来！有问题可以在评论区留言~如果对你有帮助，点个赞呗~<br>好了，赶快滚去敲代码吧~</p>
 
-          
-        
       
     </div>
     
@@ -546,12 +379,28 @@
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/14/iOS进阶：RunLoop入门，看我就够了/" rel="prev" title="iOS进阶：RunLoop入门，看我就够了">
+                iOS进阶：RunLoop入门，看我就够了 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -561,10 +410,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -572,6 +422,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -592,8 +446,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -637,6 +500,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#title-iOS进阶：RunLoop已入门？快来应用一下"><span class="nav-number">1.</span> <span class="nav-text"><a href="#title-iOS&#x8FDB;&#x9636;&#xFF1A;RunLoop&#x5DF2;&#x5165;&#x95E8;&#xFF1F;&#x5FEB;&#x6765;&#x5E94;&#x7528;&#x4E00;&#x4E0B;" class="headerlink" title="title:iOS&#x8FDB;&#x9636;&#xFF1A;RunLoop&#x5DF2;&#x5165;&#x95E8;&#xFF1F;&#x5FEB;&#x6765;&#x5E94;&#x7528;&#x4E00;&#x4E0B;"></a>title:iOS&#x8FDB;&#x9636;&#xFF1A;RunLoop&#x5DF2;&#x5165;&#x95E8;&#xFF1F;&#x5FEB;&#x6765;&#x5E94;&#x7528;&#x4E00;&#x4E0B;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number"></span> <span class="nav-text"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用"><span class="nav-number"></span> <span class="nav-text"><a href="#&#x5E94;&#x7528;" class="headerlink" title="&#x5E94;&#x7528;"></a>&#x5E94;&#x7528;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-UIImageView的使用"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1-UIImageView&#x7684;&#x4F7F;&#x7528;" class="headerlink" title="1.UIImageView&#x7684;&#x4F7F;&#x7528;"></a>1.UIImageView&#x7684;&#x4F7F;&#x7528;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-目的"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#a-&#x76EE;&#x7684;" class="headerlink" title="a.&#x76EE;&#x7684;"></a>a.&#x76EE;&#x7684;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-过程"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#b-&#x8FC7;&#x7A0B;" class="headerlink" title="b.&#x8FC7;&#x7A0B;"></a>b.&#x8FC7;&#x7A0B;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-总结"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#c-&#x603B;&#x7ED3;" class="headerlink" title="c.&#x603B;&#x7ED3;"></a>c.&#x603B;&#x7ED3;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-线程与RunLoop的应用"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2-&#x7EBF;&#x7A0B;&#x4E0E;RunLoop&#x7684;&#x5E94;&#x7528;" class="headerlink" title="2.&#x7EBF;&#x7A0B;&#x4E0E;RunLoop&#x7684;&#x5E94;&#x7528;"></a>2.&#x7EBF;&#x7A0B;&#x4E0E;RunLoop&#x7684;&#x5E94;&#x7528;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-目的-1"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#a-&#x76EE;&#x7684;-1" class="headerlink" title="a.&#x76EE;&#x7684;"></a>a.&#x76EE;&#x7684;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-过程-1"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#b-&#x8FC7;&#x7A0B;-1" class="headerlink" title="b.&#x8FC7;&#x7A0B;"></a>b.&#x8FC7;&#x7A0B;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-总结-1"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#c-&#x603B;&#x7ED3;-1" class="headerlink" title="c.&#x603B;&#x7ED3;"></a>c.&#x603B;&#x7ED3;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#d-拓展"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#d-&#x62D3;&#x5C55;" class="headerlink" title="d.&#x62D3;&#x5C55;"></a>d.&#x62D3;&#x5C55;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-拓展一"><span class="nav-number">2.4.1.</span> <span class="nav-text"><a href="#1-&#x62D3;&#x5C55;&#x4E00;" class="headerlink" title="1.&#x62D3;&#x5C55;&#x4E00;"></a>1.&#x62D3;&#x5C55;&#x4E00;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-拓展二"><span class="nav-number">2.4.2.</span> <span class="nav-text"><a href="#2-&#x62D3;&#x5C55;&#x4E8C;" class="headerlink" title="2.&#x62D3;&#x5C55;&#x4E8C;"></a>2.&#x62D3;&#x5C55;&#x4E8C;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-拓展三"><span class="nav-number">2.4.3.</span> <span class="nav-text"><a href="#3-&#x62D3;&#x5C55;&#x4E09;" class="headerlink" title="3.&#x62D3;&#x5C55;&#x4E09;"></a>3.&#x62D3;&#x5C55;&#x4E09;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-拓展四"><span class="nav-number">2.4.4.</span> <span class="nav-text"><a href="#4-&#x62D3;&#x5C55;&#x56DB;" class="headerlink" title="4.&#x62D3;&#x5C55;&#x56DB;"></a>4.&#x62D3;&#x5C55;&#x56DB;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-四个拓展的总结"><span class="nav-number">2.4.5.</span> <span class="nav-text"><a href="#5-&#x56DB;&#x4E2A;&#x62D3;&#x5C55;&#x7684;&#x603B;&#x7ED3;" class="headerlink" title="5.&#x56DB;&#x4E2A;&#x62D3;&#x5C55;&#x7684;&#x603B;&#x7ED3;"></a>5.&#x56DB;&#x4E2A;&#x62D3;&#x5C55;&#x7684;&#x603B;&#x7ED3;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意！这四个拓展很有意思也很重要，如果觉得很乱，一定要多看几遍！！！"><span class="nav-number">2.4.6.</span> <span class="nav-text"><a href="#&#x6CE8;&#x610F;&#xFF01;&#x8FD9;&#x56DB;&#x4E2A;&#x62D3;&#x5C55;&#x5F88;&#x6709;&#x610F;&#x601D;&#x4E5F;&#x5F88;&#x91CD;&#x8981;&#xFF0C;&#x5982;&#x679C;&#x89C9;&#x5F97;&#x5F88;&#x4E71;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x591A;&#x770B;&#x51E0;&#x904D;&#xFF01;&#xFF01;&#xFF01;" class="headerlink" title="&#x6CE8;&#x610F;&#xFF01;&#x8FD9;&#x56DB;&#x4E2A;&#x62D3;&#x5C55;&#x5F88;&#x6709;&#x610F;&#x601D;&#x4E5F;&#x5F88;&#x91CD;&#x8981;&#xFF0C;&#x5982;&#x679C;&#x89C9;&#x5F97;&#x5F88;&#x4E71;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x591A;&#x770B;&#x51E0;&#x904D;&#xFF01;&#xFF01;&#xFF01;"></a>&#x6CE8;&#x610F;&#xFF01;&#x8FD9;&#x56DB;&#x4E2A;&#x62D3;&#x5C55;&#x5F88;&#x6709;&#x610F;&#x601D;&#x4E5F;&#x5F88;&#x91CD;&#x8981;&#xFF0C;&#x5982;&#x679C;&#x89C9;&#x5F97;&#x5F88;&#x4E71;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x591A;&#x770B;&#x51E0;&#x904D;&#xFF01;&#xFF01;&#xFF01;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-子线程中的Timer与RunLoop"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3-&#x5B50;&#x7EBF;&#x7A0B;&#x4E2D;&#x7684;Timer&#x4E0E;RunLoop" class="headerlink" title="3.&#x5B50;&#x7EBF;&#x7A0B;&#x4E2D;&#x7684;Timer&#x4E0E;RunLoop"></a>3.&#x5B50;&#x7EBF;&#x7A0B;&#x4E2D;&#x7684;Timer&#x4E0E;RunLoop</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number"></span> <span class="nav-text"><a href="#&#x603B;&#x7ED3;" class="headerlink" title="&#x603B;&#x7ED3;"></a>&#x603B;&#x7ED3;</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -770,6 +649,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
