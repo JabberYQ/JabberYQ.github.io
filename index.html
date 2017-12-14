@@ -301,8 +301,7 @@
         
           
             <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>刚刚听到RunLoop的时候我也是一脸懵逼，这是什么，有什么用呢，逼格貌似还挺高。然后就开始尝试去搞懂它，去找博客，但是几乎所有的博客都是枯燥乏味的，都是讲概念，然后给个实例，对于我这个小白来说，根本看不懂好吗！！<br>下面放几个比较好的讲解RunLoop的博客<br><a href="http://www.cocoachina.com/ios/20150601/11970.html" target="_blank" rel="noopener">http://www.cocoachina.com/ios/20150601/11970.html</a><br><a href="http://www.jianshu.com/p/b9426458fcf6" target="_blank" rel="noopener">http://www.jianshu.com/p/b9426458fcf6</a><br>下面开始讲讲我对RunLoop认识。</p>
-<p>#正文</p>
-<h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>首先，先象征性的讲下RunLoop的概念<br>从字面上看，就可以看出就是兜圈圈，就是一个死循环嘛。</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>首先，先象征性的讲下RunLoop的概念<br>从字面上看，就可以看出就是兜圈圈，就是一个死循环嘛。</p>
 <h2 id="二、作用"><a href="#二、作用" class="headerlink" title="二、作用"></a>二、作用</h2><p>1.保持程序运行<br>2.处理app的各种事件（比如触摸，定时器等等）<br>3.节省CPU资源，提高性能。</p>
 <h2 id="三、枯燥知识"><a href="#三、枯燥知识" class="headerlink" title="三、枯燥知识"></a>三、枯燥知识</h2><p>下面是关于RunLoop的一些使用简述。也许有点枯燥，但是也是必须要知道的！（敲黑板ing），我尽量说的通俗易懂一点。</p>
 <h3 id="1-两个API"><a href="#1-两个API" class="headerlink" title="1.两个API"></a>1.两个API</h3><p>首先要知道iOS里面有两套API可以访问和使用RunLoop：</p>
@@ -357,11 +356,10 @@
 <p><img src="http://upload-images.jianshu.io/upload_images/2312304-8e64b79a92d53567.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop内部逻辑.png"></p>
 <p><img src="http://upload-images.jianshu.io/upload_images/2312304-8dbf27d0666fd544.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop的逻辑表述.png"></p>
 <p>#五、最后<br>其实上述只是runloop的一个入门而已，想要深入其中，还是需要在项目中尝试使用它。<br>最后的最后，这篇文章的发表经历了整整三天的时间，总结，实验，截图，码字。。。总之，如果你觉得对你有所帮助，就请给我点个赞呗~<br>最后的最后的最后，我的水平有限，肯定有很多错误和不足之处，请各位不吝赐教，谢谢。</p>
-<p>#六、更新<br>也许你会觉得RunLoop的五个相关类会有点乱，下面我再来理一下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CFRunLoopRef</span><br><span class="line">CFRunLoopModeRef</span><br><span class="line">CFRunLoopSourceRef</span><br><span class="line">CFRunLoopTimerRef</span><br><span class="line">CFRunLoopObserverRef</span><br></pre></td></tr></table></figure></p>
+<h1 id="六、更新"><a href="#六、更新" class="headerlink" title="六、更新"></a>六、更新</h1><p>也许你会觉得RunLoop的五个相关类会有点乱，下面我再来理一下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CFRunLoopRef</span><br><span class="line">CFRunLoopModeRef</span><br><span class="line">CFRunLoopSourceRef</span><br><span class="line">CFRunLoopTimerRef</span><br><span class="line">CFRunLoopObserverRef</span><br></pre></td></tr></table></figure></p>
 <p>我的理解是，CFRunLoopRef就是RunLoop，而SourceRef、TimerRef、ObserverRef是CFRunLoopRef的内容，而ModeRef指的是mode的属性。<br>先放个代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];</span><br></pre></td></tr></table></figure></p>
 <p>这句话的意思就是：给当前的RunLoop添加一个内容为Sourse的而且属性是NSDefaultRunLoopMode的mode。是不是一下子清楚了~如果还不懂，那就再举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerTest) userInfo:nil repeats:YES];</span><br><span class="line">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];</span><br></pre></td></tr></table></figure></p>
 <p>这句话的意思是：给当前的RunLoop添加一个内容为timer的而且属性是NSRunLoopCommonModes的mode。<br>现在是不是懂了呢~</p>
-<p>看完入门，看实战呗~<br>传送门，RunLoop已入门？不来应用一下？：<a href="http://www.jianshu.com/p/c0a550d2ac97" target="_blank" rel="noopener">http://www.jianshu.com/p/c0a550d2ac97</a></p>
 
           
         
