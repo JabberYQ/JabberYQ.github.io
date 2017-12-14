@@ -300,7 +300,7 @@
       
         
           
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>刚刚听到RunLoop的时候我也是一脸懵逼，这是什么，有什么用呢，逼格貌似还挺高。然后就开始尝试去搞懂它，去找博客，但是几乎所有的博客都是枯燥乏味的，都是讲概念，然后给个实例，对于我这个小白来说，根本看不懂好吗！！<br>下面放几个比较好的讲解RunLoop的博客<br><a href="http://www.cocoachina.com/ios/20150601/11970.html" target="_blank" rel="noopener">http://www.cocoachina.com/ios/20150601/11970.html</a><br><a href="http://www.jianshu.com/p/b9426458fcf6" target="_blank" rel="noopener">http://www.jianshu.com/p/b9426458fcf6</a><br>下面开始讲讲我对RunLoop认识。</p>
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>刚刚听到RunLoop的时候我也是一脸懵逼，这是什么，有什么用呢，逼格貌似还挺高。然后就开始尝试去搞懂它，去找博客，但是几乎所有的博客都是枯燥乏味的，都是讲概念，然后给个实例，对于我这个小白来说，根本看不懂好吗！！<br>下面放几个比较好的讲解RunLoop的博客<br><a href="http://www.cocoachina.com/ios/20150601/11970.html" target="_blank" rel="noopener">深入理解RunLoop</a><br><a href="http://www.jianshu.com/p/b9426458fcf6" target="_blank" rel="noopener">iOS-RunLoop充满灵性的死循环</a><br>下面开始讲讲我对RunLoop认识。</p>
 <h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>首先，先象征性的讲下RunLoop的概念<br>从字面上看，就可以看出就是兜圈圈，就是一个死循环嘛。</p>
 <h2 id="二、作用"><a href="#二、作用" class="headerlink" title="二、作用"></a>二、作用</h2><p>1.保持程序运行<br>2.处理app的各种事件（比如触摸，定时器等等）<br>3.节省CPU资源，提高性能。</p>
 <h2 id="三、枯燥知识"><a href="#三、枯燥知识" class="headerlink" title="三、枯燥知识"></a>三、枯燥知识</h2><p>下面是关于RunLoop的一些使用简述。也许有点枯燥，但是也是必须要知道的！（敲黑板ing），我尽量说的通俗易懂一点。</p>
