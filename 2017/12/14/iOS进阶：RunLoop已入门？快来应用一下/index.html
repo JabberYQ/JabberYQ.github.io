@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="前言对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：[iOS实战：RunLoop入门，看我就够了]{https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B%E6%88%91%E5%B0%B1%E5%A4%9F%E4">
+<meta name="description" content="前言对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：iOS实战：RunLoop入门，看我就够了那么剩下的同学一定是对RunLoop有所了解的，那么我们就开始应用RunLoop吧~ 应用1.UIImageView的使用a.目的我们做这个应用的目的是为了了解RunLoop和performSelector这个方法的关系 b.过程首先新建一个项目，在vc上拉一个UIImageView控件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS进阶：RunLoop已入门？快来应用一下">
 <meta property="og:url" content="http://yoursite.com/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/index.html">
 <meta property="og:site_name" content="Jabber_YQ&#39;s Blog">
-<meta property="og:description" content="前言对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：[iOS实战：RunLoop入门，看我就够了]{https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B%E6%88%91%E5%B0%B1%E5%A4%9F%E4">
+<meta property="og:description" content="前言对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：iOS实战：RunLoop入门，看我就够了那么剩下的同学一定是对RunLoop有所了解的，那么我们就开始应用RunLoop吧~ 应用1.UIImageView的使用a.目的我们做这个应用的目的是为了了解RunLoop和performSelector这个方法的关系 b.过程首先新建一个项目，在vc上拉一个UIImageView控件">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-12695eb31dc5556f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-a0f45bf496be8855.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -100,10 +100,10 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-c95ad9efe0ed495f.gif?imageMogr2/auto-orient/strip">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-ece9770395b329cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-192c20a9ce7dd7c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-12-14T08:07:51.000Z">
+<meta property="og:updated_time" content="2017-12-14T08:09:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS进阶：RunLoop已入门？快来应用一下">
-<meta name="twitter:description" content="前言对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：[iOS实战：RunLoop入门，看我就够了]{https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B%E6%88%91%E5%B0%B1%E5%A4%9F%E4">
+<meta name="twitter:description" content="前言对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：iOS实战：RunLoop入门，看我就够了那么剩下的同学一定是对RunLoop有所了解的，那么我们就开始应用RunLoop吧~ 应用1.UIImageView的使用a.目的我们做这个应用的目的是为了了解RunLoop和performSelector这个方法的关系 b.过程首先新建一个项目，在vc上拉一个UIImageView控件">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2312304-12695eb31dc5556f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -314,7 +314,7 @@
       
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：[iOS实战：RunLoop入门，看我就够了]{<a href="https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B%E6%88%91%E5%B0%B1%E5%A4%9F%E4%BA%86/}" target="_blank" rel="noopener">https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B%E6%88%91%E5%B0%B1%E5%A4%9F%E4%BA%86/}</a><br>那么剩下的同学一定是对RunLoop有所了解的，那么我们就开始应用RunLoop吧~</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：<a href="https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B%E6%88%91%E5%B0%B1%E5%A4%9F%E4%BA%86/" target="_blank" rel="noopener">iOS实战：RunLoop入门，看我就够了</a><br>那么剩下的同学一定是对RunLoop有所了解的，那么我们就开始应用RunLoop吧~</p>
 <h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="1-UIImageView的使用"><a href="#1-UIImageView的使用" class="headerlink" title="1.UIImageView的使用"></a>1.UIImageView的使用</h2><h3 id="a-目的"><a href="#a-目的" class="headerlink" title="a.目的"></a>a.目的</h3><p>我们做这个应用的目的是为了了解RunLoop和performSelector这个方法的关系</p>
 <h3 id="b-过程"><a href="#b-过程" class="headerlink" title="b.过程"></a>b.过程</h3><p>首先新建一个项目，在vc上拉一个UIImageView控件和UITextView控件。截图如下：</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/2312304-12695eb31dc5556f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用0.png"></p>
