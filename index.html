@@ -229,6 +229,172 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jabber_YQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jabber_YQ's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/" itemprop="url">iOS进阶：RunLoop已入门？快来应用一下</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T10:18:30+08:00">
+                2017-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：<a href="https://jabberyq.github.io/2017/12/14/iOS%E8%BF%9B%E9%98%B6%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B%E6%88%91%E5%B0%B1%E5%A4%9F%E4%BA%86/" target="_blank" rel="noopener">iOS实战：RunLoop入门，看我就够了</a><br>那么剩下的同学一定是对RunLoop有所了解的，那么我们就开始应用RunLoop吧~</p>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="1-UIImageView的使用"><a href="#1-UIImageView的使用" class="headerlink" title="1.UIImageView的使用"></a>1.UIImageView的使用</h2><h3 id="a-目的"><a href="#a-目的" class="headerlink" title="a.目的"></a>a.目的</h3><p>我们做这个应用的目的是为了了解RunLoop和performSelector这个方法的关系</p>
+<h3 id="b-过程"><a href="#b-过程" class="headerlink" title="b.过程"></a>b.过程</h3><p>首先新建一个项目，在vc上拉一个UIImageView控件和UITextView控件。截图如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-12695eb31dc5556f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用0.png"></p>
+<p>下面展示vc的.m代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line">@property (weak, nonatomic) IBOutlet UIImageView *imageView; //刚刚拉的imageview</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [self.imageView performSelector:@selector(setImage:) withObject:[UIImage imageNamed:@&quot;1&quot;] afterDelay:2.0 inModes:@[NSDefaultRunLoopMode]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>代码很简单，无非就是想要让imageview在点击屏幕2秒钟后设置上图片。<br>注意：我们这里设置的mode为NSDefaultRunLoopMode，也就是默认状态。<br>跑起来！<br>发现没问题，点击一下屏幕，过了2秒后，imageview有了图片。图片：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-a0f45bf496be8855.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用1.png"><br>恩，然后重跑一下，但是这次要拖拽textview了，发现有问题了：当点击屏幕后，马上拖textview数秒，发现图片2秒后没有显示出来。效果图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-7f39b41c5d35a5bb.gif?imageMogr2/auto-orient/strip" alt="RunLoop应用2.gif"></p>
+<p>现在回顾一下入门篇里面的Timer使用:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerTest) userInfo:nil repeats:YES]; </span><br><span class="line">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];</span><br></pre></td></tr></table></figure></p>
+<p>当timer加到mode为kCFRunLoopDefaultMode时，拖拽textview时候timer就不起作用了；当mode为kCFRunLoopCommonModes时，拖拽textview不影响timer的使用，这里其实也是类似的。<br>所以机智的你应该已经知道怎么做了吧，没错，改一下mode就可以了~代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.imageView performSelector:@selector(setImage:) withObject:[UIImage imageNamed:@&quot;1&quot;] afterDelay:2.0 inModes:@[NSRunLoopCommonModes]];</span><br></pre></td></tr></table></figure></p>
+<p>效果图就不上啦，偷个懒。</p>
+<h3 id="c-总结"><a href="#c-总结" class="headerlink" title="c.总结"></a>c.总结</h3><p>这里的imageview其实只是一个例子，重要的是了解RunLoop和performSelector这个方法的关系！（敲黑板！）</p>
+<h2 id="2-线程与RunLoop的应用"><a href="#2-线程与RunLoop的应用" class="headerlink" title="2.线程与RunLoop的应用"></a>2.线程与RunLoop的应用</h2><h3 id="a-目的-1"><a href="#a-目的-1" class="headerlink" title="a.目的"></a>a.目的</h3><p>就如实验名，了解线程与RunLoop的关系及应用</p>
+<h3 id="b-过程-1"><a href="#b-过程-1" class="headerlink" title="b.过程"></a>b.过程</h3><p>首先，在viewDidLoad中开启一个线程，并在线程对应的方法中打印该线程，这个很简单，我直接放截图了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-691dba1b9a1cf99a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用3.png"><br>可以看到，线程打印出来了。<br>但是你知道这个线程什么时候销毁么。<br>先给个思路，想知道什么时候被销毁，就看什么时候调用dealloc方法就好了。<br>先创建一个继承NSThread的YQThread，并在.m文件里重写dealloc方法，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;YQThread被销毁&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后修改vc中的线程，使用我们自定义的YQThread。再一次跑起来，看结果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-7ea6353316d5f884.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用4.png"><br>说明了开启线程后立马被销毁了。可是我如果不想让这个线程销毁呢，该怎么办。<br>我想到了强引用。上图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-350f0ebebca68157.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用5.png"></p>
+<p>看似可以了，线程好像没有被销毁。那么既然没有被销毁，我们就尝试再调用它喽。<br>在vc上加上如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [self performSelector:@selector(threadAgain) onThread:_thread withObject:nil waitUntilDone:NO];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadAgain</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>代码意思是当点击屏幕后，在_thread上调用threadAgain方法。结果如下：<br><img src="http://upload-images.jianshu.io/upload_images/2312304-61073ab8cfcc80e1.gif?imageMogr2/auto-orient/strip" alt="RunLoop应用6.gif"><br>你会发现当点击屏幕的时候没有输出。那就说明这个线程没用。看来还得我们的主角RunLoop出马啊。<br>在线程方法中，创建该线程对应的RunLoop。直接上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">    [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];</span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结果如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-c58b2cf2fab030ad.gif?imageMogr2/auto-orient/strip" alt="RunLoop应用7.gif"><br>恩，有打印，说明线程还活着。但是你肯定会对刚刚那两行代码感到疑惑，什么意思呢？先看下面这个图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-a9dcd0038740fa9f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用8.png"></p>
+<p>就像上图画的，一个线程对应一个RunLoop，RunLoop里面有若干个mode，每个mode都有自己的内容，Source/Timer/Observer等等。上面的代码就相当于是给了当前的RunLoop添加了一个内容为Source的mode。而RunLoop有了mode才会有效果。<br>注意：mode里面必须要有内容！！！Source，Timer，Observer都可以。</p>
+<h3 id="c-总结-1"><a href="#c-总结-1" class="headerlink" title="c.总结"></a>c.总结</h3><p>这就是RunLoop的一个功能，使线程保持生命。</p>
+<h3 id="d-拓展"><a href="#d-拓展" class="headerlink" title="d.拓展"></a>d.拓展</h3><p>刚刚那个应用本质上就是给线程加了一个RunLoop，然后RunLoop一直跑圈，所以线程也一直不会死。</p>
+<h4 id="1-拓展一"><a href="#1-拓展一" class="headerlink" title="1.拓展一"></a>1.拓展一</h4><p>那么接下来我们来做个有趣的试验：在线程方法输出+++++++，其余都不变，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    _thread = [[YQThread alloc] initWithTarget:self selector:@selector(threadTest) object:nil];</span><br><span class="line">    [_thread start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">    [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];</span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;++++++++&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [self performSelector:@selector(threadAgain) onThread:_thread withObject:nil waitUntilDone:NO];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadAgain</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>你觉得++++++++会打印出来么？结果如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-df5ef52c41c3ff22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用9.png"><br>恩，显然没有打印，为什么呢？先不解释原因，再看拓展二。</p>
+<h4 id="2-拓展二"><a href="#2-拓展二" class="headerlink" title="2.拓展二"></a>2.拓展二</h4><p>再修改一下线程方法，这一次用一个while的死循环看看，其他不变。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">    while (1) &#123;</span><br><span class="line">        // 暂时不写任何东西</span><br><span class="line">    &#125;</span><br><span class="line">    NSLog(@&quot;++++++++&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>++++++++会输出吗？有过编程经验的都知道不会，我也不截图展示了。</p>
+<h4 id="3-拓展三"><a href="#3-拓展三" class="headerlink" title="3.拓展三"></a>3.拓展三</h4><p>上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">    NSLog(@&quot;++++++++&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里不给RunLoop设置内容，看看结果会怎么要。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-7480b4e67acb65bd.gif?imageMogr2/auto-orient/strip" alt="RunLoop应用11.gif"></p>
+<p>发现点击屏幕没有输出线程，但是输出了+++++++。那是因为没有拓展二的while，线程方法会一行行执行下来。但是为什么点击屏幕没有输出呢，那是因为点击屏幕后，给RunLoop加了一个内容为sourse的mode（不懂的话看我的上一篇博客），但是！！！已经没有Run了！<br>什么意思呢，就是说当我们点击屏幕的时候，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSRunLoop currentRunLoop] run];</span><br></pre></td></tr></table></figure></p>
+<p>这一行代码已经在打开app的时候执行了，当我们点击屏幕的时候，已经没有Run了，而RunLoop实际上是没有跑起来的。<br>这就说明了，要让RunLoop跑起来，既要有有内容的mode，也需要    [[NSRunLoop currentRunLoop] run];    。两个都不可少。</p>
+<h4 id="4-拓展四"><a href="#4-拓展四" class="headerlink" title="4.拓展四"></a>4.拓展四</h4><p>这次还是用拓展二的代码，只是在while里面添上RunLoop代码，因为这个比较复杂，所以我放上完整代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    _thread = [[YQThread alloc] initWithTarget:self selector:@selector(threadTest) object:nil];</span><br><span class="line">    [_thread start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">    while (1) &#123;</span><br><span class="line">        [[NSRunLoop currentRunLoop] run];</span><br><span class="line">        NSLog(@&quot;++++++++&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [self performSelector:@selector(threadAgain) onThread:_thread withObject:nil waitUntilDone:NO];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadAgain</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面是结果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-c95ad9efe0ed495f.gif?imageMogr2/auto-orient/strip" alt="RunLoop应用10.gif"><br>仔细看输出，当点击屏幕之前，一直会输出+++++++，当点击后，+++++++输出停止，然后输出线程。下面来解释一下这个状况，先放图后解释：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-ece9770395b329cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop内部运行原理.png"><br>这张图片应该不陌生，是苹果官方的。<br>当run起来后，因为while死循环，会一直输出+++++++，当点击屏幕的时候，会来到performSelector这个方法，而我们可以看到performSelector相当于是sourse，类似于port，所以当我们点击屏幕的时候，就相当于是给RunLoop添加了一个内容为sourse的mode，就相当于是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];</span><br><span class="line"> [[NSRunLoop currentRunLoop] run];</span><br></pre></td></tr></table></figure></p>
+<p>而有了mode，RunLoop就开始有效起来了。然后再看while：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while (1) &#123; </span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">    NSLog(@&quot;++++++++&quot;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因为RunLoop开始跑起来了，所以++++++又不会输出了，而这里相当于是上面的拓展一。</p>
+<h4 id="5-四个拓展的总结"><a href="#5-四个拓展的总结" class="headerlink" title="5.四个拓展的总结"></a>5.四个拓展的总结</h4><p>先把拓展一的坑填了吧。看看拓展四再看看拓展一，都不打印++++++。其实本质上是一样的， NSLog(@”++++++++”);  这行代码之前已经RunLoop已经跑起来了，而至于为什么跑起来了就不会执行   NSLog(@”++++++++”);    了，可以看拓展二，相当于 NSLog(@”++++++++”);  有一个while循环！<br>再对上面四个拓展做一下总结：<br>a.要让RunLoop跑起来，必须要给其添加一个有内容的mode。而且必须要让他Run。<br>b.RunLoop跑起来后相当于是一个while的死循环，后面的代码不会执行。</p>
+<h4 id="注意！这四个拓展很有意思也很重要，如果觉得很乱，一定要多看几遍！！！"><a href="#注意！这四个拓展很有意思也很重要，如果觉得很乱，一定要多看几遍！！！" class="headerlink" title="注意！这四个拓展很有意思也很重要，如果觉得很乱，一定要多看几遍！！！"></a>注意！这四个拓展很有意思也很重要，如果觉得很乱，一定要多看几遍！！！</h4><h2 id="3-子线程中的Timer与RunLoop"><a href="#3-子线程中的Timer与RunLoop" class="headerlink" title="3.子线程中的Timer与RunLoop"></a>3.子线程中的Timer与RunLoop</h2><p>最后一个实验：<br>直接放代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    _thread = [[YQThread alloc] initWithTarget:self selector:@selector(threadTest) object:nil];</span><br><span class="line">    [_thread start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(TimerTest) userInfo:nil repeats:YES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)TimerTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;----%@-----&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>你觉得会有输出吗？</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-192c20a9ce7dd7c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用12.png"><br>没有输出，为什么呢。想到上一篇有提到，就只有主线程的RunLoop会自动开启，而子线程的需要手动开启，而本次实验中，timer是子线程中的，而RunLoop没有开启，timer自然不会起到作用啦。<br>解决方法：开启RunLoop，怎么做？自己去试！！！</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实本篇应用篇还是围绕着概念来的。还是那句话，光看是很难提升与理解的，还是要自己动手去实验，也许会有新的发现。最后，这篇文章是全是我试验出来的，概念也是自己琢磨出来，所以很有可能会有理解不当，如果有错误，一定要指出来！有问题可以在评论区留言~如果对你有帮助，点个赞呗~<br>好了，赶快滚去敲代码吧~</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/iOS进阶：RunLoop入门，看我就够了/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -360,173 +526,6 @@
 <p>我的理解是，CFRunLoopRef就是RunLoop，而SourceRef、TimerRef、ObserverRef是CFRunLoopRef的内容，而ModeRef指的是mode的属性。<br>先放个代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];</span><br></pre></td></tr></table></figure></p>
 <p>这句话的意思就是：给当前的RunLoop添加一个内容为Sourse的而且属性是NSDefaultRunLoopMode的mode。是不是一下子清楚了~如果还不懂，那就再举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerTest) userInfo:nil repeats:YES];</span><br><span class="line">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];</span><br></pre></td></tr></table></figure></p>
 <p>这句话的意思是：给当前的RunLoop添加一个内容为timer的而且属性是NSRunLoopCommonModes的mode。<br>现在是不是懂了呢~</p>
-<h1 id="iOS进阶：RunLoop已入门？快来应用一下"><a href="#iOS进阶：RunLoop已入门？快来应用一下" class="headerlink" title="iOS进阶：RunLoop已入门？快来应用一下"></a>iOS进阶：RunLoop已入门？快来应用一下</h1><p><a href="https://jabberyq.github.io/2017/12/14/iOS%E8%BF%9B%E9%98%B6%EF%BC%9ARunLoop%E5%B7%B2%E5%85%A5%E9%97%A8%EF%BC%9F%E5%BF%AB%E6%9D%A5%E5%BA%94%E7%94%A8%E4%B8%80%E4%B8%8B/" target="_blank" rel="noopener">iOS进阶：RunLoop已入门？快来应用一下</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jabber_YQ">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jabber_YQ's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/" itemprop="url">iOS进阶：RunLoop已入门？快来应用一下</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T10:18:30+08:00">
-                2017-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>对RunLoop还没有什么概念的同学请移步我的上一篇文章，传送门：<a href="https://jabberyq.github.io/2017/12/14/iOS%E5%AE%9E%E6%88%98%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B%E6%88%91%E5%B0%B1%E5%A4%9F%E4%BA%86/" target="_blank" rel="noopener">iOS实战：RunLoop入门，看我就够了</a><br>那么剩下的同学一定是对RunLoop有所了解的，那么我们就开始应用RunLoop吧~</p>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="1-UIImageView的使用"><a href="#1-UIImageView的使用" class="headerlink" title="1.UIImageView的使用"></a>1.UIImageView的使用</h2><h3 id="a-目的"><a href="#a-目的" class="headerlink" title="a.目的"></a>a.目的</h3><p>我们做这个应用的目的是为了了解RunLoop和performSelector这个方法的关系</p>
-<h3 id="b-过程"><a href="#b-过程" class="headerlink" title="b.过程"></a>b.过程</h3><p>首先新建一个项目，在vc上拉一个UIImageView控件和UITextView控件。截图如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-12695eb31dc5556f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用0.png"></p>
-<p>下面展示vc的.m代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line">@property (weak, nonatomic) IBOutlet UIImageView *imageView; //刚刚拉的imageview</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [self.imageView performSelector:@selector(setImage:) withObject:[UIImage imageNamed:@&quot;1&quot;] afterDelay:2.0 inModes:@[NSDefaultRunLoopMode]];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>代码很简单，无非就是想要让imageview在点击屏幕2秒钟后设置上图片。<br>注意：我们这里设置的mode为NSDefaultRunLoopMode，也就是默认状态。<br>跑起来！<br>发现没问题，点击一下屏幕，过了2秒后，imageview有了图片。图片：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-a0f45bf496be8855.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用1.png"><br>恩，然后重跑一下，但是这次要拖拽textview了，发现有问题了：当点击屏幕后，马上拖textview数秒，发现图片2秒后没有显示出来。效果图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-7f39b41c5d35a5bb.gif?imageMogr2/auto-orient/strip" alt="RunLoop应用2.gif"></p>
-<p>现在回顾一下入门篇里面的Timer使用:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timerTest) userInfo:nil repeats:YES]; </span><br><span class="line">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];</span><br></pre></td></tr></table></figure></p>
-<p>当timer加到mode为kCFRunLoopDefaultMode时，拖拽textview时候timer就不起作用了；当mode为kCFRunLoopCommonModes时，拖拽textview不影响timer的使用，这里其实也是类似的。<br>所以机智的你应该已经知道怎么做了吧，没错，改一下mode就可以了~代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.imageView performSelector:@selector(setImage:) withObject:[UIImage imageNamed:@&quot;1&quot;] afterDelay:2.0 inModes:@[NSRunLoopCommonModes]];</span><br></pre></td></tr></table></figure></p>
-<p>效果图就不上啦，偷个懒。</p>
-<h3 id="c-总结"><a href="#c-总结" class="headerlink" title="c.总结"></a>c.总结</h3><p>这里的imageview其实只是一个例子，重要的是了解RunLoop和performSelector这个方法的关系！（敲黑板！）</p>
-<h2 id="2-线程与RunLoop的应用"><a href="#2-线程与RunLoop的应用" class="headerlink" title="2.线程与RunLoop的应用"></a>2.线程与RunLoop的应用</h2><h3 id="a-目的-1"><a href="#a-目的-1" class="headerlink" title="a.目的"></a>a.目的</h3><p>就如实验名，了解线程与RunLoop的关系及应用</p>
-<h3 id="b-过程-1"><a href="#b-过程-1" class="headerlink" title="b.过程"></a>b.过程</h3><p>首先，在viewDidLoad中开启一个线程，并在线程对应的方法中打印该线程，这个很简单，我直接放截图了。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-691dba1b9a1cf99a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用3.png"><br>可以看到，线程打印出来了。<br>但是你知道这个线程什么时候销毁么。<br>先给个思路，想知道什么时候被销毁，就看什么时候调用dealloc方法就好了。<br>先创建一个继承NSThread的YQThread，并在.m文件里重写dealloc方法，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;YQThread被销毁&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后修改vc中的线程，使用我们自定义的YQThread。再一次跑起来，看结果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-7ea6353316d5f884.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用4.png"><br>说明了开启线程后立马被销毁了。可是我如果不想让这个线程销毁呢，该怎么办。<br>我想到了强引用。上图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-350f0ebebca68157.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用5.png"></p>
-<p>看似可以了，线程好像没有被销毁。那么既然没有被销毁，我们就尝试再调用它喽。<br>在vc上加上如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [self performSelector:@selector(threadAgain) onThread:_thread withObject:nil waitUntilDone:NO];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadAgain</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>代码意思是当点击屏幕后，在_thread上调用threadAgain方法。结果如下：<br><img src="http://upload-images.jianshu.io/upload_images/2312304-61073ab8cfcc80e1.gif?imageMogr2/auto-orient/strip" alt="RunLoop应用6.gif"><br>你会发现当点击屏幕的时候没有输出。那就说明这个线程没用。看来还得我们的主角RunLoop出马啊。<br>在线程方法中，创建该线程对应的RunLoop。直接上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">    [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];</span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>结果如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-c58b2cf2fab030ad.gif?imageMogr2/auto-orient/strip" alt="RunLoop应用7.gif"><br>恩，有打印，说明线程还活着。但是你肯定会对刚刚那两行代码感到疑惑，什么意思呢？先看下面这个图：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-a9dcd0038740fa9f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用8.png"></p>
-<p>就像上图画的，一个线程对应一个RunLoop，RunLoop里面有若干个mode，每个mode都有自己的内容，Source/Timer/Observer等等。上面的代码就相当于是给了当前的RunLoop添加了一个内容为Source的mode。而RunLoop有了mode才会有效果。<br>注意：mode里面必须要有内容！！！Source，Timer，Observer都可以。</p>
-<h3 id="c-总结-1"><a href="#c-总结-1" class="headerlink" title="c.总结"></a>c.总结</h3><p>这就是RunLoop的一个功能，使线程保持生命。</p>
-<h3 id="d-拓展"><a href="#d-拓展" class="headerlink" title="d.拓展"></a>d.拓展</h3><p>刚刚那个应用本质上就是给线程加了一个RunLoop，然后RunLoop一直跑圈，所以线程也一直不会死。</p>
-<h4 id="1-拓展一"><a href="#1-拓展一" class="headerlink" title="1.拓展一"></a>1.拓展一</h4><p>那么接下来我们来做个有趣的试验：在线程方法输出+++++++，其余都不变，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    _thread = [[YQThread alloc] initWithTarget:self selector:@selector(threadTest) object:nil];</span><br><span class="line">    [_thread start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">    [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];</span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;++++++++&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [self performSelector:@selector(threadAgain) onThread:_thread withObject:nil waitUntilDone:NO];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadAgain</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>你觉得++++++++会打印出来么？结果如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-df5ef52c41c3ff22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用9.png"><br>恩，显然没有打印，为什么呢？先不解释原因，再看拓展二。</p>
-<h4 id="2-拓展二"><a href="#2-拓展二" class="headerlink" title="2.拓展二"></a>2.拓展二</h4><p>再修改一下线程方法，这一次用一个while的死循环看看，其他不变。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">    while (1) &#123;</span><br><span class="line">        // 暂时不写任何东西</span><br><span class="line">    &#125;</span><br><span class="line">    NSLog(@&quot;++++++++&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>++++++++会输出吗？有过编程经验的都知道不会，我也不截图展示了。</p>
-<h4 id="3-拓展三"><a href="#3-拓展三" class="headerlink" title="3.拓展三"></a>3.拓展三</h4><p>上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">    NSLog(@&quot;++++++++&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这里不给RunLoop设置内容，看看结果会怎么要。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-7480b4e67acb65bd.gif?imageMogr2/auto-orient/strip" alt="RunLoop应用11.gif"></p>
-<p>发现点击屏幕没有输出线程，但是输出了+++++++。那是因为没有拓展二的while，线程方法会一行行执行下来。但是为什么点击屏幕没有输出呢，那是因为点击屏幕后，给RunLoop加了一个内容为sourse的mode（不懂的话看我的上一篇博客），但是！！！已经没有Run了！<br>什么意思呢，就是说当我们点击屏幕的时候，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[NSRunLoop currentRunLoop] run];</span><br></pre></td></tr></table></figure></p>
-<p>这一行代码已经在打开app的时候执行了，当我们点击屏幕的时候，已经没有Run了，而RunLoop实际上是没有跑起来的。<br>这就说明了，要让RunLoop跑起来，既要有有内容的mode，也需要    [[NSRunLoop currentRunLoop] run];    。两个都不可少。</p>
-<h4 id="4-拓展四"><a href="#4-拓展四" class="headerlink" title="4.拓展四"></a>4.拓展四</h4><p>这次还是用拓展二的代码，只是在while里面添上RunLoop代码，因为这个比较复杂，所以我放上完整代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    _thread = [[YQThread alloc] initWithTarget:self selector:@selector(threadTest) object:nil];</span><br><span class="line">    [_thread start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">    while (1) &#123;</span><br><span class="line">        [[NSRunLoop currentRunLoop] run];</span><br><span class="line">        NSLog(@&quot;++++++++&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    [self performSelector:@selector(threadAgain) onThread:_thread withObject:nil waitUntilDone:NO];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadAgain</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;--%@--&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>下面是结果：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-c95ad9efe0ed495f.gif?imageMogr2/auto-orient/strip" alt="RunLoop应用10.gif"><br>仔细看输出，当点击屏幕之前，一直会输出+++++++，当点击后，+++++++输出停止，然后输出线程。下面来解释一下这个状况，先放图后解释：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-ece9770395b329cd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop内部运行原理.png"><br>这张图片应该不陌生，是苹果官方的。<br>当run起来后，因为while死循环，会一直输出+++++++，当点击屏幕的时候，会来到performSelector这个方法，而我们可以看到performSelector相当于是sourse，类似于port，所以当我们点击屏幕的时候，就相当于是给RunLoop添加了一个内容为sourse的mode，就相当于是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];</span><br><span class="line"> [[NSRunLoop currentRunLoop] run];</span><br></pre></td></tr></table></figure></p>
-<p>而有了mode，RunLoop就开始有效起来了。然后再看while：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while (1) &#123; </span><br><span class="line">    [[NSRunLoop currentRunLoop] run];</span><br><span class="line">    NSLog(@&quot;++++++++&quot;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>因为RunLoop开始跑起来了，所以++++++又不会输出了，而这里相当于是上面的拓展一。</p>
-<h4 id="5-四个拓展的总结"><a href="#5-四个拓展的总结" class="headerlink" title="5.四个拓展的总结"></a>5.四个拓展的总结</h4><p>先把拓展一的坑填了吧。看看拓展四再看看拓展一，都不打印++++++。其实本质上是一样的， NSLog(@”++++++++”);  这行代码之前已经RunLoop已经跑起来了，而至于为什么跑起来了就不会执行   NSLog(@”++++++++”);    了，可以看拓展二，相当于 NSLog(@”++++++++”);  有一个while循环！<br>再对上面四个拓展做一下总结：<br>a.要让RunLoop跑起来，必须要给其添加一个有内容的mode。而且必须要让他Run。<br>b.RunLoop跑起来后相当于是一个while的死循环，后面的代码不会执行。</p>
-<h4 id="注意！这四个拓展很有意思也很重要，如果觉得很乱，一定要多看几遍！！！"><a href="#注意！这四个拓展很有意思也很重要，如果觉得很乱，一定要多看几遍！！！" class="headerlink" title="注意！这四个拓展很有意思也很重要，如果觉得很乱，一定要多看几遍！！！"></a>注意！这四个拓展很有意思也很重要，如果觉得很乱，一定要多看几遍！！！</h4><h2 id="3-子线程中的Timer与RunLoop"><a href="#3-子线程中的Timer与RunLoop" class="headerlink" title="3.子线程中的Timer与RunLoop"></a>3.子线程中的Timer与RunLoop</h2><p>最后一个实验：<br>直接放代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    _thread = [[YQThread alloc] initWithTarget:self selector:@selector(threadTest) object:nil];</span><br><span class="line">    [_thread start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)threadTest</span><br><span class="line">&#123;</span><br><span class="line">    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(TimerTest) userInfo:nil repeats:YES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)TimerTest</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;----%@-----&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>你觉得会有输出吗？</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2312304-192c20a9ce7dd7c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RunLoop应用12.png"><br>没有输出，为什么呢。想到上一篇有提到，就只有主线程的RunLoop会自动开启，而子线程的需要手动开启，而本次实验中，timer是子线程中的，而RunLoop没有开启，timer自然不会起到作用啦。<br>解决方法：开启RunLoop，怎么做？自己去试！！！</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实本篇应用篇还是围绕着概念来的。还是那句话，光看是很难提升与理解的，还是要自己动手去实验，也许会有新的发现。最后，这篇文章是全是我试验出来的，概念也是自己琢磨出来，所以很有可能会有理解不当，如果有错误，一定要指出来！有问题可以在评论区留言~如果对你有帮助，点个赞呗~<br>好了，赶快滚去敲代码吧~</p>
 
           
         
