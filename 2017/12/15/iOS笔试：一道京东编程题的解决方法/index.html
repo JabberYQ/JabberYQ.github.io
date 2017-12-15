@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前两天在考京东的笔试题时，一道大题编程题未做出来，然后就接了图打算考试结束再思考。在今天终于有了一个比较清晰的思路，决定在博客中记录一下。题目如下： 题目 想法想要使得&amp;gt;=K的堆数最多，那么先不想着“相邻堆石头数不能相等”这个条件，最多的堆数肯定就是N/K了。举例说，N=6,K=2，那么输出就为3了。但是，现在有了“相邻堆石头数不能相等”这个条件，那么在（6，2）的输入中，就不能有2，2，2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS笔试：一道京东编程题的解决方法">
+<meta property="og:url" content="http://yoursite.com/2017/12/15/iOS笔试：一道京东编程题的解决方法/index.html">
+<meta property="og:site_name" content="Jabber_YQ&#39;s Blog">
+<meta property="og:description" content="前两天在考京东的笔试题时，一道大题编程题未做出来，然后就接了图打算考试结束再思考。在今天终于有了一个比较清晰的思路，决定在博客中记录一下。题目如下： 题目 想法想要使得&amp;gt;=K的堆数最多，那么先不想着“相邻堆石头数不能相等”这个条件，最多的堆数肯定就是N/K了。举例说，N=6,K=2，那么输出就为3了。但是，现在有了“相邻堆石头数不能相等”这个条件，那么在（6，2）的输入中，就不能有2，2，2">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-17fa0b273f9b7be9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-2332b22c55c8d596.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-9c4a0849da7640af.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-12-15T00:15:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS笔试：一道京东编程题的解决方法">
+<meta name="twitter:description" content="前两天在考京东的笔试题时，一道大题编程题未做出来，然后就接了图打算考试结束再思考。在今天终于有了一个比较清晰的思路，决定在博客中记录一下。题目如下： 题目 想法想要使得&amp;gt;=K的堆数最多，那么先不想着“相邻堆石头数不能相等”这个条件，最多的堆数肯定就是N/K了。举例说，N=6,K=2，那么输出就为3了。但是，现在有了“相邻堆石头数不能相等”这个条件，那么在（6，2）的输入中，就不能有2，2，2">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2312304-17fa0b273f9b7be9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/15/iOS笔试：一道京东编程题的解决方法/"/>
+
+
+
+
+
+  <title>iOS笔试：一道京东编程题的解决方法 | Jabber_YQ's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jabber_YQ's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不会一切重启不能解决的问题</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-blog">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            BLOG
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archive">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            ARCHIVE
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/15/iOS笔试：一道京东编程题的解决方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jabber_YQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jabber_YQ's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS笔试：一道京东编程题的解决方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-15T08:15:12+08:00">
+                2017-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>前两天在考京东的笔试题时，一道大题编程题未做出来，然后就接了图打算考试结束再思考。在今天终于有了一个比较清晰的思路，决定在博客中记录一下。<br>题目如下：</p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p><img src="http://upload-images.jianshu.io/upload_images/2312304-17fa0b273f9b7be9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="笔试题.png"></p>
+<h1 id="想法"><a href="#想法" class="headerlink" title="想法"></a>想法</h1><p>想要使得&gt;=K的堆数最多，那么先不想着“相邻堆石头数不能相等”这个条件，最多的堆数肯定就是N/K了。<br>举例说，N=6,K=2，那么输出就为3了。<br>但是，现在有了“相邻堆石头数不能相等”这个条件，那么在（6，2）的输入中，就不能有2，2，2这样的排列了。那就在相邻的堆中间插入1就能使得满足条件的堆数目最多。<br>那么现在我就把k个石头放一堆，1个石头再放一堆，然后把它们看做一组，那么大致可以把这样的组数看做是最后的答案了。<br>如下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-2332b22c55c8d596.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="（7 2）.jpg"></p>
+<p>这是（7 2）情况，把2颗一堆，1颗一堆，再把两堆当做一组，这样就有2组，剩余还有1颗。那么排列顺序为：1，2，1，2，1。输出为2。<br>在如下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-9c4a0849da7640af.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="（8 2）.jpg"><br>这是（8 2）情况，也是有两组，但是还有剩余两颗，那么最后那两颗也是满足条件的一堆。所以排列顺序为2，1，2，1，2。</p>
+<p>综上，可以得出一个公式了：设组数为a，剩余个数为b，那么有：<br><code>N/(K+1) = a+b</code><br>但是a并不是最后的输出，还需要比较b与k是否相等：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (b == K)</span><br><span class="line">    a = a+1;</span><br></pre></td></tr></table></figure></p>
+<p>其实b与K是否相等就决定了1和k哪个堆放在前面。</p>
+<p>但是！这样还没有结束，因为还有一个特殊情况，那就是k=1的时候，这时候再用k+1是不满足“相邻堆石头数不能相等”这个条件的。那么就只能用k+2代替了。k=1的时候不需要想得太麻烦，很简单嘛，1 2 1 2这样一直下去好了，到时候有几堆就输出几。</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    int n, k, a, b;</span><br><span class="line">    scanf(&quot;%d %d&quot;, &amp;n, &amp;k);</span><br><span class="line">    if (k != 1) &#123;</span><br><span class="line">        a = n/(k+1);</span><br><span class="line">        b = n%(k+1);</span><br><span class="line">        if (b == k) &#123;</span><br><span class="line">            printf(&quot;%d&quot;, a+1);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            printf(&quot;%d&quot;, a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        a = n/(k+2);</span><br><span class="line">        b = n%(k+2);</span><br><span class="line">        if (b == 0) &#123;</span><br><span class="line">            printf(&quot;%d&quot;, a*2);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            printf(&quot;%d&quot;, a*2+1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>因为笔试已经结束了，没有条件再去核对代码是否AC，只能通过手动输入来判断是否正确。<br>在笔试的时候，有限时间内要有思路并敲出代码还是有很大的难度的，事情说到底还是自己太菜。现在满脑子都是京东不要我了京东不要我了京东不要我了。委屈极了。</p>
+<h1 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h1><p>感谢 <a href="http://www.jianshu.com/u/f3fef368a2c4" target="_blank" rel="noopener">旅徒冰迹</a> 的指出，上面代码存在一个问题。<br>当输入为（7,2）的时候，我的代码会排序成1 2 1 2 1，而正确的答案为2 3 2，其实是把最左边的1和最右边的1都加到中间的那个1去了。<br>那么现在得确定什么时候会出现这样的问题。我发现：当k=2且刚好排序后左右两侧都为1的情况下，会出现这样的问题。<br>设想，当k&gt;=3时，就算把两侧的1都加过来，还是不能满足条件；当两侧不都为1时，也不能满足条件。<br>所以代码更新如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    int n, k, a, b;</span><br><span class="line">    scanf(&quot;%d %d&quot;, &amp;n, &amp;k);</span><br><span class="line">    if (k == 1) &#123;</span><br><span class="line">    	a = n/(k+2);</span><br><span class="line">        b = n%(k+2);</span><br><span class="line">        if (b == 0) &#123;</span><br><span class="line">            printf(&quot;%d&quot;, a*2);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            printf(&quot;%d&quot;, a*2+1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else if (k == 2) &#123;</span><br><span class="line">    	a = n/(k+1);</span><br><span class="line">        b = n%(k+1);</span><br><span class="line">        if (b == 0) &#123;</span><br><span class="line">        	printf(&quot;%d&quot;, a);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">        	printf(&quot;%d&quot;, a+1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">    	a = n/(k+1);</span><br><span class="line">        b = n%(k+1);</span><br><span class="line">        if (b == k) &#123;</span><br><span class="line">            printf(&quot;%d&quot;, a+1);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            printf(&quot;%d&quot;, a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/" rel="next" title="iOS进阶：RunLoop已入门？快来应用一下">
+                <i class="fa fa-chevron-left"></i> iOS进阶：RunLoop已入门？快来应用一下
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/15/iOS面试：360面试题记录与总结/" rel="prev" title="iOS面试：360面试题记录与总结">
+                iOS面试：360面试题记录与总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jabber_YQ</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x9898;&#x76EE;" class="headerlink" title="&#x9898;&#x76EE;"></a>&#x9898;&#x76EE;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#想法"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x60F3;&#x6CD5;" class="headerlink" title="&#x60F3;&#x6CD5;"></a>&#x60F3;&#x6CD5;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4EE3;&#x7801;" class="headerlink" title="&#x4EE3;&#x7801;"></a>&#x4EE3;&#x7801;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x6700;&#x540E;" class="headerlink" title="&#x6700;&#x540E;"></a>&#x6700;&#x540E;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更新"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x66F4;&#x65B0;" class="headerlink" title="&#x66F4;&#x65B0;"></a>&#x66F4;&#x65B0;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jabber_YQ</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
