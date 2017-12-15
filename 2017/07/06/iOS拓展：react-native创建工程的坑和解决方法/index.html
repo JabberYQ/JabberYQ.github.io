@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/webImage/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/webImage/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="react-native,iOS 拓展,创建工程," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="#前言由于项目需要用到react-native技术，所以我也开始试着去了解它。说实话，这个react-native我是真的不喜欢，因为问题实在太多，而且很难解决。就单说创建工程这最基本的一步，就花了我将近一下午时间。这是官方的使用文档，看起来简单，其实问题蛮多。开始使用React Native #正文首先，在创建工程之前，你需要有环境。这个网上很多，不赘述。我们直接从创建工程开始，一步步记叙这过程">
+<meta name="keywords" content="react-native,iOS 拓展,创建工程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS拓展：react-native创建工程的坑和解决方法">
+<meta property="og:url" content="http://yoursite.com/2017/07/06/iOS拓展：react-native创建工程的坑和解决方法/index.html">
+<meta property="og:site_name" content="Jabber_YQ&#39;s Blog">
+<meta property="og:description" content="#前言由于项目需要用到react-native技术，所以我也开始试着去了解它。说实话，这个react-native我是真的不喜欢，因为问题实在太多，而且很难解决。就单说创建工程这最基本的一步，就花了我将近一下午时间。这是官方的使用文档，看起来简单，其实问题蛮多。开始使用React Native #正文首先，在创建工程之前，你需要有环境。这个网上很多，不赘述。我们直接从创建工程开始，一步步记叙这过程">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-707e035c46eff3ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-9a46ea209e99bf9e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-8d9d0be33e6cc5a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-0e6dc3efe7355437.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-88e3fd00c49e097a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-783e7d081b0069f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-ab977c2f165eee4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-9fc5e8234eb4dfe2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-7db56572f1404a2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-12-15T05:02:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS拓展：react-native创建工程的坑和解决方法">
+<meta name="twitter:description" content="#前言由于项目需要用到react-native技术，所以我也开始试着去了解它。说实话，这个react-native我是真的不喜欢，因为问题实在太多，而且很难解决。就单说创建工程这最基本的一步，就花了我将近一下午时间。这是官方的使用文档，看起来简单，其实问题蛮多。开始使用React Native #正文首先，在创建工程之前，你需要有环境。这个网上很多，不赘述。我们直接从创建工程开始，一步步记叙这过程">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2312304-707e035c46eff3ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/06/iOS拓展：react-native创建工程的坑和解决方法/"/>
+
+
+
+
+
+  <title>iOS拓展：react-native创建工程的坑和解决方法 | Jabber_YQ's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jabber_YQ's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不会一切重启不能解决的问题</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/06/iOS拓展：react-native创建工程的坑和解决方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jabber_YQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/webImage/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jabber_YQ's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS拓展：react-native创建工程的坑和解决方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-06T00:00:00+08:00">
+                2017-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-拓展/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS 拓展</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#前言<br>由于项目需要用到react-native技术，所以我也开始试着去了解它。说实话，这个react-native我是真的不喜欢，因为问题实在太多，而且很难解决。就单说创建工程这最基本的一步，就花了我将近一下午时间。<br>这是官方的使用文档，看起来简单，其实问题蛮多。<a href="http://reactnative.cn/docs/0.22/getting-started.html#content" target="_blank" rel="noopener">开始使用React Native</a></p>
+<p>#正文<br>首先，在创建工程之前，你需要有环境。这个网上很多，不赘述。<br>我们直接从创建工程开始，一步步记叙这过程。</p>
+<p>##坑一<br>一、打开终端，cd到你放文件的位置（我放在桌面了）：<br><code>yuqideMacBook-Air:~ yuqi$ cd /Users/yuqi/Desktop</code><br>二、然后创建工程：<br><code>react-native init RN1</code><br>输入完后，桌面就立马多了一个RN1文件夹，然后终端会跳出一大串代码，最后出现下图，说明创建完成：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-707e035c46eff3ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1_1.png"><br>三、运行<br>这个时候，正如终端提示那样，你有两个方法可以打开项目，首先尝试第一个（cd到文件夹，然后run-ios命令）：<br><code>yuqideMacBook-Air:Desktop yuqi$ cd /Users/yuqi/Desktop/RN1
+yuqideMacBook-Air:RN1 yuqi$ react-native run-ios</code><br>结果运行失败：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-9a46ea209e99bf9e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1_2.png"><br>查资料后，找到解决方法：<br>删除node-modules文件夹，修改pakage.json文件，然后执行<code>npm install</code>。其中，pakage.json文件应该这么改：<br>把<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;react&quot;: &quot;16.0.0-alpha.12&quot;,</span><br><span class="line">&quot;react-native&quot;: &quot;0.45.0&quot;</span><br></pre></td></tr></table></figure></p>
+<p>改成下面的版本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;react&quot;: &quot;16.0.0-alpha.6&quot;,</span><br><span class="line">&quot;react-native&quot;: &quot;0.44.3&quot;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-8d9d0be33e6cc5a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1_3.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-0e6dc3efe7355437.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1_4.png"></p>
+<p>这时，再执行<br><code>yuqideMacBook-Air:RN1 yuqi$ react-native run-ios</code><br>发现成功运行，并打开了一个新的终端：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-88e3fd00c49e097a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1_5.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-783e7d081b0069f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1_6.png"></p>
+<p>到此坑一以及解决方法结束。</p>
+<p>##坑二<br>当我开心的以为这样就成功的时候，打开Xcode，发现跑不起来！</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-ab977c2f165eee4f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2_1.png"><br>然后开始疯狂得搜索错误原因和解决方法，然而很久都搜不到。。。<br>最终，get到的解决办法是创建项目的时候的命令加一个版本设定：<br><code>yuqideMacBook-Air:Desktop yuqi$ react-native init --version=&quot;0.42.0&quot; RN2</code><br>创建完后，通过终端运行：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-9fc5e8234eb4dfe2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2_2.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-7db56572f1404a2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2_3.png"><br>到此，终于成功创建。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请我吃一块黄金鸡块</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/assets/webImage/wechat_pay.jpg" alt="Jabber_YQ 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/assets/webImage/alipay_pay.jpg" alt="Jabber_YQ 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react-native/" rel="tag"># react-native</a>
+          
+            <a href="/tags/iOS-拓展/" rel="tag"># iOS 拓展</a>
+          
+            <a href="/tags/创建工程/" rel="tag"># 创建工程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/16/iOS面试：360面试题记录与总结/" rel="next" title="iOS面试：360面试题记录与总结">
+                <i class="fa fa-chevron-left"></i> iOS面试：360面试题记录与总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/10/iOS拓展：iOS原生项目集成react-native过程记录/" rel="prev" title="iOS拓展：iOS原生项目集成react-native过程记录">
+                iOS拓展：iOS原生项目集成react-native过程记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/assets/webImage/avatar.jpg"
+                alt="Jabber_YQ" />
+            
+              <p class="site-author-name" itemprop="name">Jabber_YQ</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/JabberYQ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.jianshu.com/u/38f5c5bd3849" target="_blank" title="jianshu">
+                    
+                      <i class="fa fa-fw fa-globe"></i>jianshu</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jabber_YQ</span>
+
+  
+</div>
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

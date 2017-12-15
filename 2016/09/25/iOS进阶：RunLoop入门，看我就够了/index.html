@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="RunLoop,iOS 进阶," />
 
 
 
@@ -80,9 +80,10 @@
 
 
 <meta name="description" content="前言刚刚听到RunLoop的时候我也是一脸懵逼，这是什么，有什么用呢，逼格貌似还挺高。然后就开始尝试去搞懂它，去找博客，但是几乎所有的博客都是枯燥乏味的，都是讲概念，然后给个实例，对于我这个小白来说，根本看不懂好吗！！下面放几个比较好的讲解RunLoop的博客深入理解RunLoopiOS-RunLoop充满灵性的死循环下面开始讲讲我对RunLoop认识。 正文一、简介首先，先象征性的讲下RunLo">
+<meta name="keywords" content="RunLoop,iOS 进阶">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS进阶：RunLoop入门，看我就够了">
-<meta property="og:url" content="http://yoursite.com/2017/12/14/iOS进阶：RunLoop入门，看我就够了/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/09/25/iOS进阶：RunLoop入门，看我就够了/index.html">
 <meta property="og:site_name" content="Jabber_YQ&#39;s Blog">
 <meta property="og:description" content="前言刚刚听到RunLoop的时候我也是一脸懵逼，这是什么，有什么用呢，逼格貌似还挺高。然后就开始尝试去搞懂它，去找博客，但是几乎所有的博客都是枯燥乏味的，都是讲概念，然后给个实例，对于我这个小白来说，根本看不懂好吗！！下面放几个比较好的讲解RunLoop的博客深入理解RunLoopiOS-RunLoop充满灵性的死循环下面开始讲讲我对RunLoop认识。 正文一、简介首先，先象征性的讲下RunLo">
 <meta property="og:locale" content="zh-Hans">
@@ -100,7 +101,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-f9b514fd75875265.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-8e64b79a92d53567.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-8dbf27d0666fd544.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-12-14T08:15:53.000Z">
+<meta property="og:updated_time" content="2017-12-15T04:55:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS进阶：RunLoop入门，看我就够了">
 <meta name="twitter:description" content="前言刚刚听到RunLoop的时候我也是一脸懵逼，这是什么，有什么用呢，逼格貌似还挺高。然后就开始尝试去搞懂它，去找博客，但是几乎所有的博客都是枯燥乏味的，都是讲概念，然后给个实例，对于我这个小白来说，根本看不懂好吗！！下面放几个比较好的讲解RunLoop的博客深入理解RunLoopiOS-RunLoop充满灵性的死循环下面开始讲讲我对RunLoop认识。 正文一、简介首先，先象征性的讲下RunLo">
@@ -134,7 +135,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/14/iOS进阶：RunLoop入门，看我就够了/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/09/25/iOS进阶：RunLoop入门，看我就够了/"/>
 
 
 
@@ -267,7 +268,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/iOS进阶：RunLoop入门，看我就够了/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/25/iOS进阶：RunLoop入门，看我就够了/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jabber_YQ">
@@ -296,8 +297,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T10:18:30+08:00">
-                2017-12-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-25T00:00:00+08:00">
+                2016-09-25
               </time>
             
 
@@ -306,6 +307,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS 进阶</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -438,6 +461,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/RunLoop/" rel="tag"># RunLoop</a>
+          
+            <a href="/tags/iOS-进阶/" rel="tag"># iOS 进阶</a>
+          
+        </div>
+      
 
       
       
@@ -447,18 +478,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/" rel="next" title="iOS进阶：RunLoop已入门？快来应用一下">
-                <i class="fa fa-chevron-left"></i> iOS进阶：RunLoop已入门？快来应用一下
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/14/iOS拓展：react-native入门从小项目开始/" rel="prev" title="iOS拓展：react-native入门从小项目开始">
-                iOS拓展：react-native入门从小项目开始 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/09/27/iOS进阶：RunLoop已入门？快来应用一下/" rel="prev" title="iOS进阶：RunLoop已入门？快来应用一下">
+                iOS进阶：RunLoop已入门？快来应用一下 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -540,7 +567,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -551,7 +578,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -562,7 +589,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

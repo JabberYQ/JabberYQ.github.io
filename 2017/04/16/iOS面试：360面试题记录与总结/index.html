@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-f3d0368cb7db993a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-1b261ca16680ae30.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-c2e5de63b642b80e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-12-15T03:42:15.000Z">
+<meta property="og:updated_time" content="2017-12-15T04:57:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS面试：360面试题记录与总结">
 <meta name="twitter:description" content="昨天进行了360的视频面试，很遗憾的没有进。很多问题的答案就在嘴边，可是就是说不出来，很遗憾。总结下来还是自己的准备不够充分。下面把还记得的问题放上来，并发誓下次遇到以下题目一定答得上来。（ps：下面的回答都是我的个人总结，很有可能会有遗漏，所以有问题可以帮我指出一下，谢谢）  面试题第一题问题说说oc语言和别的语言的区别。 第一题分析遇到这道题目的时候，我就说了c语言和oc的区别。直到面试官提示">
@@ -405,7 +405,7 @@
 <hr>
 <h3 id="第九题问题"><a href="#第九题问题" class="headerlink" title="第九题问题"></a>第九题问题</h3><p>现在在TableViewCell上有一个UILabel，UILabel上写是倒计时，倒计时用NSTimer实现，现在滚动tableView，UILabel上的text会变吗。</p>
 <h3 id="第九题分析"><a href="#第九题分析" class="headerlink" title="第九题分析"></a>第九题分析</h3><p>这道题目是回答的最顺的。因为以前有研究过RunLoop。</p>
-<h3 id="第九题答案"><a href="#第九题答案" class="headerlink" title="第九题答案"></a>第九题答案</h3><p>不会变，因为tableView滚动的事件属于UITrackingRunLoopMode，而timer默认加入到kCFRunLoopDefaultMode中，在每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。所以当滚动时，定时器就不起作用了。解决办法为修改timer的模式为NSRunLoopCommonModes。<br>具体可以看这篇文章：<a href="http://www.jianshu.com/p/2d3c8e084205" target="_blank" rel="noopener">RunLoop入门 看我就够了</a></p>
+<h3 id="第九题答案"><a href="#第九题答案" class="headerlink" title="第九题答案"></a>第九题答案</h3><p>不会变，因为tableView滚动的事件属于UITrackingRunLoopMode，而timer默认加入到kCFRunLoopDefaultMode中，在每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。所以当滚动时，定时器就不起作用了。解决办法为修改timer的模式为NSRunLoopCommonModes。<br>具体可以看这篇文章：<a href="https://jabberyq.github.io/2017/12/14/iOS%E8%BF%9B%E9%98%B6%EF%BC%9ARunLoop%E5%85%A5%E9%97%A8%EF%BC%8C%E7%9C%8B%E6%88%91%E5%B0%B1%E5%A4%9F%E4%BA%86/" target="_blank" rel="noopener">iOS进阶：RunLoop入门，看我就够了</a></p>
 <hr>
 <h3 id="第十题问题"><a href="#第十题问题" class="headerlink" title="第十题问题"></a>第十题问题</h3><p>frame和bouns的区别。什么时候frame和bouns的高宽不相等。</p>
 <h3 id="第十题分析"><a href="#第十题分析" class="headerlink" title="第十题分析"></a>第十题分析</h3><p>这道题目又是一脸懵逼。。以前好像没碰到过这种事情吧。。总不能傻在那里吧，我就说了他们的区别。。</p>
@@ -496,8 +496,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/" rel="prev" title="iOS进阶：RunLoop已入门？快来应用一下">
-                iOS进阶：RunLoop已入门？快来应用一下 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/06/iOS拓展：react-native创建工程的坑和解决方法/" rel="prev" title="iOS拓展：react-native创建工程的坑和解决方法">
+                iOS拓展：react-native创建工程的坑和解决方法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -579,7 +579,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -590,7 +590,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -601,7 +601,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
