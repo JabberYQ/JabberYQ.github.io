@@ -56,10 +56,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/webImage/favicon.png?v=5.1.3">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/webImage/favicon.png?v=5.1.3">
 
 
   <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="求职," />
 
 
 
@@ -80,16 +80,17 @@
 
 
 <meta name="description" content="前两天在考京东的笔试题时，一道大题编程题未做出来，然后就接了图打算考试结束再思考。在今天终于有了一个比较清晰的思路，决定在博客中记录一下。题目如下： 题目 想法想要使得&amp;gt;=K的堆数最多，那么先不想着“相邻堆石头数不能相等”这个条件，最多的堆数肯定就是N/K了。举例说，N=6,K=2，那么输出就为3了。但是，现在有了“相邻堆石头数不能相等”这个条件，那么在（6，2）的输入中，就不能有2，2，2">
+<meta name="keywords" content="求职">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS笔试：一道京东编程题的解决方法">
-<meta property="og:url" content="http://yoursite.com/2017/12/15/iOS笔试：一道京东编程题的解决方法/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/04/10/iOS笔试：一道京东编程题的解决方法/index.html">
 <meta property="og:site_name" content="Jabber_YQ&#39;s Blog">
 <meta property="og:description" content="前两天在考京东的笔试题时，一道大题编程题未做出来，然后就接了图打算考试结束再思考。在今天终于有了一个比较清晰的思路，决定在博客中记录一下。题目如下： 题目 想法想要使得&amp;gt;=K的堆数最多，那么先不想着“相邻堆石头数不能相等”这个条件，最多的堆数肯定就是N/K了。举例说，N=6,K=2，那么输出就为3了。但是，现在有了“相邻堆石头数不能相等”这个条件，那么在（6，2）的输入中，就不能有2，2，2">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-17fa0b273f9b7be9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-2332b22c55c8d596.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-9c4a0849da7640af.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-12-15T00:15:12.000Z">
+<meta property="og:updated_time" content="2017-12-15T02:44:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS笔试：一道京东编程题的解决方法">
 <meta name="twitter:description" content="前两天在考京东的笔试题时，一道大题编程题未做出来，然后就接了图打算考试结束再思考。在今天终于有了一个比较清晰的思路，决定在博客中记录一下。题目如下： 题目 想法想要使得&amp;gt;=K的堆数最多，那么先不想着“相邻堆石头数不能相等”这个条件，最多的堆数肯定就是N/K了。举例说，N=6,K=2，那么输出就为3了。但是，现在有了“相邻堆石头数不能相等”这个条件，那么在（6，2）的输入中，就不能有2，2，2">
@@ -123,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/15/iOS笔试：一道京东编程题的解决方法/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/10/iOS笔试：一道京东编程题的解决方法/"/>
 
 
 
@@ -184,22 +185,42 @@
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-blog">
+        <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            BLOG
+            首页
           </a>
         </li>
       
         
-        <li class="menu-item menu-item-archive">
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            ARCHIVE
+            归档
           </a>
         </li>
       
@@ -236,12 +257,12 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/15/iOS笔试：一道京东编程题的解决方法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/iOS笔试：一道京东编程题的解决方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jabber_YQ">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/assets/webImage/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -265,8 +286,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-15T08:15:12+08:00">
-                2017-12-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T00:00:00+08:00">
+                2017-04-10
               </time>
             
 
@@ -275,6 +296,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-求职/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS 求职</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -325,10 +368,45 @@
     
 
     
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请我吃一块黄金鸡块</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/assets/webImage/wechat_pay.jpg" alt="Jabber_YQ 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/assets/webImage/alipay_pay.jpg" alt="Jabber_YQ 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
 
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/求职/" rel="tag"># 求职</a>
+          
+        </div>
       
 
       
@@ -339,17 +417,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/14/iOS进阶：RunLoop已入门？快来应用一下/" rel="next" title="iOS进阶：RunLoop已入门？快来应用一下">
-                <i class="fa fa-chevron-left"></i> iOS进阶：RunLoop已入门？快来应用一下
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/15/iOS面试：360面试题记录与总结/" rel="prev" title="iOS面试：360面试题记录与总结">
+              <a href="/2017/04/16/iOS面试：360面试题记录与总结/" rel="prev" title="iOS面试：360面试题记录与总结">
                 iOS面试：360面试题记录与总结 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -417,6 +491,10 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/assets/webImage/avatar.jpg"
+                alt="Jabber_YQ" />
+            
               <p class="site-author-name" itemprop="name">Jabber_YQ</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
@@ -426,16 +504,34 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives">
+                <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
             
 
           </nav>
@@ -443,6 +539,20 @@
           
 
           <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/JabberYQ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.jianshu.com/u/38f5c5bd3849" target="_blank" title="jianshu">
+                    
+                      <i class="fa fa-fw fa-globe"></i>jianshu</a>
+                </span>
+              
             
           </div>
 
@@ -497,15 +607,15 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
+
+  
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
 
 
 
@@ -552,6 +662,8 @@
   
 
 
+  
+
 
 
 
@@ -590,6 +702,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
