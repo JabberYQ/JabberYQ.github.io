@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/webImage/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/webImage/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CAShapeLayer,动画,UIBezierPath,iOS 基础," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言当你看到精彩的动画时，你会不会和我一样，立马想这个效果该如何如何实现呢？然后想着想着，又觉得很难实现，然后挠挠头表示做不出来呢？如果是这样，那这篇文章也许可以帮到你哦。 纲要 正文一、概念入门1.CAShapeLayerCAShapeLayer这个类是这篇文章的主角，继承于CALayer。CAShapeLayer的形状是由其path(类型为CGPathRef)属性指定的。CAShapeLaye">
+<meta name="keywords" content="CAShapeLayer,动画,UIBezierPath,iOS 基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS基础：上手CAShapeLayer，动画其实并不难">
+<meta property="og:url" content="http://yoursite.com/2017/02/21/iOS基础：上手CAShapeLayer，动画其实并不难/index.html">
+<meta property="og:site_name" content="Jabber_YQ&#39;s Blog">
+<meta property="og:description" content="前言当你看到精彩的动画时，你会不会和我一样，立马想这个效果该如何如何实现呢？然后想着想着，又觉得很难实现，然后挠挠头表示做不出来呢？如果是这样，那这篇文章也许可以帮到你哦。 纲要 正文一、概念入门1.CAShapeLayerCAShapeLayer这个类是这篇文章的主角，继承于CALayer。CAShapeLayer的形状是由其path(类型为CGPathRef)属性指定的。CAShapeLaye">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-8ef49d4e02d60a71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-8d2a641778f19dba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-31b053eb003d407f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-27fcf35fda756f9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-9e85b46feed3287e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-44f9a04880fe0647.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-7c974225be4c70e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-47c6e23a003cb33c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-909356a20c30bbeb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-c7dbdde31ef2a7d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-15de3cefb5d962b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-8e4b60e7ad18e930.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-ccd3a94126121625.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-a9330abd38605ffd.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-ccd280838b5717fb.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-c367887de2d66268.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-cabdae2475359400.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-e2e6f9dea4b5ea04.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-0170475819271f9b.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-20b7dc5900184bf0.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2017-12-18T09:41:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS基础：上手CAShapeLayer，动画其实并不难">
+<meta name="twitter:description" content="前言当你看到精彩的动画时，你会不会和我一样，立马想这个效果该如何如何实现呢？然后想着想着，又觉得很难实现，然后挠挠头表示做不出来呢？如果是这样，那这篇文章也许可以帮到你哦。 纲要 正文一、概念入门1.CAShapeLayerCAShapeLayer这个类是这篇文章的主角，继承于CALayer。CAShapeLayer的形状是由其path(类型为CGPathRef)属性指定的。CAShapeLaye">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2312304-8ef49d4e02d60a71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/21/iOS基础：上手CAShapeLayer，动画其实并不难/"/>
+
+
+
+
+
+  <title>iOS基础：上手CAShapeLayer，动画其实并不难 | Jabber_YQ's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jabber_YQ's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不会一切重启不能解决的问题</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/iOS基础：上手CAShapeLayer，动画其实并不难/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jabber_YQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/webImage/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jabber_YQ's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS基础：上手CAShapeLayer，动画其实并不难</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T00:00:00+08:00">
+                2017-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-基础/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS 基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>当你看到精彩的动画时，你会不会和我一样，立马想这个效果该如何如何实现呢？然后想着想着，又觉得很难实现，然后挠挠头表示做不出来呢？如果是这样，那这篇文章也许可以帮到你哦。</p>
+<h1 id="纲要"><a href="#纲要" class="headerlink" title="纲要"></a>纲要</h1><p><img src="http://upload-images.jianshu.io/upload_images/2312304-8ef49d4e02d60a71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="纲要.png"></p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="一、概念入门"><a href="#一、概念入门" class="headerlink" title="一、概念入门"></a>一、概念入门</h2><h3 id="1-CAShapeLayer"><a href="#1-CAShapeLayer" class="headerlink" title="1.CAShapeLayer"></a>1.CAShapeLayer</h3><p>CAShapeLayer这个类是这篇文章的主角，继承于CALayer。CAShapeLayer的形状是由其path(类型为CGPathRef)属性指定的。<br>CAShapeLayer动画渲染直接提交到手机的GPU当中，相较于view的drawRect方法使用CPU渲染而言，其效率极高，能大大优化内存使用情况。也就是说：当你需要绘制图层的时候，不再需要重写自定义view的drawRect方法了。至于他的使用方法，下面会介绍。</p>
+<h3 id="2-UIBezierPath"><a href="#2-UIBezierPath" class="headerlink" title="2.UIBezierPath"></a>2.UIBezierPath</h3><p>UIBezierPath是在 UIKit 中的一个类，继承于NSObject,可以创建基于矢量的路径.此类是Core Graphics框架关于path的一个OC封装。所以说两者本质是相似，只是UIBezierPath更加好用。所以今天就来学习这个类。<br>前面有提到，CAShapeLayer的形状是由path决定的。所以可以想到，需要使用这个类来设置路径，然后把这个路径给CAShapeLayer，这样图层就算绘制好了。</p>
+<h3 id="3-CABasicAnimation、CAKeyframeAnimation"><a href="#3-CABasicAnimation、CAKeyframeAnimation" class="headerlink" title="3.CABasicAnimation、CAKeyframeAnimation"></a>3.CABasicAnimation、CAKeyframeAnimation</h3><p>CABasicAnimation和CAKeyframeAnimation都是CAPropertyAnimation的子类。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-8d2a641778f19dba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CABasicAnimation概念.png"></p>
+<p>概念其实看不出什么，主要还是看使用方法。</p>
+<h2 id="二、使用介绍"><a href="#二、使用介绍" class="headerlink" title="二、使用介绍"></a>二、使用介绍</h2><h3 id="1-CAShapeLayer-1"><a href="#1-CAShapeLayer-1" class="headerlink" title="1.CAShapeLayer"></a>1.CAShapeLayer</h3><p>先上代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CAShapeLayer *layer = [CAShapeLayer layer];</span><br><span class="line">// 填充颜色</span><br><span class="line">layer.fillColor = [UIColor clearColor].CGColor;</span><br><span class="line">// 绘制颜色</span><br><span class="line">layer.strokeColor = [UIColor greenColor].CGColor;</span><br><span class="line">layer.lineCap = kCALineCapRound;</span><br><span class="line">layer.lineJoin = kCALineJoinRound;</span><br><span class="line">layer.lineWidth = 4;</span><br><span class="line">layer.frame = self.view.bounds;</span><br><span class="line">layer.path = [self circlePath].CGPath;</span><br><span class="line">[self.view.layer addSublayer:layer];</span><br></pre></td></tr></table></figure></p>
+<p>这些代码我是直接在viewDidLoad里面写的。可以发现其实CAShapeLayer使用很简单，初始化后，设置基本属性，然后设置path，最后添加到layer上去。需要注意的是，path这个属性必须需要设置，不然是没有效果的。</p>
+<h3 id="2-UIBezierPath-1"><a href="#2-UIBezierPath-1" class="headerlink" title="2.UIBezierPath"></a>2.UIBezierPath</h3><h4 id="a-绘制路径介绍"><a href="#a-绘制路径介绍" class="headerlink" title="a.绘制路径介绍"></a>a.绘制路径介绍</h4><p>下面介绍UIBezierPath的使用方法。（我把UIBezierPath的绘制放到一个方法中，然后在path属性设置时调用）</p>
+<h5 id="a-1-圆"><a href="#a-1-圆" class="headerlink" title="a.1 圆"></a>a.1 圆</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (UIBezierPath *)circlePath</span><br><span class="line">&#123;</span><br><span class="line">    return [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 100, 100)];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-31b053eb003d407f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="圆形.png"></p>
+<h5 id="a-2矩形"><a href="#a-2矩形" class="headerlink" title="a.2矩形"></a>a.2矩形</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (UIBezierPath *)rectanglePath</span><br><span class="line">&#123;</span><br><span class="line">    return [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, 100, 100)];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-27fcf35fda756f9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="矩形.png"></p>
+<h5 id="a-3圆角矩形"><a href="#a-3圆角矩形" class="headerlink" title="a.3圆角矩形"></a>a.3圆角矩形</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (UIBezierPath *)roundedPath</span><br><span class="line">&#123;</span><br><span class="line">    return [UIBezierPath bezierPathWithRoundedRect:CGRectMake(100, 100, 100, 100) cornerRadius:5];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-9e85b46feed3287e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="圆角矩形.png"></p>
+<h5 id="a-4圆弧"><a href="#a-4圆弧" class="headerlink" title="a.4圆弧"></a>a.4圆弧</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (UIBezierPath *)arcPath</span><br><span class="line">&#123;</span><br><span class="line">    return [UIBezierPath bezierPathWithArcCenter:CGPointMake(100, 100) radius:50 startAngle:M_PI_2 endAngle:M_PI_2*3 clockwise:YES];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-44f9a04880fe0647.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="圆弧.png"></p>
+<p>注意：<br>这里的startAngle是从这个圆的最右边那个点开始的。所以如果要绘制上半个圆，startAngle就是M_PI，endAngle就是2*M_PI。<br>clockwise这个属性设置是否顺时针，若为YES，则顺时针绘制。</p>
+<h5 id="a-5一级贝塞尔"><a href="#a-5一级贝塞尔" class="headerlink" title="a.5一级贝塞尔"></a>a.5一级贝塞尔</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (UIBezierPath *)classOneBezierPath</span><br><span class="line">&#123;</span><br><span class="line">    UIBezierPath *path = [UIBezierPath bezierPath];</span><br><span class="line">    [path moveToPoint:CGPointMake(20, 100)];</span><br><span class="line">    // 给定终点和两个控制点绘制贝塞尔曲线</span><br><span class="line">    [path addQuadCurveToPoint:CGPointMake(220, 100) controlPoint:CGPointMake(120, 200)];</span><br><span class="line">    return path;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-7c974225be4c70e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="一级贝塞尔.png"></p>
+<h5 id="a-6二级贝塞尔"><a href="#a-6二级贝塞尔" class="headerlink" title="a.6二级贝塞尔"></a>a.6二级贝塞尔</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (UIBezierPath *)classTwoBezierPath</span><br><span class="line">&#123;</span><br><span class="line">    UIBezierPath *path = [UIBezierPath bezierPath];</span><br><span class="line">    [path moveToPoint:CGPointMake(20, 100)];</span><br><span class="line">    // 给定终点和两个控制点绘制贝塞尔曲线</span><br><span class="line">    [path addCurveToPoint:CGPointMake(220, 100) controlPoint1:CGPointMake(120, 20) controlPoint2:CGPointMake(120, 180)];</span><br><span class="line">    return path;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-47c6e23a003cb33c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="二级贝塞尔.png"></p>
+<h5 id="a-7DIY"><a href="#a-7DIY" class="headerlink" title="a.7DIY"></a>a.7DIY</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (UIBezierPath *)DIYPath</span><br><span class="line">&#123;</span><br><span class="line">    UIBezierPath *DIYPath = [UIBezierPath bezierPath];</span><br><span class="line">    </span><br><span class="line">    [DIYPath moveToPoint:CGPointMake(100, 100)];</span><br><span class="line">    [DIYPath addLineToPoint:CGPointMake(100, 200)];</span><br><span class="line">    [DIYPath addLineToPoint:CGPointMake(80, 170)];</span><br><span class="line">    [DIYPath moveToPoint:CGPointMake(100, 200)];</span><br><span class="line">    [DIYPath addLineToPoint:CGPointMake(120, 170)];</span><br><span class="line">    </span><br><span class="line">    return DIYPath;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-909356a20c30bbeb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="diy.png"></p>
+<h4 id="b-细节"><a href="#b-细节" class="headerlink" title="b.细节"></a>b.细节</h4><h5 id="b-1-线宽对绘制的影响"><a href="#b-1-线宽对绘制的影响" class="headerlink" title="b.1 线宽对绘制的影响"></a>b.1 线宽对绘制的影响</h5><p>仔细看a.1和a.2的效果，也就是圆形和矩形，可以发现，这两个图形的顶部和左部有一小部分在外面。而导致一个现象的原因就是线宽了。<br>以a.1举例，path不变，设置  layer.lineWidth = 40;这时线宽为40。效果如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-c7dbdde31ef2a7d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="线宽为40的圆.png"><br>效果图中红线是我自己加上去，其实这个红线才是我们设置的路径。然后由于线宽为40，所以系统默认红线左右两边都20。<br>同理，线宽为40的矩形效果图：(左部和顶部有20像素没显示出来)</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-15de3cefb5d962b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="线宽为40的矩形.png"></p>
+<p>#####b.2 不同的形状，不同的开始绘制点<br>在我做动画的时候，发现不同的路径，开始绘制点也会不同，所以导致动画不如意。下面我们来看看这个属性。<br>CAShapeLayer有两个属性：strokeStart和strokeEnd。分别为开始绘制点和结束绘制点。这两个属性类似，我们以strokeStart来解释。<br>strokeStart默认为0，最大值为1。若strokeStart设置为0.5，也就是说从这个路径的50%处开始绘制。<br>下面我们来通过效果分析：<br>首先，我们在view中添加一个slider，然后滑动slider来改变layer.strokeStart。看看效果:</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-8e4b60e7ad18e930.gif?imageMogr2/auto-orient/strip" alt="圆形的strokeStart.gif"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-ccd3a94126121625.gif?imageMogr2/auto-orient/strip" alt="矩形的strokeStart.gif"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-a9330abd38605ffd.gif?imageMogr2/auto-orient/strip" alt="贝塞尔的strokeStart.gif"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-ccd280838b5717fb.gif?imageMogr2/auto-orient/strip" alt="自定义的strokeStart.gif"><br>不难发现，圆形的开始绘制点是从最左侧那个点开始，矩形是左上角那个点，贝塞尔是从左侧开始，而自定义的得根据你绘制的开始点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (UIBezierPath *)DIYPath</span><br><span class="line">&#123;</span><br><span class="line">    UIBezierPath *DIYPath = [UIBezierPath bezierPath];</span><br><span class="line">    </span><br><span class="line">    [DIYPath moveToPoint:CGPointMake(100, 100)];</span><br><span class="line">    [DIYPath addLineToPoint:CGPointMake(100, 200)];</span><br><span class="line">    [DIYPath addLineToPoint:CGPointMake(80, 170)];</span><br><span class="line">    [DIYPath moveToPoint:CGPointMake(100, 200)];</span><br><span class="line">    [DIYPath addLineToPoint:CGPointMake(120, 170)];</span><br><span class="line">    </span><br><span class="line">    return DIYPath;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从代码看出这个自定义路径是开始点为(100, 100)。绘制的步骤为从最顶点到最底点，再到左侧点。然后又从最底点到右侧点。观察效果图发现确实是如此。</p>
+<h3 id="3-CABasicAnimation、CAKeyframeAnimation-1"><a href="#3-CABasicAnimation、CAKeyframeAnimation-1" class="headerlink" title="3.CABasicAnimation、CAKeyframeAnimation"></a>3.CABasicAnimation、CAKeyframeAnimation</h3><p>我在view上加了一个开始动画按钮，点击开始动画。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)startAnimate</span><br><span class="line">&#123;</span><br><span class="line">    [self.layer addAnimation:[self pathBasicAnimate] forKey:@&quot;animate&quot;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>和上面一样，我把动画的使用也放在方法中，需要用时直接调用。</p>
+<h4 id="3-1CABasicAnimation使用方法"><a href="#3-1CABasicAnimation使用方法" class="headerlink" title="3.1CABasicAnimation使用方法"></a>3.1CABasicAnimation使用方法</h4><h5 id="3-1-a-keyPath为path的BasicAnimate"><a href="#3-1-a-keyPath为path的BasicAnimate" class="headerlink" title="3.1.a keyPath为path的BasicAnimate"></a>3.1.a keyPath为path的BasicAnimate</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (CABasicAnimation *)pathBasicAnimate</span><br><span class="line">&#123;</span><br><span class="line">    CABasicAnimation *animate = [CABasicAnimation animationWithKeyPath:@&quot;path&quot;];</span><br><span class="line">    animate.removedOnCompletion = NO;</span><br><span class="line">    animate.duration = 2;</span><br><span class="line">    animate.fillMode = kCAFillModeForwards;</span><br><span class="line">    animate.toValue = (__bridge id _Nullable)([self classTwoBezierPath].CGPath);</span><br><span class="line">    return animate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-c367887de2d66268.gif?imageMogr2/auto-orient/strip" alt="keyPath为path的BasicAnimate.gif"></p>
+<h5 id="3-1-b-keyPath为position的BasicAnimate"><a href="#3-1-b-keyPath为position的BasicAnimate" class="headerlink" title="3.1.b keyPath为position的BasicAnimate"></a>3.1.b keyPath为position的BasicAnimate</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (CABasicAnimation *)positionBasicAnimate</span><br><span class="line">&#123;</span><br><span class="line">    CABasicAnimation *animate = [CABasicAnimation animationWithKeyPath:@&quot;position&quot;];</span><br><span class="line">    animate.removedOnCompletion = NO;</span><br><span class="line">    animate.duration = 1;</span><br><span class="line">    animate.fillMode = kCAFillModeForwards;</span><br><span class="line">    animate.toValue = [NSValue valueWithCGPoint:CGPointMake(self.view.frame.size.width/2 + 100, self.view.frame.size.height/2)];</span><br><span class="line">    return animate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-cabdae2475359400.gif?imageMogr2/auto-orient/strip" alt="keyPath为position的BasicAnimate.gif"></p>
+<h5 id="3-1-c-keyPath为transform-rotation-z的BasicAnimate"><a href="#3-1-c-keyPath为transform-rotation-z的BasicAnimate" class="headerlink" title="3.1.c keyPath为transform.rotation.z的BasicAnimate"></a>3.1.c keyPath为transform.rotation.z的BasicAnimate</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (CABasicAnimation *)rotationBasicAnimate</span><br><span class="line">&#123;</span><br><span class="line">    CABasicAnimation *animate = [CABasicAnimation animationWithKeyPath:@&quot;transform.rotation.z&quot;];</span><br><span class="line">    animate.removedOnCompletion = NO;</span><br><span class="line">    animate.duration = 1;</span><br><span class="line">    animate.fillMode = kCAFillModeForwards;</span><br><span class="line">    animate.toValue = @(M_PI*2);</span><br><span class="line">    return animate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-e2e6f9dea4b5ea04.gif?imageMogr2/auto-orient/strip" alt="keyPath为rotation的BasicAnimate.gif"></p>
+<h5 id="3-1-d-CABasicAnimation的使用总结"><a href="#3-1-d-CABasicAnimation的使用总结" class="headerlink" title="3.1.d CABasicAnimation的使用总结"></a>3.1.d CABasicAnimation的使用总结</h5><p>认真对比上面的代码，发现CABasicAnimation的使用其实很简单。首先清楚自己需要怎么样的动画，是需要位移，还是旋转，还是改变绘制路径等等。然后找到对应的属性并初始化。<br><code>CABasicAnimation *animate = [CABasicAnimation animationWithKeyPath:@&quot;transform.rotation.z&quot;];</code><br>然后设置该动画的持续时间<br><code>animate.duration = 1;</code><br>设置动画结束后是否还原<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">animate.removedOnCompletion = NO;</span><br><span class="line">animate.fillMode = kCAFillModeForwards;</span><br></pre></td></tr></table></figure></p>
+<p>然后设置KeyPath终止时的值<br><code>animate.toValue = (__bridge id _Nullable)([self classTwoBezierPath].CGPath);</code><br>这样，简单的动画就做好了。</p>
+<p>####3.2 CAKeyframeAnimation使用方法<br>前面的基本动画只是单一的动画，如果你要改变一个layer的很多次path，或者多次改变layer的position，就可以使用CAKeyframeAnimation。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (CAKeyframeAnimation *)keyframeAnimation</span><br><span class="line">&#123;</span><br><span class="line">    CAKeyframeAnimation *keyframeAnimation = [CAKeyframeAnimation animationWithKeyPath:@&quot;path&quot;];</span><br><span class="line">    keyframeAnimation.duration = 3;</span><br><span class="line">    keyframeAnimation.values = @[(__bridge id)[self classOneBezierPath].CGPath,</span><br><span class="line">                                 (__bridge id)[self classTwoBezierPath].CGPath,</span><br><span class="line">                                (__bridge id)[self arcPath].CGPath,</span><br><span class="line">                                (__bridge id)[self DIYPath].CGPath];</span><br><span class="line">    keyframeAnimation.keyTimes = @[@(0.25), @(0.5), @(0.75), @(1)];</span><br><span class="line">    keyframeAnimation.fillMode = kCAFillModeForwards;</span><br><span class="line">    keyframeAnimation.removedOnCompletion = NO;</span><br><span class="line">    return keyframeAnimation;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到还是类似，找到动画对应的属性，设置动画的属性。不同的是这里需要设置values属性。因为你需要的动画更复杂了对吧。<br>看看效果:</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-0170475819271f9b.gif?imageMogr2/auto-orient/strip" alt="keyframeAnimation.gif"><br>其他layer的属性也是类似的，就不一一举例了。</p>
+<p>####3.3 CAAnimationGroup使用方法<br>这个是顺带一提的，使用也很简单。当你需要既改变layer的path，又改变他的position时，使用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">- (CAAnimationGroup *)animationGroup</span><br><span class="line">&#123;</span><br><span class="line">    CABasicAnimation *animate = [CABasicAnimation animationWithKeyPath:@&quot;position&quot;];</span><br><span class="line">    animate.removedOnCompletion = NO;</span><br><span class="line">    animate.fillMode = kCAFillModeForwards;</span><br><span class="line">    animate.toValue = [NSValue valueWithCGPoint:CGPointMake(self.view.frame.size.width/2 + 100, self.view.frame.size.height/2)];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    CAKeyframeAnimation *keyframeAnimation = [CAKeyframeAnimation animationWithKeyPath:@&quot;path&quot;];</span><br><span class="line">    keyframeAnimation.values = @[(__bridge id)[self classOneBezierPath].CGPath,</span><br><span class="line">                                 (__bridge id)[self classTwoBezierPath].CGPath,</span><br><span class="line">                                 (__bridge id)[self arcPath].CGPath,</span><br><span class="line">                                 (__bridge id)[self DIYPath].CGPath];</span><br><span class="line">    keyframeAnimation.keyTimes = @[@(0.25), @(0.5), @(0.75), @(1)];</span><br><span class="line">    keyframeAnimation.fillMode = kCAFillModeForwards;</span><br><span class="line">    keyframeAnimation.removedOnCompletion = NO;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    CAAnimationGroup *group = [CAAnimationGroup animation];</span><br><span class="line">    group.animations = @[animate, keyframeAnimation];</span><br><span class="line">    group.removedOnCompletion = NO;</span><br><span class="line">    group.fillMode = kCAFillModeForwards;</span><br><span class="line">    group.duration = 3;</span><br><span class="line">    return group;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>把你需要的动画放到数组中，然后赋值给group.animations。<br>效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-20b7dc5900184bf0.gif?imageMogr2/auto-orient/strip" alt="animationGroup.gif"></p>
+<h4 id="3-4-动画细节点"><a href="#3-4-动画细节点" class="headerlink" title="3.4 动画细节点"></a>3.4 动画细节点</h4><p>看效果图时你会发现，在改变path的时候，不是很好看。其实执行path的动画时，系统默认将上一个path的开始点设为对应下一个path的开始点。仔细观察效果图，可以看到第一个path为贝塞尔，最左侧为绘制开始点，然后这个点始终是接下去任何一个path的开始点，所以他会不规则的动来动去。结束点也是如此。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>到这里就全部介绍完了。当你看到一个复杂的动画时，把他分解开来，然后一个个部分设置动画，就肯定能做出来。<br>本文github地址：<a href="https://github.com/JabberYQ/YQAnimateDemo" target="_blank" rel="noopener">https://github.com/JabberYQ/YQAnimateDemo</a></p>
+<p>实战1：<a href="http://www.jianshu.com/p/1669be5504c9" target="_blank" rel="noopener">动画实战：自定义下拉刷新控件</a><br>实战2：<a href="http://www.jianshu.com/p/d60dc6bbe537" target="_blank" rel="noopener">动画实战：自定义提醒控件AlertView</a><br>实战3：<a href="http://www.jianshu.com/p/994e34766368" target="_blank" rel="noopener">动画实战：自定义转场动画实现</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请我吃一块黄金鸡块</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/assets/webImage/wechat_pay.jpg" alt="Jabber_YQ 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/assets/webImage/alipay_pay.jpg" alt="Jabber_YQ 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CAShapeLayer/" rel="tag"># CAShapeLayer</a>
+          
+            <a href="/tags/动画/" rel="tag"># 动画</a>
+          
+            <a href="/tags/UIBezierPath/" rel="tag"># UIBezierPath</a>
+          
+            <a href="/tags/iOS-基础/" rel="tag"># iOS 基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/21/iOS实战：动画实战-自定义转场动画实现/" rel="next" title="iOS实战：动画实战-自定义转场动画实现">
+                <i class="fa fa-chevron-left"></i> iOS实战：动画实战-自定义转场动画实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/10/iOS笔试：一道京东编程题的解决方法/" rel="prev" title="iOS笔试：一道京东编程题的解决方法">
+                iOS笔试：一道京东编程题的解决方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/assets/webImage/avatar.jpg"
+                alt="Jabber_YQ" />
+            
+              <p class="site-author-name" itemprop="name">Jabber_YQ</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/JabberYQ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.jianshu.com/u/38f5c5bd3849" target="_blank" title="jianshu">
+                    
+                      <i class="fa fa-fw fa-globe"></i>jianshu</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#纲要"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x7EB2;&#x8981;" class="headerlink" title="&#x7EB2;&#x8981;"></a>&#x7EB2;&#x8981;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x6B63;&#x6587;" class="headerlink" title="&#x6B63;&#x6587;"></a>&#x6B63;&#x6587;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、概念入门"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x6982;&#x5FF5;&#x5165;&#x95E8;" class="headerlink" title="&#x4E00;&#x3001;&#x6982;&#x5FF5;&#x5165;&#x95E8;"></a>&#x4E00;&#x3001;&#x6982;&#x5FF5;&#x5165;&#x95E8;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CAShapeLayer"><span class="nav-number">3.1.1.</span> <span class="nav-text"><a href="#1-CAShapeLayer" class="headerlink" title="1.CAShapeLayer"></a>1.CAShapeLayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-UIBezierPath"><span class="nav-number">3.1.2.</span> <span class="nav-text"><a href="#2-UIBezierPath" class="headerlink" title="2.UIBezierPath"></a>2.UIBezierPath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-CABasicAnimation、CAKeyframeAnimation"><span class="nav-number">3.1.3.</span> <span class="nav-text"><a href="#3-CABasicAnimation&#x3001;CAKeyframeAnimation" class="headerlink" title="3.CABasicAnimation&#x3001;CAKeyframeAnimation"></a>3.CABasicAnimation&#x3001;CAKeyframeAnimation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、使用介绍"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x4F7F;&#x7528;&#x4ECB;&#x7ECD;" class="headerlink" title="&#x4E8C;&#x3001;&#x4F7F;&#x7528;&#x4ECB;&#x7ECD;"></a>&#x4E8C;&#x3001;&#x4F7F;&#x7528;&#x4ECB;&#x7ECD;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CAShapeLayer-1"><span class="nav-number">3.2.1.</span> <span class="nav-text"><a href="#1-CAShapeLayer-1" class="headerlink" title="1.CAShapeLayer"></a>1.CAShapeLayer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-UIBezierPath-1"><span class="nav-number">3.2.2.</span> <span class="nav-text"><a href="#2-UIBezierPath-1" class="headerlink" title="2.UIBezierPath"></a>2.UIBezierPath</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#a-绘制路径介绍"><span class="nav-number">3.2.2.1.</span> <span class="nav-text"><a href="#a-&#x7ED8;&#x5236;&#x8DEF;&#x5F84;&#x4ECB;&#x7ECD;" class="headerlink" title="a.&#x7ED8;&#x5236;&#x8DEF;&#x5F84;&#x4ECB;&#x7ECD;"></a>a.&#x7ED8;&#x5236;&#x8DEF;&#x5F84;&#x4ECB;&#x7ECD;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a-1-圆"><span class="nav-number">3.2.2.1.1.</span> <span class="nav-text"><a href="#a-1-&#x5706;" class="headerlink" title="a.1 &#x5706;"></a>a.1 &#x5706;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#a-2矩形"><span class="nav-number">3.2.2.1.2.</span> <span class="nav-text"><a href="#a-2&#x77E9;&#x5F62;" class="headerlink" title="a.2&#x77E9;&#x5F62;"></a>a.2&#x77E9;&#x5F62;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#a-3圆角矩形"><span class="nav-number">3.2.2.1.3.</span> <span class="nav-text"><a href="#a-3&#x5706;&#x89D2;&#x77E9;&#x5F62;" class="headerlink" title="a.3&#x5706;&#x89D2;&#x77E9;&#x5F62;"></a>a.3&#x5706;&#x89D2;&#x77E9;&#x5F62;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#a-4圆弧"><span class="nav-number">3.2.2.1.4.</span> <span class="nav-text"><a href="#a-4&#x5706;&#x5F27;" class="headerlink" title="a.4&#x5706;&#x5F27;"></a>a.4&#x5706;&#x5F27;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#a-5一级贝塞尔"><span class="nav-number">3.2.2.1.5.</span> <span class="nav-text"><a href="#a-5&#x4E00;&#x7EA7;&#x8D1D;&#x585E;&#x5C14;" class="headerlink" title="a.5&#x4E00;&#x7EA7;&#x8D1D;&#x585E;&#x5C14;"></a>a.5&#x4E00;&#x7EA7;&#x8D1D;&#x585E;&#x5C14;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#a-6二级贝塞尔"><span class="nav-number">3.2.2.1.6.</span> <span class="nav-text"><a href="#a-6&#x4E8C;&#x7EA7;&#x8D1D;&#x585E;&#x5C14;" class="headerlink" title="a.6&#x4E8C;&#x7EA7;&#x8D1D;&#x585E;&#x5C14;"></a>a.6&#x4E8C;&#x7EA7;&#x8D1D;&#x585E;&#x5C14;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#a-7DIY"><span class="nav-number">3.2.2.1.7.</span> <span class="nav-text"><a href="#a-7DIY" class="headerlink" title="a.7DIY"></a>a.7DIY</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b-细节"><span class="nav-number">3.2.2.2.</span> <span class="nav-text"><a href="#b-&#x7EC6;&#x8282;" class="headerlink" title="b.&#x7EC6;&#x8282;"></a>b.&#x7EC6;&#x8282;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#b-1-线宽对绘制的影响"><span class="nav-number">3.2.2.2.1.</span> <span class="nav-text"><a href="#b-1-&#x7EBF;&#x5BBD;&#x5BF9;&#x7ED8;&#x5236;&#x7684;&#x5F71;&#x54CD;" class="headerlink" title="b.1 &#x7EBF;&#x5BBD;&#x5BF9;&#x7ED8;&#x5236;&#x7684;&#x5F71;&#x54CD;"></a>b.1 &#x7EBF;&#x5BBD;&#x5BF9;&#x7ED8;&#x5236;&#x7684;&#x5F71;&#x54CD;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-CABasicAnimation、CAKeyframeAnimation-1"><span class="nav-number">3.2.3.</span> <span class="nav-text"><a href="#3-CABasicAnimation&#x3001;CAKeyframeAnimation-1" class="headerlink" title="3.CABasicAnimation&#x3001;CAKeyframeAnimation"></a>3.CABasicAnimation&#x3001;CAKeyframeAnimation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1CABasicAnimation使用方法"><span class="nav-number">3.2.3.1.</span> <span class="nav-text"><a href="#3-1CABasicAnimation&#x4F7F;&#x7528;&#x65B9;&#x6CD5;" class="headerlink" title="3.1CABasicAnimation&#x4F7F;&#x7528;&#x65B9;&#x6CD5;"></a>3.1CABasicAnimation&#x4F7F;&#x7528;&#x65B9;&#x6CD5;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-a-keyPath为path的BasicAnimate"><span class="nav-number">3.2.3.1.1.</span> <span class="nav-text"><a href="#3-1-a-keyPath&#x4E3A;path&#x7684;BasicAnimate" class="headerlink" title="3.1.a keyPath&#x4E3A;path&#x7684;BasicAnimate"></a>3.1.a keyPath&#x4E3A;path&#x7684;BasicAnimate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-b-keyPath为position的BasicAnimate"><span class="nav-number">3.2.3.1.2.</span> <span class="nav-text"><a href="#3-1-b-keyPath&#x4E3A;position&#x7684;BasicAnimate" class="headerlink" title="3.1.b keyPath&#x4E3A;position&#x7684;BasicAnimate"></a>3.1.b keyPath&#x4E3A;position&#x7684;BasicAnimate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-c-keyPath为transform-rotation-z的BasicAnimate"><span class="nav-number">3.2.3.1.3.</span> <span class="nav-text"><a href="#3-1-c-keyPath&#x4E3A;transform-rotation-z&#x7684;BasicAnimate" class="headerlink" title="3.1.c keyPath&#x4E3A;transform.rotation.z&#x7684;BasicAnimate"></a>3.1.c keyPath&#x4E3A;transform.rotation.z&#x7684;BasicAnimate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-d-CABasicAnimation的使用总结"><span class="nav-number">3.2.3.1.4.</span> <span class="nav-text"><a href="#3-1-d-CABasicAnimation&#x7684;&#x4F7F;&#x7528;&#x603B;&#x7ED3;" class="headerlink" title="3.1.d CABasicAnimation&#x7684;&#x4F7F;&#x7528;&#x603B;&#x7ED3;"></a>3.1.d CABasicAnimation&#x7684;&#x4F7F;&#x7528;&#x603B;&#x7ED3;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-动画细节点"><span class="nav-number">3.2.3.2.</span> <span class="nav-text"><a href="#3-4-&#x52A8;&#x753B;&#x7EC6;&#x8282;&#x70B9;" class="headerlink" title="3.4 &#x52A8;&#x753B;&#x7EC6;&#x8282;&#x70B9;"></a>3.4 &#x52A8;&#x753B;&#x7EC6;&#x8282;&#x70B9;</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x603B;&#x7ED3;" class="headerlink" title="&#x603B;&#x7ED3;"></a>&#x603B;&#x7ED3;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jabber_YQ</span>
+
+  
+</div>
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

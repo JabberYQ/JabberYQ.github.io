@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/webImage/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/webImage/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CAShapeLayer,iOS 实战,动画,UIBezierPath," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言（呃呃呃，其实本文不算是动画实战，只是用到了一点动画，算了没差~）在平时使用的app中，部分app的部分转场动画与传统的动画不一样，其实他们使用的是自定义转场动画。本文记录的是自定义转场动画的实现。 效果图 主要思路最重要的是需要创建一个继承NSObject的类，并且遵守UIViewControllerAnimatedTransitioning协议。我暂时给这个类命名为YQAnimatedT">
+<meta name="keywords" content="CAShapeLayer,iOS 实战,动画,UIBezierPath">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS实战：动画实战-自定义转场动画实现">
+<meta property="og:url" content="http://yoursite.com/2017/02/21/iOS实战：动画实战-自定义转场动画实现/index.html">
+<meta property="og:site_name" content="Jabber_YQ&#39;s Blog">
+<meta property="og:description" content="前言（呃呃呃，其实本文不算是动画实战，只是用到了一点动画，算了没差~）在平时使用的app中，部分app的部分转场动画与传统的动画不一样，其实他们使用的是自定义转场动画。本文记录的是自定义转场动画的实现。 效果图 主要思路最重要的是需要创建一个继承NSObject的类，并且遵守UIViewControllerAnimatedTransitioning协议。我暂时给这个类命名为YQAnimatedT">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-a19eac6464c39c66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-5f0a1b8216570753.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-fab2214a2d6f4093.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-68a0e3965d214c21.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-a5dfb391e656055e.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-5404e7b18ff9236e.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-de72acc6c59512e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-7708e818db7e4806.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-3c3c676b00457941.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-506907ff9e43a14b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-12-18T09:47:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS实战：动画实战-自定义转场动画实现">
+<meta name="twitter:description" content="前言（呃呃呃，其实本文不算是动画实战，只是用到了一点动画，算了没差~）在平时使用的app中，部分app的部分转场动画与传统的动画不一样，其实他们使用的是自定义转场动画。本文记录的是自定义转场动画的实现。 效果图 主要思路最重要的是需要创建一个继承NSObject的类，并且遵守UIViewControllerAnimatedTransitioning协议。我暂时给这个类命名为YQAnimatedT">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2312304-a19eac6464c39c66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/21/iOS实战：动画实战-自定义转场动画实现/"/>
+
+
+
+
+
+  <title>iOS实战：动画实战-自定义转场动画实现 | Jabber_YQ's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jabber_YQ's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不会一切重启不能解决的问题</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/iOS实战：动画实战-自定义转场动画实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jabber_YQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/webImage/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jabber_YQ's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS实战：动画实战-自定义转场动画实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T00:00:00+08:00">
+                2017-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-实战/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS 实战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/2312304-a19eac6464c39c66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="前言.png"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>（呃呃呃，其实本文不算是动画实战，只是用到了一点动画，算了没差~）<br>在平时使用的app中，部分app的部分转场动画与传统的动画不一样，其实他们使用的是自定义转场动画。本文记录的是自定义转场动画的实现。</p>
+<h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><p><img src="http://upload-images.jianshu.io/upload_images/2312304-5f0a1b8216570753.gif?imageMogr2/auto-orient/strip" alt="效果图.gif"></p>
+<h1 id="主要思路"><a href="#主要思路" class="headerlink" title="主要思路"></a>主要思路</h1><p>最重要的是需要创建一个继承NSObject的类，并且遵守UIViewControllerAnimatedTransitioning协议。我暂时给这个类命名为YQAnimatedTransition。这个协议就是用来自定义转场动画的。点进去看看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@protocol UIViewControllerAnimatedTransitioning &lt;NSObject&gt;</span><br><span class="line">// This is used for percent driven interactive transitions, as well as for</span><br><span class="line">// container controllers that have companion animations that might need to</span><br><span class="line">// synchronize with the main animation.</span><br><span class="line">- (NSTimeInterval)transitionDuration:(nullable id &lt;UIViewControllerContextTransitioning&gt;)transitionContext;</span><br><span class="line">// This method can only  be a nop if the transition is interactive and not a percentDriven interactive transition.</span><br><span class="line">- (void)animateTransition:(id &lt;UIViewControllerContextTransitioning&gt;)transitionContext;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<p>发现这个协议有两个必须实现的方法。第一个方法是设置动画的时间。第二个方法是设置动画。<br>好了，当这个YQAnimatedTransition类设置好后，在控制器需要用它的时候调用它。这个下面会具体说。</p>
+<h1 id="开始吃键盘"><a href="#开始吃键盘" class="headerlink" title="开始吃键盘"></a>开始吃键盘</h1><h2 id="YQAnimatedTransition创建"><a href="#YQAnimatedTransition创建" class="headerlink" title="YQAnimatedTransition创建"></a>YQAnimatedTransition创建</h2><p>首先创建一个继承NSObject，并且遵守UIViewControllerAnimatedTransitioning协议的类YQAnimatedTransition。<br>其次考虑到转场一共有四种方式：push，pop，present，dismiss。所以我加了一个枚举，用来设置转场的类型。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef enum &#123;</span><br><span class="line">    YQAnimatedTransitionTypePush,</span><br><span class="line">    YQAnimatedTransitionTypePop,</span><br><span class="line">    YQAnimatedTransitionTypePresent,</span><br><span class="line">    YQAnimatedTransitionTypeDismiss</span><br><span class="line">&#125;YQAnimatedTransitionType;</span><br></pre></td></tr></table></figure></p>
+<p>为了方便这个类的使用，我加了一个类方法，在类方法中进行初始化且设置转场类型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//.h</span><br><span class="line">+ (YQAnimatedTransition *)animatedTransitionWithType:(YQAnimatedTransitionType)type;</span><br><span class="line"></span><br><span class="line">//.m</span><br><span class="line">+ (YQAnimatedTransition *)animatedTransitionWithType:(YQAnimatedTransitionType)type</span><br><span class="line">&#123;</span><br><span class="line">    YQAnimatedTransition *animatedTransition = [[YQAnimatedTransition alloc] init];</span><br><span class="line">    animatedTransition.type = type;</span><br><span class="line">    return animatedTransition;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="协议方法实现"><a href="#协议方法实现" class="headerlink" title="协议方法实现"></a>协议方法实现</h2><p>下面是重点了！既然这个类遵循UIViewControllerAnimatedTransitioning协议，就需要实现协议方法。<br>直接上代码了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (NSTimeInterval)transitionDuration:(nullable id &lt;UIViewControllerContextTransitioning&gt;)transitionContext</span><br><span class="line">&#123;</span><br><span class="line">    return 0.5;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)animateTransition:(id&lt;UIViewControllerContextTransitioning&gt;)transitionContext</span><br><span class="line">&#123;</span><br><span class="line">    self.transitionContext = transitionContext;</span><br><span class="line">    </span><br><span class="line">    if (self.type == YQAnimatedTransitionTypePush) &#123;</span><br><span class="line">    &#125; else if (self.type == YQAnimatedTransitionTypePresent) &#123;</span><br><span class="line">    &#125; else if (self.type == YQAnimatedTransitionTypeDismiss) &#123;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>解释一下。第一个方法的意思是我设置转场动画为0.5秒。第二个方法是在设置动画过程。由于篇幅过长，我暂时先省略啦~<br>重点说说上面的第二方法：动画设置。<br>不管是pop或者dismiss等等，只要控制器转场都会执行这第二个方法。所以首先在这个方法中进行判断，是属于哪种转场方式。然后再自定义动画。<br>以push为例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">if (self.type == YQAnimatedTransitionTypePush) &#123;</span><br><span class="line">        </span><br><span class="line">        // 获得即将消失的vc的v</span><br><span class="line">        UIView *fromeView = [transitionContext viewForKey:UITransitionContextFromViewKey];</span><br><span class="line">        // 获得即将出现的vc的v</span><br><span class="line">        UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];</span><br><span class="line">        // 获得容器view</span><br><span class="line">        UIView *containerView = [transitionContext containerView];</span><br><span class="line">        </span><br><span class="line">        [containerView addSubview:fromeView];</span><br><span class="line">        [containerView addSubview:toView];</span><br><span class="line">        </span><br><span class="line">        UIBezierPath *startBP = [UIBezierPath bezierPathWithOvalInRect:CGRectMake((containerView.frame.size.width-100)/2, 100, 100, 100)];</span><br><span class="line">        CGFloat radius = 1000;</span><br><span class="line">        UIBezierPath *finalBP = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(150 - radius, 150 -radius, radius*2, radius*2)];</span><br><span class="line">        </span><br><span class="line">        CAShapeLayer *maskLayer = [CAShapeLayer layer];</span><br><span class="line">        maskLayer.path = finalBP.CGPath;</span><br><span class="line">        toView.layer.mask = maskLayer;</span><br><span class="line">        </span><br><span class="line">        //执行动画</span><br><span class="line">        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@&quot;path&quot;];</span><br><span class="line">        animation.fromValue = (__bridge id _Nullable)(startBP.CGPath);</span><br><span class="line">        animation.toValue = (__bridge id _Nullable)(finalBP.CGPath);</span><br><span class="line">        animation.duration = [self transitionDuration:transitionContext];</span><br><span class="line">        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];</span><br><span class="line">        [maskLayer addAnimation:animation forKey:@&quot;path&quot;];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里用到了动画的知识，改变的是layer的path属性，让layer从小圆变成了大圆。<br>一直看代码和文字也累了吧，先看看现在push的效果好了。（注意哈，这里为了看效果，我已经在控制器写了调用该类的代码了，至于怎么调用，下面会说，先看效果吧~）</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-fab2214a2d6f4093.gif?imageMogr2/auto-orient/strip" alt="步骤2-1.gif"><br>首先可以发现一个问题，就是返回不了了。解决办法是：在动画完成后加一行代码<code>[transitionContext completeTransition:YES];</code>。但是，问题又来了，这行代码加在哪里呢。<br>直接加在动画设置后面效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-68a0e3965d214c21.gif?imageMogr2/auto-orient/strip" alt="步骤2-2.gif"><br>好像没问题，但是仔细观察发现navBar存在push的太早问题。如果你和我一样觉得这个很丑，那就换一个方法。<br>给animation设置代理，然后该类监听动画，当动画结束的时候再调用这行代码，这样就没问题啦。当然别忘了遵循动画协议CAAnimationDelegate。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag</span><br><span class="line">&#123;</span><br><span class="line">    //告诉系统转场动画完成</span><br><span class="line">    [self.transitionContext completeTransition:YES];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样动画就写好了，至于present，dismiss等，也类似，就不再说啦。<br><strong><em>上面动画实现中有一个layer.mask属性，我在本文最后会解释。</em></strong></p>
+<h2 id="控制器调用"><a href="#控制器调用" class="headerlink" title="控制器调用"></a>控制器调用</h2><p>最后一步就是控制器调用刚写的类了。</p>
+<h3 id="a-push-pop方式如下："><a href="#a-push-pop方式如下：" class="headerlink" title="a.push/pop方式如下："></a>a.push/pop方式如下：</h3><p>在控制器中遵循UINavigationControllerDelegate协议，并实现协议方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (id&lt;UIViewControllerAnimatedTransitioning&gt;)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC&#123;</span><br><span class="line">    </span><br><span class="line">    if (operation == UINavigationControllerOperationPush) &#123;</span><br><span class="line">        YQAnimatedTransition *animatedTransition = [YQAnimatedTransition animatedTransitionWithType:YQAnimatedTransitionTypePush];</span><br><span class="line">        return animatedTransition;</span><br><span class="line">    &#125;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="b-present-dismiss方式如下："><a href="#b-present-dismiss方式如下：" class="headerlink" title="b.present/dismiss方式如下："></a>b.present/dismiss方式如下：</h3><p>在控制器中遵循UIViewControllerTransitioningDelegate协议，并实现方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source</span><br><span class="line">&#123;</span><br><span class="line">    return [YQAnimatedTransition animatedTransitionWithType:YQAnimatedTransitionTypePresent];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (id&lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForDismissedController:(UIViewController *)dismissed</span><br><span class="line">&#123;</span><br><span class="line">    return [YQAnimatedTransition animatedTransitionWithType:YQAnimatedTransitionTypeDismiss];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>到这里，转场动画就实现了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-a5dfb391e656055e.gif?imageMogr2/auto-orient/strip" alt="步骤3-1.gif"></p>
+<h2 id="细节补充"><a href="#细节补充" class="headerlink" title="细节补充"></a>细节补充</h2><p>上图和效果图比较还是有差别的，少了一个过渡动画。当用户点击cell的时候，头像会移动且放大到详细页面那个头像那个位置。实现代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    // 获得点击的cell</span><br><span class="line">    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];</span><br><span class="line">    CGRect rectInTableView = [tableView rectForRowAtIndexPath:indexPath];</span><br><span class="line">    // 获得点击cell的frame</span><br><span class="line">    CGRect rect = [tableView convertRect:rectInTableView toView:[tableView superview]];</span><br><span class="line">    </span><br><span class="line">   // 设置selectImageView的位置和图片</span><br><span class="line">    self.selectImageView.image = cell.imageView.image;</span><br><span class="line">    self.selectImageView.frame = CGRectMake(cell.imageView.frame.origin.x, rect.origin.y, cell.imageView.frame.size.width, cell.imageView.frame.size.height);</span><br><span class="line">    // 动画</span><br><span class="line">    [UIView animateWithDuration:0.5 animations:^&#123;</span><br><span class="line">        self.selectImageView.frame = CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.width);</span><br><span class="line">    &#125; completion:^(BOOL finished) &#123;</span><br><span class="line">        [self.navigationController pushViewController:detail animated:YES];</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>获取当前cell方法以及cell相对屏幕的位置两个方法每次都忘记，所以加粗，方便以后找。</em></strong></p>
+<p>上面代码的效果图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-5404e7b18ff9236e.gif?imageMogr2/auto-orient/strip" alt="步骤4-1.gif"><br>现在的问题是返回的时候 self.selectImageView还在那里，所以需要在转场结束后使 self.selectImageView消失。<br>解决方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated</span><br><span class="line">&#123;</span><br><span class="line">    if (viewController != self) &#123;</span><br><span class="line">        self.selectImageView.frame = CGRectNull;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>转场后，设置frame为CGRectNull，这样就消失啦~</p>
+<p>#layer.mask属性<br>其实这个mask属性用到的地方还是蛮多的。比如新手引导（虽然现在都是图片），还有微信的照片红包。下面说说这个属性。<br>mask是一个layer层，并且作为背景层和组成层之间的一个遮罩层通道，默认是nil。<br>还是在这个项目中，在列表控制器的<code>- (void)viewDidLoad</code>方法中加如下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CAShapeLayer *shapeLayer = [CAShapeLayer layer];</span><br><span class="line">shapeLayer.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(100, 100, 200, 200)].CGPath;</span><br><span class="line">self.view.layer.mask = shapeLayer;</span><br></pre></td></tr></table></figure></p>
+<p>效果图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-de72acc6c59512e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="mask属性-1.png"><br>发现就只有layer那一块显示出来，其余全部白色了。至于其余部分的颜色 是由 window.backgroundColor控制。<br>改成黑色：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-7708e818db7e4806.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="mask属性-2.png"></p>
+<p>当我代码改成这样：(一条线的时候)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">UIBezierPath *path = [UIBezierPath bezierPath];</span><br><span class="line">[path moveToPoint:CGPointMake(100, 100)];</span><br><span class="line">[path addLineToPoint:CGPointMake(100, 500)];</span><br><span class="line"></span><br><span class="line">CAShapeLayer *shapeLayer = [CAShapeLayer layer];</span><br><span class="line">shapeLayer.path = path.CGPath;</span><br><span class="line">shapeLayer.lineWidth = 20;</span><br><span class="line">self.view.layer.mask = shapeLayer;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-3c3c676b00457941.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="mask属性-3.png"><br>发现不起作用，即使线宽为20。<br>当代码为三角形：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UIBezierPath *path = [UIBezierPath bezierPath];</span><br><span class="line">[path moveToPoint:CGPointMake(100, 100)];</span><br><span class="line">[path addLineToPoint:CGPointMake(100, 500)];</span><br><span class="line">[path addLineToPoint:CGPointMake(200, 500)];</span><br><span class="line">[path closePath];</span><br><span class="line"></span><br><span class="line">CAShapeLayer *shapeLayer = [CAShapeLayer layer];</span><br><span class="line">shapeLayer.path = path.CGPath;</span><br><span class="line">shapeLayer.lineWidth = 20;</span><br><span class="line">self.view.layer.mask = shapeLayer;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2312304-506907ff9e43a14b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="mask属性-4.png"></p>
+<p>综上可以说明：layer的路径必须要封闭才能起作用。</p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>本文github地址：<a href="https://github.com/JabberYQ/animatedTransitionDemo" target="_blank" rel="noopener">https://github.com/JabberYQ/animatedTransitionDemo</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请我吃一块黄金鸡块</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/assets/webImage/wechat_pay.jpg" alt="Jabber_YQ 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/assets/webImage/alipay_pay.jpg" alt="Jabber_YQ 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CAShapeLayer/" rel="tag"># CAShapeLayer</a>
+          
+            <a href="/tags/iOS-实战/" rel="tag"># iOS 实战</a>
+          
+            <a href="/tags/动画/" rel="tag"># 动画</a>
+          
+            <a href="/tags/UIBezierPath/" rel="tag"># UIBezierPath</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/27/iOS进阶：RunLoop已入门？快来应用一下/" rel="next" title="iOS进阶：RunLoop已入门？快来应用一下">
+                <i class="fa fa-chevron-left"></i> iOS进阶：RunLoop已入门？快来应用一下
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/21/iOS基础：上手CAShapeLayer，动画其实并不难/" rel="prev" title="iOS基础：上手CAShapeLayer，动画其实并不难">
+                iOS基础：上手CAShapeLayer，动画其实并不难 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/assets/webImage/avatar.jpg"
+                alt="Jabber_YQ" />
+            
+              <p class="site-author-name" itemprop="name">Jabber_YQ</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/JabberYQ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.jianshu.com/u/38f5c5bd3849" target="_blank" title="jianshu">
+                    
+                      <i class="fa fa-fw fa-globe"></i>jianshu</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#效果图"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6548;&#x679C;&#x56FE;" class="headerlink" title="&#x6548;&#x679C;&#x56FE;"></a>&#x6548;&#x679C;&#x56FE;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要思路"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E3B;&#x8981;&#x601D;&#x8DEF;" class="headerlink" title="&#x4E3B;&#x8981;&#x601D;&#x8DEF;"></a>&#x4E3B;&#x8981;&#x601D;&#x8DEF;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开始吃键盘"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x5F00;&#x59CB;&#x5403;&#x952E;&#x76D8;" class="headerlink" title="&#x5F00;&#x59CB;&#x5403;&#x952E;&#x76D8;"></a>&#x5F00;&#x59CB;&#x5403;&#x952E;&#x76D8;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#YQAnimatedTransition创建"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#YQAnimatedTransition&#x521B;&#x5EFA;" class="headerlink" title="YQAnimatedTransition&#x521B;&#x5EFA;"></a>YQAnimatedTransition&#x521B;&#x5EFA;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协议方法实现"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#&#x534F;&#x8BAE;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;" class="headerlink" title="&#x534F;&#x8BAE;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;"></a>&#x534F;&#x8BAE;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制器调用"><span class="nav-number">4.3.</span> <span class="nav-text"><a href="#&#x63A7;&#x5236;&#x5668;&#x8C03;&#x7528;" class="headerlink" title="&#x63A7;&#x5236;&#x5668;&#x8C03;&#x7528;"></a>&#x63A7;&#x5236;&#x5668;&#x8C03;&#x7528;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-push-pop方式如下："><span class="nav-number">4.3.1.</span> <span class="nav-text"><a href="#a-push-pop&#x65B9;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;" class="headerlink" title="a.push/pop&#x65B9;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;"></a>a.push/pop&#x65B9;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-present-dismiss方式如下："><span class="nav-number">4.3.2.</span> <span class="nav-text"><a href="#b-present-dismiss&#x65B9;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;" class="headerlink" title="b.present/dismiss&#x65B9;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;"></a>b.present/dismiss&#x65B9;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#细节补充"><span class="nav-number">4.4.</span> <span class="nav-text"><a href="#&#x7EC6;&#x8282;&#x8865;&#x5145;" class="headerlink" title="&#x7EC6;&#x8282;&#x8865;&#x5145;"></a>&#x7EC6;&#x8282;&#x8865;&#x5145;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x6700;&#x540E;" class="headerlink" title="&#x6700;&#x540E;"></a>&#x6700;&#x540E;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jabber_YQ</span>
+
+  
+</div>
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
