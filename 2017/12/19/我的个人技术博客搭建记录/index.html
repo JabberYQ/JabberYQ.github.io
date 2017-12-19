@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="非 iOS,Hexo,技术博客搭建,终端命令," />
+  <meta name="keywords" content="Hexo,技术博客搭建,终端命令,非 iOS," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="一、准备工作GitHub账号首先，需要一个GitHub账号，然后在主页点击New repository按钮，创建一个仓库。你可以取名为你的名字.github.io。当然，我这里已经创了一个了，所以会提示这个名字已经存在。取完名字，点击Create repository按钮，即可。 环境Node.js和Git安装 Hexo 相当简单。然而在安装前，必须检查电脑中是否已安装下列应用程序：  Node.">
-<meta name="keywords" content="非 iOS,Hexo,技术博客搭建,终端命令">
+<meta name="keywords" content="Hexo,技术博客搭建,终端命令,非 iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="我的个人技术博客搭建记录">
 <meta property="og:url" content="http://yoursite.com/2017/12/19/我的个人技术博客搭建记录/index.html">
@@ -324,6 +324,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/19/我的个人技术博客搭建记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/12/19/我的个人技术博客搭建记录/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -434,13 +444,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/非-iOS/" rel="tag"># 非 iOS</a>
-          
             <a href="/tags/Hexo/" rel="tag"># Hexo</a>
           
             <a href="/tags/技术博客搭建/" rel="tag"># 技术博客搭建</a>
           
             <a href="/tags/终端命令/" rel="tag"># 终端命令</a>
+          
+            <a href="/tags/非-iOS/" rel="tag"># 非 iOS</a>
           
         </div>
       
@@ -489,6 +499,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
 
   
 
@@ -797,6 +814,43 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: '15389684',
+            repo: 'https://github.com/JabberYQ/JabberYQ.github.io',
+            
+            lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'c0d072e0bbc2305bf46aee93c02fbc3c96be0ad6',
+            
+                client_id: 'e58b90c43553fbdef9c5'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 
