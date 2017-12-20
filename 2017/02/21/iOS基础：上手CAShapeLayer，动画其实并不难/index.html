@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="CAShapeLayer,iOS 基础,动画,UIBezierPath," />
+  <meta name="keywords" content="CAShapeLayer,动画,UIBezierPath,iOS 基础," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="前言当你看到精彩的动画时，你会不会和我一样，立马想这个效果该如何如何实现呢？然后想着想着，又觉得很难实现，然后挠挠头表示做不出来呢？如果是这样，那这篇文章也许可以帮到你哦。 纲要 正文一、概念入门1.CAShapeLayerCAShapeLayer这个类是这篇文章的主角，继承于CALayer。CAShapeLayer的形状是由其path(类型为CGPathRef)属性指定的。CAShapeLaye">
-<meta name="keywords" content="CAShapeLayer,iOS 基础,动画,UIBezierPath">
+<meta name="keywords" content="CAShapeLayer,动画,UIBezierPath,iOS 基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS基础：上手CAShapeLayer，动画其实并不难">
 <meta property="og:url" content="http://yoursite.com/2017/02/21/iOS基础：上手CAShapeLayer，动画其实并不难/index.html">
@@ -107,7 +107,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-e2e6f9dea4b5ea04.gif?imageMogr2/auto-orient/strip">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-0170475819271f9b.gif?imageMogr2/auto-orient/strip">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2312304-20b7dc5900184bf0.gif?imageMogr2/auto-orient/strip">
-<meta property="og:updated_time" content="2017-12-19T00:50:41.000Z">
+<meta property="og:updated_time" content="2017-12-20T02:45:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS基础：上手CAShapeLayer，动画其实并不难">
 <meta name="twitter:description" content="前言当你看到精彩的动画时，你会不会和我一样，立马想这个效果该如何如何实现呢？然后想着想着，又觉得很难实现，然后挠挠头表示做不出来呢？如果是这样，那这篇文章也许可以帮到你哦。 纲要 正文一、概念入门1.CAShapeLayerCAShapeLayer这个类是这篇文章的主角，继承于CALayer。CAShapeLayer的形状是由其path(类型为CGPathRef)属性指定的。CAShapeLaye">
@@ -435,8 +435,8 @@
 <p>把你需要的动画放到数组中，然后赋值给group.animations。<br>效果：</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/2312304-20b7dc5900184bf0.gif?imageMogr2/auto-orient/strip" alt="animationGroup.gif"></p>
 <h4 id="3-4-动画细节点"><a href="#3-4-动画细节点" class="headerlink" title="3.4 动画细节点"></a>3.4 动画细节点</h4><p>看效果图时你会发现，在改变path的时候，不是很好看。其实执行path的动画时，系统默认将上一个path的开始点设为对应下一个path的开始点。仔细观察效果图，可以看到第一个path为贝塞尔，最左侧为绘制开始点，然后这个点始终是接下去任何一个path的开始点，所以他会不规则的动来动去。结束点也是如此。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>到这里就全部介绍完了。当你看到一个复杂的动画时，把他分解开来，然后一个个部分设置动画，就肯定能做出来。<br>本文github地址：<a href="https://github.com/JabberYQ/YQAnimateDemo" target="_blank" rel="noopener">https://github.com/JabberYQ/YQAnimateDemo</a></p>
-<p>实战1：<a href="http://www.jianshu.com/p/1669be5504c9" target="_blank" rel="noopener">动画实战：自定义下拉刷新控件</a><br>实战2：<a href="http://www.jianshu.com/p/d60dc6bbe537" target="_blank" rel="noopener">动画实战：自定义提醒控件AlertView</a><br>实战3：<a href="http://www.jianshu.com/p/994e34766368" target="_blank" rel="noopener">动画实战：自定义转场动画实现</a></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>到这里就全部介绍完了。当你看到一个复杂的动画时，把他分解开来，然后一个个部分设置动画，就肯定能做出来。<br><a href="https://github.com/JabberYQ/YQAnimateDemo" target="_blank" rel="noopener">本文代码：github</a></p>
+<p>实战1：<a href="http://www.jianshu.com/p/1669be5504c9" target="_blank" rel="noopener">动画实战：自定义下拉刷新控件</a><br>实战2：<a href="http://www.jianshu.com/p/d60dc6bbe537" target="_blank" rel="noopener">动画实战：自定义提醒控件AlertView</a><br>实战3：<a href="https://jabberyq.github.io/2017/02/26/iOS%E5%AE%9E%E6%88%98%EF%BC%9A%E5%8A%A8%E7%94%BB%E5%AE%9E%E6%88%98-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/" target="_blank" rel="noopener">动画实战：自定义转场动画实现</a></p>
 
       
     </div>
@@ -485,11 +485,11 @@
           
             <a href="/tags/CAShapeLayer/" rel="tag"># CAShapeLayer</a>
           
-            <a href="/tags/iOS-基础/" rel="tag"># iOS 基础</a>
-          
             <a href="/tags/动画/" rel="tag"># 动画</a>
           
             <a href="/tags/UIBezierPath/" rel="tag"># UIBezierPath</a>
+          
+            <a href="/tags/iOS-基础/" rel="tag"># iOS 基础</a>
           
         </div>
       
