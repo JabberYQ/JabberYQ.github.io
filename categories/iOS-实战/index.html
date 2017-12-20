@@ -575,18 +575,18 @@
   
   <script type="text/javascript">
     var GUEST = ['nick','mail','link'];
-    var guest = 'nick,mail,link';
+    var guest = 'nick,mail';
     guest = guest.split(',').filter(item=>{
       return GUEST.indexOf(item)>-1;
     });
     new Valine({
         el: '#comments' ,
         verify: false,
-        notify: false,
+        notify: true,
         appId: 'MocdHfqfnpeuUX1f9d3PuJuo-gzGzoHsz',
         appKey: 'Lb7ihGRMAxKoYaEyuRWJcCWQ',
-        placeholder: 'Just go go',
-        avatar:'mm',
+        placeholder: '快快留下你的想法(ง •̀_•́)ง',
+        avatar:'retro',
         guest_info:guest,
         pageSize:'10' || 10,
     });
