@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="iOS 进阶,NSTimer,引用计数," />
+  <meta name="keywords" content="iOS 实战,分类,UITableView," />
 
 
 
@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="前言本文是我看了使用-blockable–NSTimer-避免内存泄漏后，有了些思考和感悟，打算写下来。而这篇文章本应该写在17年末，但是由于公司项目以及个人有点懒的原因，拖到了现在。本文的主要内容就如题目，通过分析NSTimer对象的引用计数来正确使用他，从而避免出现target循环引用或者timer未销毁问题。 正文抛出问题先看最简单的使用方法，很普通的代码，创建timer然后加入到runlo">
-<meta name="keywords" content="iOS 进阶,NSTimer,引用计数">
+<meta name="description" content="需求在项目中，需要一个视图，在TableView没有数据的时候遮盖在其上面，用于提醒用户没有数据并提供用户点击刷新功能。 效果 思路下面记录一下我的心路历程：我刚开始的思路就是直接在控制器中，判断作为数据源的数组是否有数据，如果没有，初始化一个视图add在TableView上面。这样做是可行的，但是当需要遮罩的TableView很多的时候，就需要次次都添加，很麻烦。于是想到了分类，在TableVi">
+<meta name="keywords" content="iOS 实战,分类,UITableView">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS进阶：通过引用计数来正确使用NSTimer">
-<meta property="og:url" content="http://yoursite.com/2018/01/05/iOS进阶：通过引用计数来看NSTimer/index.html">
+<meta property="og:title" content="iOS实战：自动添加TableView的遮罩刷新视图">
+<meta property="og:url" content="http://yoursite.com/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/index.html">
 <meta property="og:site_name" content="Jabber_YQ&#39;s Blog">
-<meta property="og:description" content="前言本文是我看了使用-blockable–NSTimer-避免内存泄漏后，有了些思考和感悟，打算写下来。而这篇文章本应该写在17年末，但是由于公司项目以及个人有点懒的原因，拖到了现在。本文的主要内容就如题目，通过分析NSTimer对象的引用计数来正确使用他，从而避免出现target循环引用或者timer未销毁问题。 正文抛出问题先看最简单的使用方法，很普通的代码，创建timer然后加入到runlo">
+<meta property="og:description" content="需求在项目中，需要一个视图，在TableView没有数据的时候遮盖在其上面，用于提醒用户没有数据并提供用户点击刷新功能。 效果 思路下面记录一下我的心路历程：我刚开始的思路就是直接在控制器中，判断作为数据源的数组是否有数据，如果没有，初始化一个视图add在TableView上面。这样做是可行的，但是当需要遮罩的TableView很多的时候，就需要次次都添加，很麻烦。于是想到了分类，在TableVi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/01/05/iOS进阶：通过引用计数来看NSTimer/效果.gif">
-<meta property="og:updated_time" content="2018-01-05T03:16:19.000Z">
+<meta property="og:image" content="http://yoursite.com/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/效果.gif">
+<meta property="og:updated_time" content="2018-01-09T08:37:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS进阶：通过引用计数来正确使用NSTimer">
-<meta name="twitter:description" content="前言本文是我看了使用-blockable–NSTimer-避免内存泄漏后，有了些思考和感悟，打算写下来。而这篇文章本应该写在17年末，但是由于公司项目以及个人有点懒的原因，拖到了现在。本文的主要内容就如题目，通过分析NSTimer对象的引用计数来正确使用他，从而避免出现target循环引用或者timer未销毁问题。 正文抛出问题先看最简单的使用方法，很普通的代码，创建timer然后加入到runlo">
-<meta name="twitter:image" content="http://yoursite.com/2018/01/05/iOS进阶：通过引用计数来看NSTimer/效果.gif">
+<meta name="twitter:title" content="iOS实战：自动添加TableView的遮罩刷新视图">
+<meta name="twitter:description" content="需求在项目中，需要一个视图，在TableView没有数据的时候遮盖在其上面，用于提醒用户没有数据并提供用户点击刷新功能。 效果 思路下面记录一下我的心路历程：我刚开始的思路就是直接在控制器中，判断作为数据源的数组是否有数据，如果没有，初始化一个视图add在TableView上面。这样做是可行的，但是当需要遮罩的TableView很多的时候，就需要次次都添加，很麻烦。于是想到了分类，在TableVi">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/效果.gif">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/05/iOS进阶：通过引用计数来看NSTimer/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/"/>
 
 
 
 
 
-  <title>iOS进阶：通过引用计数来正确使用NSTimer | Jabber_YQ's Blog</title>
+  <title>iOS实战：自动添加TableView的遮罩刷新视图 | Jabber_YQ's Blog</title>
   
 
 
@@ -255,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/05/iOS进阶：通过引用计数来看NSTimer/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jabber_YQ">
@@ -272,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS进阶：通过引用计数来正确使用NSTimer</h1>
+          <h1 class="post-title" itemprop="name headline">iOS实战：自动添加TableView的遮罩刷新视图</h1>
         
 
         <div class="post-meta">
@@ -284,8 +284,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-05T10:04:06+08:00">
-                2018-01-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-09T15:42:34+08:00">
+                2018-01-09
               </time>
             
 
@@ -307,8 +307,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS-进阶/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS 进阶</span>
+                  <a href="/categories/iOS-实战/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS 实战</span>
                   </a>
                 </span>
 
@@ -325,8 +325,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/05/iOS进阶：通过引用计数来看NSTimer/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/01/05/iOS进阶：通过引用计数来看NSTimer/" itemprop="commentCount"></span>
+                <a href="/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -354,14 +354,16 @@
       
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文是我看了<a href="https://github.com/beforeold/techblogs/blob/master/iOS/%5BiOS%5D-%E4%BD%BF%E7%94%A8-blockable--NSTimer-%E9%81%BF%E5%85%8D%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F.md" target="_blank" rel="noopener">使用-blockable–NSTimer-避免内存泄漏</a>后，有了些思考和感悟，打算写下来。而这篇文章本应该写在17年末，但是由于公司项目以及个人有点懒的原因，拖到了现在。<br>本文的主要内容就如题目，通过分析NSTimer对象的引用计数来正确使用他，从而避免出现target循环引用或者timer未销毁问题。</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="抛出问题"><a href="#抛出问题" class="headerlink" title="抛出问题"></a>抛出问题</h2><p>先看最简单的使用方法，很普通的代码，创建timer然后加入到runloop中，同时还抓住了<code>NSRunLoopCommonModes</code>这个细节，即使滑动滚动视图，也不影响timer的使用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">self.timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(add) userInfo:nil repeats:YES];</span><br><span class="line">[[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];</span><br></pre></td></tr></table></figure></p>
-<p>分析一下timer的引用计数。首先需要说明一下，这里的timer属性是self强引用的。很显然，self强引用timer，timer强引用self，同时在将timer加入到runloop中后，runloop也强引用了timer。本质上，这时的timer的引用计数是2。<br>这个时候，已经造成了self和timer的循环引用。破除循环引用的方法也很简单，主动调用<br><code>[self.timer invalidate];</code>。这里需要注意的是，该方法决不能在<code>- (void)dealloc</code>中调用，因为循环引用根本进不去。所以很多时候，如果target是控制器，都会在<code>- (void)viewDidDisappear:(BOOL)animated</code>方法中去销毁。<br>再分析一下当销毁timer后的引用情况。timer将不再强引用self，runloop也断掉了timer的强引用。此时timer只有target持有，引用计数为1。不存在循环引用问题，target能被销毁，target销毁的同时timer也会被销毁。没有问题了。<br>貌似这样子已经能解决很多问题了。但是，如果target不是控制器呢，如果是一个自定义视图呢，该如何去停止timer。这确实是一个很伤脑筋的问题。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>其实苹果已经给了我们答案了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^)(NSTimer *timer))block API_AVAILABLE(macosx(10.12), ios(10.0), watchos(3.0), tvos(10.0));</span><br></pre></td></tr></table></figure></p>
-<p>使用block来避免循环引用。这是一个很好的解决方案，但是，这个苹果的API方法只是适用于<code>ios(10.0)</code>及以后。因此，在<code>ios(10.0)</code>之前，还得我们自己搞定。<br>既然思路已经有了，就可以试着自己写block来避免循环引用。<br>下面的代码来自<a href="https://github.com/beforeold/techblogs/blob/master/iOS/%5BiOS%5D-%E4%BD%BF%E7%94%A8-blockable--NSTimer-%E9%81%BF%E5%85%8D%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F.md" target="_blank" rel="noopener">使用-blockable–NSTimer-避免内存泄漏</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@implementation NSTimer (GSBlockable)</span><br><span class="line"></span><br><span class="line">+ (NSTimer *)gs_scheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^)(NSTimer * _Nonnull))block</span><br><span class="line">&#123;</span><br><span class="line">    if ([UIDevice currentDevice].systemVersion.doubleValue &lt;= 10.0) &#123;</span><br><span class="line">        return [self scheduledTimerWithTimeInterval:interval target:self selector:@selector(gs_timerTick:) userInfo:[block copy] repeats:repeats];</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return [self scheduledTimerWithTimeInterval:interval repeats:repeats block:block];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+ (void)gs_timerTick:(NSTimer *)timer &#123;</span><br><span class="line">    void (^block)(NSTimer *) = timer.userInfo;</span><br><span class="line">    !block ?: block(timer);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
-<p>继续分析一下这个分类方法的作用以及使用后的引用计数问题：<br>在调用该类方法后，self强引用timer，timer持有block，block中使用到的self如果用<code>__weak</code>修饰的话，block将不再强引用self，也就是打破了循环引用。这样便会调用self的<code>- (void)dealloc</code>方法，<code>[self.timer invalidate];</code>就有了好的调用位置了。</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad</span><br><span class="line">&#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    self.timer = [NSTimer timerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer)                &#123;</span><br><span class="line">        NSLog(@&quot;-&quot;);</span><br><span class="line">    &#125;];</span><br><span class="line">    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)dealloc</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;dealloc&quot;);</span><br><span class="line">    [self.timer invalidate];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="效果.gif" alt="效果"><br>注意block内部如果使用self，需要<code>__weak</code>修饰，否则仍然存在循环引用导致不会进入<code>- (void)dealloc</code>从而释放不了self和timer。（我是不是有点婆婆妈妈 ( ・◇・)）</p>
+        <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>在项目中，需要一个视图，在TableView没有数据的时候遮盖在其上面，用于提醒用户没有数据并提供用户点击刷新功能。</p>
+<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><p><img src="效果.gif" alt="效果"></p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>下面记录一下我的心路历程：<br>我刚开始的思路就是直接在控制器中，判断作为数据源的数组是否有数据，如果没有，初始化一个视图add在TableView上面。这样做是可行的，但是当需要遮罩的TableView很多的时候，就需要次次都添加，很麻烦。<br>于是想到了分类，在TableView的分类中做判断。但是入口该怎么取呢？<br>因为不是所有的TableView都需要遮罩视图，所以不能使用<code>Method Swizzling</code>。<br>其实方法很简单，创一个方法作为入口，在该方法中判断是否需要添加遮罩，然后调用一下<code>- (void)reloadData;</code>。完成。</p>
+<p>下面有一个问题，该分类如何知道数据源数组是否有数据。<br>我的做法是，使用<code>runtime</code>设置TableView的<code>array</code>属性，在控制器中传入数组即可。</p>
+<p>下面还有一个问题，遮罩视图该如何设置。<br>我的做法是，还是通过使用<code>runtime</code>设置TableView的<code>placeholerView</code>属性，可以在设置TableView之前，把遮罩视图创建好，传过去。同时，设置了默认的<code>placeholerView</code>属性，在没有传<code>placeholerView</code>时，会添加默认的遮罩视图。（如效果的“一”控制器）</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">- (void)yq_reloadData</span><br><span class="line">&#123;</span><br><span class="line">    if (!self.array) &#123; // 未传array</span><br><span class="line">        [self reloadData];</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (self.array.count == 0) &#123; // 需要展位图</span><br><span class="line"></span><br><span class="line">        if (!self.placeholerView) &#123; // 未传展位图</span><br><span class="line">        </span><br><span class="line">            // 创建 (省略了placeholderView的属性设置)</span><br><span class="line">            UIView *placeholderView = [[UIView alloc] initWithFrame:self.bounds];</span><br><span class="line">    </span><br><span class="line">            // 赋值</span><br><span class="line">            self.placeholerView = placeholderView;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        [self addSubview:self.placeholerView];</span><br><span class="line">        [self reloadData];</span><br><span class="line">    &#125; else &#123; // 有数据</span><br><span class="line">        [self.placeholerView removeFromSuperview];</span><br><span class="line">        [self reloadData];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码是主要的实现，我省略了默认<code>placeholderView</code>的设置，也省略了<code>placeholderView array</code>的<code>setter getter</code>方法。都比较简单。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];</span><br><span class="line">tableView.dataSource = self;</span><br><span class="line">tableView.delegate = self;</span><br><span class="line">[self.view addSubview:tableView];</span><br><span class="line">self.tableView = tableView;</span><br><span class="line"></span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">tableView.array = self.groups;</span><br><span class="line">tableView.reloadButtonClickBlock = ^&#123;</span><br><span class="line">    [weakSelf add];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/* 设置tableView.placeholerView属性</span><br><span class="line">UIView *placeholderV = [[UIView alloc] init];</span><br><span class="line">placeholderV.frame = self.view.bounds;</span><br><span class="line">placeholderV.backgroundColor = [UIColor yellowColor];</span><br><span class="line">tableView.placeholerView = placeholderV;</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">- (void)remove</span><br><span class="line">&#123;</span><br><span class="line">    [self.groups removeAllObjects];</span><br><span class="line">    [self.tableView yq_reloadData];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只需在初始化时传入<code>tableView.array</code>和<code>tableView.placeholerView</code>，在需要刷新时调用<code>yq_reloadData</code>即可。</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p><a href="https://github.com/JabberYQ/YQTableViewPlaceholder" target="_blank" rel="noopener">YQTableViewPlaceholder</a></p>
 
       
     </div>
@@ -408,11 +410,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/iOS-进阶/" rel="tag"># iOS 进阶</a>
+            <a href="/tags/iOS-实战/" rel="tag"># iOS 实战</a>
           
-            <a href="/tags/NSTimer/" rel="tag"># NSTimer</a>
+            <a href="/tags/分类/" rel="tag"># 分类</a>
           
-            <a href="/tags/引用计数/" rel="tag"># 引用计数</a>
+            <a href="/tags/UITableView/" rel="tag"># UITableView</a>
           
         </div>
       
@@ -425,8 +427,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/19/我的个人技术博客搭建记录/" rel="next" title="我的个人技术博客搭建记录">
-                <i class="fa fa-chevron-left"></i> 我的个人技术博客搭建记录
+              <a href="/2018/01/05/iOS进阶：通过引用计数来看NSTimer/" rel="next" title="iOS进阶：通过引用计数来正确使用NSTimer">
+                <i class="fa fa-chevron-left"></i> iOS进阶：通过引用计数来正确使用NSTimer
               </a>
             
           </div>
@@ -434,10 +436,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/" rel="prev" title="iOS实战：自动添加TableView的遮罩刷新视图">
-                iOS实战：自动添加TableView的遮罩刷新视图 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -592,7 +590,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6B63;&#x6587;" class="headerlink" title="&#x6B63;&#x6587;"></a>&#x6B63;&#x6587;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抛出问题"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x629B;&#x51FA;&#x95EE;&#x9898;" class="headerlink" title="&#x629B;&#x51FA;&#x95EE;&#x9898;"></a>&#x629B;&#x51FA;&#x95EE;&#x9898;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x89E3;&#x51B3;&#x65B9;&#x6848;" class="headerlink" title="&#x89E3;&#x51B3;&#x65B9;&#x6848;"></a>&#x89E3;&#x51B3;&#x65B9;&#x6848;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;" class="headerlink" title="&#x4F7F;&#x7528;"></a>&#x4F7F;&#x7528;</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x9700;&#x6C42;" class="headerlink" title="&#x9700;&#x6C42;"></a>&#x9700;&#x6C42;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#效果"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6548;&#x679C;" class="headerlink" title="&#x6548;&#x679C;"></a>&#x6548;&#x679C;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x601D;&#x8DEF;" class="headerlink" title="&#x601D;&#x8DEF;"></a>&#x601D;&#x8DEF;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x5B9E;&#x73B0;" class="headerlink" title="&#x5B9E;&#x73B0;"></a>&#x5B9E;&#x73B0;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;" class="headerlink" title="&#x4F7F;&#x7528;"></a>&#x4F7F;&#x7528;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x4EE3;&#x7801;" class="headerlink" title="&#x4EE3;&#x7801;"></a>&#x4EE3;&#x7801;</span></a></li></ol></div>
             
 
           </div>
