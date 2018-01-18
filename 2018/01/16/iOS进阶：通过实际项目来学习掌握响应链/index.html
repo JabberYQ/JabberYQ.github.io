@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/webImage/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/webImage/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS 进阶,实际项目,响应链," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="项目中的问题在前段时间的项目中，遇到了一个与响应链相关的问题。效果图如下：在默认状态下，最下方有五个按钮；当点击选中地图上的单车后，五个按钮会同时上移，并且导航视图也会跟着上移。如果是你你会如何去实现。我的第一反应就是，将这些彼此有约束的按钮都放在一个自定义视图上，这样，当需要上移或者下移的时候，只需要改变这个自定义视图的frame即可。但是其实这样是有问题的。 首先，为了不让这个自定义视图遮盖住">
+<meta name="keywords" content="iOS 进阶,实际项目,响应链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS进阶：通过实际项目来学习掌握响应链">
+<meta property="og:url" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/index.html">
+<meta property="og:site_name" content="Jabber_YQ&#39;s Blog">
+<meta property="og:description" content="项目中的问题在前段时间的项目中，遇到了一个与响应链相关的问题。效果图如下：在默认状态下，最下方有五个按钮；当点击选中地图上的单车后，五个按钮会同时上移，并且导航视图也会跟着上移。如果是你你会如何去实现。我的第一反应就是，将这些彼此有约束的按钮都放在一个自定义视图上，这样，当需要上移或者下移的时候，只需要改变这个自定义视图的frame即可。但是其实这样是有问题的。 首先，为了不让这个自定义视图遮盖住">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/效果1.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/效果2.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/响应链示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/实例结构1.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/实例结构2.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/结构图.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/示例响应链.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/打印结果.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/响应动图.gif">
+<meta property="og:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/简化示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/项目解决动图.gif">
+<meta property="og:updated_time" content="2018-01-18T08:16:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS进阶：通过实际项目来学习掌握响应链">
+<meta name="twitter:description" content="项目中的问题在前段时间的项目中，遇到了一个与响应链相关的问题。效果图如下：在默认状态下，最下方有五个按钮；当点击选中地图上的单车后，五个按钮会同时上移，并且导航视图也会跟着上移。如果是你你会如何去实现。我的第一反应就是，将这些彼此有约束的按钮都放在一个自定义视图上，这样，当需要上移或者下移的时候，只需要改变这个自定义视图的frame即可。但是其实这样是有问题的。 首先，为了不让这个自定义视图遮盖住">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/效果1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/"/>
+
+
+
+
+
+  <title>iOS进阶：通过实际项目来学习掌握响应链 | Jabber_YQ's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jabber_YQ's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不会一切重启不能解决的问题</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jabber_YQ">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/webImage/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jabber_YQ's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS进阶：通过实际项目来学习掌握响应链</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T11:03:58+08:00">
+                2018-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS-进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS 进阶</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/01/16/iOS进阶：通过实际项目来学习掌握响应链/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="项目中的问题"><a href="#项目中的问题" class="headerlink" title="项目中的问题"></a>项目中的问题</h1><p>在前段时间的项目中，遇到了一个与响应链相关的问题。效果图如下：<br><img src="效果1.png" alt="效果1"><br><img src="效果2.png" alt="效果2"><br>在默认状态下，最下方有五个按钮；当点击选中地图上的单车后，五个按钮会同时上移，并且导航视图也会跟着上移。如果是你你会如何去实现。<br>我的第一反应就是，将这些彼此有约束的按钮都放在一个自定义视图上，这样，当需要上移或者下移的时候，只需要改变这个自定义视图的frame即可。但是其实这样是有问题的。</p>
+<p>首先，为了不让这个自定义视图遮盖住下面的地图，我将该视图的背景颜色改为<code>clearColor</code>。运行起来后，界面上没有问题，但是当我在自定义视图的透明区域滑动地图的时候，发现地图不会响应我的滑动事件。原因是该视图虽透明，但仍然遮盖在了地图上方，所以地图不会响应。虽然我知道原因，但是用户可不知道，当他发现下面部分不能滑动地图，就认为是bug了。。</p>
+<h1 id="我当时的解决办法"><a href="#我当时的解决办法" class="headerlink" title="我当时的解决办法"></a>我当时的解决办法</h1><p>当时的我对于响应链的掌握处于知道是什么，却不会用的状态。由于时间紧迫，我只能采取一个“不太好”的方法。</p>
+<p>我创建了一个管理下方视图的工具类，在工具类初始化的时候传入控制器的view，并在内部添加各种按钮。<br>这种方法其实和在控制器中添加一个个按钮没什么差别，现在只是将添加按钮的代码放到了工具类中，让控制器的代码能少点。</p>
+<h1 id="通过响应链来解决"><a href="#通过响应链来解决" class="headerlink" title="通过响应链来解决"></a>通过响应链来解决</h1><p>在使用响应链之前，得知道响应链是怎么工作的。在接下来的文章中，我会先写响应链的相关知识，再写如何用这些相关知识去解决上面的问题。</p>
+<h2 id="什么是响应链"><a href="#什么是响应链" class="headerlink" title="什么是响应链"></a>什么是响应链</h2><p>响应者链条：在iOS程序中无论是最后面的UIWindow还是最前面的某个按钮，它们的摆放是有前后关系的，一个控件可以放到另一个控件上面或下面，那么用户点击某个控件时是触发上面的控件还是下面的控件呢，这种先后关系构成一个链条就叫“响应者链”。也可以说，响应者链是由多个响应者对象连接起来的链条。在iOS中响应者链的关系可以用下图表示：<br><img src="响应链示意图.png" alt="响应链示意图"></p>
+<p>需要注意：</p>
+<ul>
+<li>如果当前这个view是控制器的view,那么控制器就是上一个响应者</li>
+<li>如果当前这个view不是控制器的view,那么父控件就是上一个响应者</li>
+</ul>
+<p><a href="https://www.jianshu.com/p/2e074db792ba" target="_blank" rel="noopener">上述来源：史上最详细的iOS之事件的传递和响应机制-原理篇</a></p>
+<h2 id="响应链是如何工作的（工作步骤）"><a href="#响应链是如何工作的（工作步骤）" class="headerlink" title="响应链是如何工作的（工作步骤）"></a>响应链是如何工作的（工作步骤）</h2><h3 id="第一步、事件的产生"><a href="#第一步、事件的产生" class="headerlink" title="第一步、事件的产生"></a>第一步、事件的产生</h3><ul>
+<li>当点击其中一个视图的时候，系统会将该事件加入到一个由<code>UIApplication</code>管理的事件队列中</li>
+<li>取出队列里的最前面事件，分发处理</li>
+</ul>
+<h3 id="第二步、事件的传递"><a href="#第二步、事件的传递" class="headerlink" title="第二步、事件的传递"></a>第二步、事件的传递</h3><ul>
+<li>获取到需要处理的事件后，顺着响应链，向下查找最合适的视图。</li>
+</ul>
+<h3 id="第三步、事件的响应"><a href="#第三步、事件的响应" class="headerlink" title="第三步、事件的响应"></a>第三步、事件的响应</h3><ul>
+<li>找到最合适的视图后，会调用自己的touches方法处理事件。如果自身没有做处理（也就是自身没有重写touches方法），那么会逆着响应链，向上抛，直到找到能响应这个事件的视图。如果最上头的<code>UIApplication</code>也不能处理该事件或消息，则将其丢弃。</li>
+</ul>
+<h2 id="实例讲解"><a href="#实例讲解" class="headerlink" title="实例讲解"></a>实例讲解</h2><p>我用一个简单的实例来讲解。在控制器中，添加若干个视图。如同所示：<br><img src="实例结构1.png" alt="实例结构1"><br><img src="实例结构2.png" alt="实例结构2"></p>
+<p>当我点击视图D的时候，会发生些什么事情呢。</p>
+<ul>
+<li>因为没有别的事件需要处理，会把这个点击事件拿出来处理。</li>
+<li>开始顺着响应链查找最合适的响应视图 这里就是D视图</li>
+<li>D视图如果能响应这个事件就响应，如果不能上抛，到<code>UIApplication</code>后还是不能就丢弃。</li>
+</ul>
+<p>这里有几个问题需要说明。</p>
+<h3 id="这里的响应链是怎么样的"><a href="#这里的响应链是怎么样的" class="headerlink" title="这里的响应链是怎么样的"></a>这里的响应链是怎么样的</h3><p>响应链如下图所示：<br><img src="结构图.png" alt="结构图"><br><img src="示例响应链.png" alt="示例响应链"></p>
+<h3 id="如何通过这个链条找到最合适的视图"><a href="#如何通过这个链条找到最合适的视图" class="headerlink" title="如何通过这个链条找到最合适的视图"></a>如何通过这个链条找到最合适的视图</h3><p>在说这个之间先得知道，响应链里的每一个类都是继承<code>UIResponder</code>，而该类中有以下两个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (nullable UIView *)hitTest:(CGPoint)point withEvent:(nullable UIEvent *)event;</span><br><span class="line">- (BOOL)pointInside:(CGPoint)point withEvent:(nullable UIEvent *)event;</span><br></pre></td></tr></table></figure></p>
+<p>当在找寻响应视图的时候，会先调用<code>hitTest</code>方法，这个方法的用途是返回一个最合适的视图。<br>在<code>hitTest</code>方法内部调用<code>pointInside</code>方法，这个方法的作用是点击的点是否在自身内部。</p>
+<p>下面以实例说说：（因为UIApplication不好说，就以View A举例子）</p>
+<ul>
+<li>当点击视图D以后，会先进入<code>View A</code>的<code>hitTest</code>方法来寻找最合适的视图。</li>
+<li>在<code>hitTest</code>方法内部先判断是否<code>View A</code>隐藏、不能触发事件或者透明度&lt;0.01。如果是，这返回nil，说明最合适的视图不在<code>View A</code>内部；反之，继续往下。</li>
+<li>调用<code>pointInside</code>方法，判断点是否在自身内部。如果不在内部，那么同样返回nil；反之，说明在<code>View A</code>内部，继续往下。</li>
+<li>在<code>View A</code>的子视图中，倒着找。(也就是先找E 再找D中)</li>
+</ul>
+<p>这样可以试着写出<code>hitTest</code>方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event &#123;</span><br><span class="line">    if (!self.isUserInteractionEnabled || self.isHidden || self.alpha &lt;= 0.01) &#123;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line">    if ([self pointInside:point withEvent:event]) &#123;</span><br><span class="line">        for (UIView *subview in [self.subviews reverseObjectEnumerator]) &#123;</span><br><span class="line">            CGPoint convertedPoint = [subview convertPoint:point fromView:self];</span><br><span class="line">            UIView *hitTestView = [subview hitTest:convertedPoint withEvent:event];</span><br><span class="line">            if (hitTestView) &#123;</span><br><span class="line">                return hitTestView;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return self;</span><br><span class="line">    &#125;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上述代码来源：<a href="https://www.jianshu.com/p/d8512dff2b3e" target="_blank" rel="noopener">iOS事件响应链中Hit-Test View的应用</a></p>
+<p>那么示例中，点击D视图后，是怎么调用方法的呢？<br>我重写了A-E五个视图的<code>hitTest</code>和<code>pointInside</code>方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event &#123;</span><br><span class="line">    NSLog(@&quot;进入A_View---hitTest withEvent ---&quot;);</span><br><span class="line">    UIView * view = [super hitTest:point withEvent:event];</span><br><span class="line">    NSLog(@&quot;离开A_View--- hitTest withEvent ---hitTestView:%@&quot;,view);</span><br><span class="line">    return view;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)pointInside:(CGPoint)point withEvent:(nullable UIEvent *)event &#123;</span><br><span class="line">    NSLog(@&quot;A_view--- pointInside withEvent ---&quot;);</span><br><span class="line">    BOOL isInside = [super pointInside:point withEvent:event];</span><br><span class="line">    NSLog(@&quot;A_view--- pointInside withEvent --- isInside:%d&quot;,isInside);</span><br><span class="line">    return isInside;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>（ps:这里只需要调用super的对应方法，就可以让重写没有影响了。这句话什么意思呢：如果只是在重写方法中打印数据，那么就不会继续往下找了。而如果调用了super的对应方法，也就是<code>UIView</code>的方法，就会继续往下找，就不会影响到程序了。）</p>
+<p>当我点击D后，打印结果如下：<br><img src="打印结果.png" alt="打印结果"></p>
+<p>最后找到了D视图。</p>
+<h3 id="找到视图后的响应是怎么回事"><a href="#找到视图后的响应是怎么回事" class="headerlink" title="找到视图后的响应是怎么回事"></a>找到视图后的响应是怎么回事</h3><p>再找到视图后，会调用这个视图的<code>touches</code>方法。当这个视图有重写这些方法的时候，就说明这个视图能响应本次事件，如果这个视图不能响应，那么就会顺着响应链上抛，直到找到能响应这个事件的响应者。</p>
+<p>举个栗子：<br>还是上面的示例，当我不写D视图的<code>touches</code>的方法，也就是D视图不能响应事件，那么会将这次响应上抛给C视图，如果我重写了C视图的<code>touches</code>方法后，会调用C视图的方法。<br><img src="响应动图.gif" alt="响应动图"></p>
+<p>当我点击D视图后，调用的是C视图的<code>touches</code>，而当我点击E视图后，调用的是E视图的<code>touches</code>。</p>
+<h2 id="解决开始的问题"><a href="#解决开始的问题" class="headerlink" title="解决开始的问题"></a>解决开始的问题</h2><p>下面就可以来通过响应链解决开头的问题了。</p>
+<h3 id="最好的思路"><a href="#最好的思路" class="headerlink" title="最好的思路"></a>最好的思路</h3><p>我把开头的需求简化成了如下：<br><img src="简化示意图.png" alt="简化示意图"></p>
+<p>如果什么都不操作，只是在tableview上放一个<code>yellow view</code>，<code>yellow view</code>上放两个按钮，那么在黄色视图上滚动tableview是没有用的。<br>原因是这样的：</p>
+<ul>
+<li>在<code>yellow view</code>视图上 上下滑动tableview，事件产生并开始处理。</li>
+<li>通过响应链查找最合适的响应视图<ul>
+<li>先是控制器view，发现点击位置在其内部</li>
+<li>再是tableview，发现点击位置在其内部</li>
+<li>再是<code>yellow view</code> 发现点击位置在其内部</li>
+<li>最后是两个按钮，发现不在他们内部，那么找到最合适的视图为<code>yellow view</code>。</li>
+</ul>
+</li>
+<li>那么由<code>yellow view</code>来响应本次事件。</li>
+</ul>
+<p>清楚过程后，只需要在进入<code>yellow view</code>的<code>hitTest</code>方法时，做一下处理，让其不是合适的响应视图即可。</p>
+<p>具体如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event</span><br><span class="line">&#123;</span><br><span class="line">    UIView *hitView = [super hitTest:point withEvent:event]; // 找到了最合适的视图</span><br><span class="line">    if (hitView &amp;&amp; hitView == self) &#123; // 当找到了并且是自己本身时候，返回nil，告诉上一级tableview，最合适的视图不在我内部</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line">    return hitView;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>逻辑如下：</p>
+<ul>
+<li>进入控制器view，发现点击位置在其内部，那么往其子视图中找</li>
+<li>发现只有tableview，并且进入发现点击位置在tableview中，说明最合适的响应视图要么是tableview，要么是tableview的子视图，在往tableview子视图中找找。</li>
+<li>发现了<code>yellow view</code>，发现了点击位置在<code>yellow view</code>中并且再找了其两个子视图按钮后发现<code>yellow view</code>正是这个最合适的视图。这个时候如果再不处理，系统默认会返回<code>yellow view</code>，那么tableview就没有机会响应了。但是返回了nil，告诉tableview，没找到最合适的，那么tableview就成了最合适的响应视图。</li>
+</ul>
+<p>至于为什么要判断<code>hitView == self</code>呢，因为如果这次点击的是两个按钮，那么这里的<code>hitView</code>就是按钮了，如果仍然返回nil，那么按钮的响应也将无法触发。</p>
+<p>最终效果：<br><img src="项目解决动图.gif" alt="项目解决动图"></p>
+<h3 id="另一个思路"><a href="#另一个思路" class="headerlink" title="另一个思路"></a>另一个思路</h3><p>这里还有另一个思路，那就是重写<code>yellow view</code>的<code>pointInside</code>方法，因为<code>hitTest</code>内部会调用<code>pointInside</code>来判断点击点是否是视图内部，如果不管三七二十一直接返回NO，那么这个视图将永远不会作为最合适的视图。因此，可以使用这个特性来实现效果：<br>判断一下点击点的位置，如果是两个按钮的位置，就返回YES，如果点击位置<code>yellow view</code>的黄色区域，就返回NO。</p>
+<p>利用这个思路，还可以给小的按钮增加响应热区，给超出父视图的视图富裕响应能力等。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请我吃一块黄金鸡块</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/assets/webImage/wechat_pay.jpg" alt="Jabber_YQ 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/assets/webImage/alipay_pay.jpg" alt="Jabber_YQ 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS-进阶/" rel="tag"># iOS 进阶</a>
+          
+            <a href="/tags/实际项目/" rel="tag"># 实际项目</a>
+          
+            <a href="/tags/响应链/" rel="tag"># 响应链</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/11/iOS面试：面试题集合/" rel="next" title="iOS面试：面试题集合（持续更新）">
+                <i class="fa fa-chevron-left"></i> iOS面试：面试题集合（持续更新）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/assets/webImage/avatar.jpg"
+                alt="Jabber_YQ" />
+            
+              <p class="site-author-name" itemprop="name">Jabber_YQ</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/JabberYQ" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://www.jianshu.com/u/38f5c5bd3849" target="_blank" title="jianshu">
+                    
+                      <i class="fa fa-fw fa-globe"></i>jianshu</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#项目中的问题"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x9879;&#x76EE;&#x4E2D;&#x7684;&#x95EE;&#x9898;" class="headerlink" title="&#x9879;&#x76EE;&#x4E2D;&#x7684;&#x95EE;&#x9898;"></a>&#x9879;&#x76EE;&#x4E2D;&#x7684;&#x95EE;&#x9898;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我当时的解决办法"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6211;&#x5F53;&#x65F6;&#x7684;&#x89E3;&#x51B3;&#x529E;&#x6CD5;" class="headerlink" title="&#x6211;&#x5F53;&#x65F6;&#x7684;&#x89E3;&#x51B3;&#x529E;&#x6CD5;"></a>&#x6211;&#x5F53;&#x65F6;&#x7684;&#x89E3;&#x51B3;&#x529E;&#x6CD5;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通过响应链来解决"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x901A;&#x8FC7;&#x54CD;&#x5E94;&#x94FE;&#x6765;&#x89E3;&#x51B3;" class="headerlink" title="&#x901A;&#x8FC7;&#x54CD;&#x5E94;&#x94FE;&#x6765;&#x89E3;&#x51B3;"></a>&#x901A;&#x8FC7;&#x54CD;&#x5E94;&#x94FE;&#x6765;&#x89E3;&#x51B3;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是响应链"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x4EC0;&#x4E48;&#x662F;&#x54CD;&#x5E94;&#x94FE;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;&#x54CD;&#x5E94;&#x94FE;"></a>&#x4EC0;&#x4E48;&#x662F;&#x54CD;&#x5E94;&#x94FE;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应链是如何工作的（工作步骤）"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x54CD;&#x5E94;&#x94FE;&#x662F;&#x5982;&#x4F55;&#x5DE5;&#x4F5C;&#x7684;&#xFF08;&#x5DE5;&#x4F5C;&#x6B65;&#x9AA4;&#xFF09;" class="headerlink" title="&#x54CD;&#x5E94;&#x94FE;&#x662F;&#x5982;&#x4F55;&#x5DE5;&#x4F5C;&#x7684;&#xFF08;&#x5DE5;&#x4F5C;&#x6B65;&#x9AA4;&#xFF09;"></a>&#x54CD;&#x5E94;&#x94FE;&#x662F;&#x5982;&#x4F55;&#x5DE5;&#x4F5C;&#x7684;&#xFF08;&#x5DE5;&#x4F5C;&#x6B65;&#x9AA4;&#xFF09;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步、事件的产生"><span class="nav-number">3.2.1.</span> <span class="nav-text"><a href="#&#x7B2C;&#x4E00;&#x6B65;&#x3001;&#x4E8B;&#x4EF6;&#x7684;&#x4EA7;&#x751F;" class="headerlink" title="&#x7B2C;&#x4E00;&#x6B65;&#x3001;&#x4E8B;&#x4EF6;&#x7684;&#x4EA7;&#x751F;"></a>&#x7B2C;&#x4E00;&#x6B65;&#x3001;&#x4E8B;&#x4EF6;&#x7684;&#x4EA7;&#x751F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步、事件的传递"><span class="nav-number">3.2.2.</span> <span class="nav-text"><a href="#&#x7B2C;&#x4E8C;&#x6B65;&#x3001;&#x4E8B;&#x4EF6;&#x7684;&#x4F20;&#x9012;" class="headerlink" title="&#x7B2C;&#x4E8C;&#x6B65;&#x3001;&#x4E8B;&#x4EF6;&#x7684;&#x4F20;&#x9012;"></a>&#x7B2C;&#x4E8C;&#x6B65;&#x3001;&#x4E8B;&#x4EF6;&#x7684;&#x4F20;&#x9012;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三步、事件的响应"><span class="nav-number">3.2.3.</span> <span class="nav-text"><a href="#&#x7B2C;&#x4E09;&#x6B65;&#x3001;&#x4E8B;&#x4EF6;&#x7684;&#x54CD;&#x5E94;" class="headerlink" title="&#x7B2C;&#x4E09;&#x6B65;&#x3001;&#x4E8B;&#x4EF6;&#x7684;&#x54CD;&#x5E94;"></a>&#x7B2C;&#x4E09;&#x6B65;&#x3001;&#x4E8B;&#x4EF6;&#x7684;&#x54CD;&#x5E94;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例讲解"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#&#x5B9E;&#x4F8B;&#x8BB2;&#x89E3;" class="headerlink" title="&#x5B9E;&#x4F8B;&#x8BB2;&#x89E3;"></a>&#x5B9E;&#x4F8B;&#x8BB2;&#x89E3;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#这里的响应链是怎么样的"><span class="nav-number">3.3.1.</span> <span class="nav-text"><a href="#&#x8FD9;&#x91CC;&#x7684;&#x54CD;&#x5E94;&#x94FE;&#x662F;&#x600E;&#x4E48;&#x6837;&#x7684;" class="headerlink" title="&#x8FD9;&#x91CC;&#x7684;&#x54CD;&#x5E94;&#x94FE;&#x662F;&#x600E;&#x4E48;&#x6837;&#x7684;"></a>&#x8FD9;&#x91CC;&#x7684;&#x54CD;&#x5E94;&#x94FE;&#x662F;&#x600E;&#x4E48;&#x6837;&#x7684;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何通过这个链条找到最合适的视图"><span class="nav-number">3.3.2.</span> <span class="nav-text"><a href="#&#x5982;&#x4F55;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x94FE;&#x6761;&#x627E;&#x5230;&#x6700;&#x5408;&#x9002;&#x7684;&#x89C6;&#x56FE;" class="headerlink" title="&#x5982;&#x4F55;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x94FE;&#x6761;&#x627E;&#x5230;&#x6700;&#x5408;&#x9002;&#x7684;&#x89C6;&#x56FE;"></a>&#x5982;&#x4F55;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x94FE;&#x6761;&#x627E;&#x5230;&#x6700;&#x5408;&#x9002;&#x7684;&#x89C6;&#x56FE;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#找到视图后的响应是怎么回事"><span class="nav-number">3.3.3.</span> <span class="nav-text"><a href="#&#x627E;&#x5230;&#x89C6;&#x56FE;&#x540E;&#x7684;&#x54CD;&#x5E94;&#x662F;&#x600E;&#x4E48;&#x56DE;&#x4E8B;" class="headerlink" title="&#x627E;&#x5230;&#x89C6;&#x56FE;&#x540E;&#x7684;&#x54CD;&#x5E94;&#x662F;&#x600E;&#x4E48;&#x56DE;&#x4E8B;"></a>&#x627E;&#x5230;&#x89C6;&#x56FE;&#x540E;&#x7684;&#x54CD;&#x5E94;&#x662F;&#x600E;&#x4E48;&#x56DE;&#x4E8B;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决开始的问题"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#&#x89E3;&#x51B3;&#x5F00;&#x59CB;&#x7684;&#x95EE;&#x9898;" class="headerlink" title="&#x89E3;&#x51B3;&#x5F00;&#x59CB;&#x7684;&#x95EE;&#x9898;"></a>&#x89E3;&#x51B3;&#x5F00;&#x59CB;&#x7684;&#x95EE;&#x9898;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#最好的思路"><span class="nav-number">3.4.1.</span> <span class="nav-text"><a href="#&#x6700;&#x597D;&#x7684;&#x601D;&#x8DEF;" class="headerlink" title="&#x6700;&#x597D;&#x7684;&#x601D;&#x8DEF;"></a>&#x6700;&#x597D;&#x7684;&#x601D;&#x8DEF;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#另一个思路"><span class="nav-number">3.4.2.</span> <span class="nav-text"><a href="#&#x53E6;&#x4E00;&#x4E2A;&#x601D;&#x8DEF;" class="headerlink" title="&#x53E6;&#x4E00;&#x4E2A;&#x601D;&#x8DEF;"></a>&#x53E6;&#x4E00;&#x4E2A;&#x601D;&#x8DEF;</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jabber_YQ</span>
+
+  
+</div>
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'MocdHfqfnpeuUX1f9d3PuJuo-gzGzoHsz',
+        appKey: 'Lb7ihGRMAxKoYaEyuRWJcCWQ',
+        placeholder: '快快留下你的想法(ง •̀_•́)ง',
+        avatar:'retro',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
