@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="iOS 实战,分类,UITableView," />
+  <meta name="keywords" content="iOS 实战,UITableView,解耦合," />
 
 
 
@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="需求在项目中，需要一个视图，在TableView没有数据的时候遮盖在其上面，用于提醒用户没有数据并提供用户点击刷新功能。 效果 思路下面记录一下我的心路历程：我刚开始的思路就是直接在控制器中，判断作为数据源的数组是否有数据，如果没有，初始化一个视图add在TableView上面。这样做是可行的，但是当需要遮罩的TableView很多的时候，就需要次次都添加，很麻烦。于是想到了分类，在TableVi">
-<meta name="keywords" content="iOS 实战,分类,UITableView">
+<meta name="description" content="本篇文章主要的目的是分享一种UITableView模块化开发的思路。 在开发过程中，常常会遇到很复杂的tableview的界面，往往每一个的section都是完全不一样的。比如这样：  这个界面中，每一个section都是不同的。当需要多人去开发这样的界面，每个人负责一到两个section，如何去管理大家的代码，让代码互不冲突呢？ 解决方法就是分模块化开发。大致的思路是这样的：控制器中不写任何和各">
+<meta name="keywords" content="iOS 实战,UITableView,解耦合">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS实战：自动添加TableView的遮罩刷新视图">
-<meta property="og:url" content="http://yoursite.com/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/index.html">
+<meta property="og:title" content="iOS实战：解耦合-UITableView模块化开发">
+<meta property="og:url" content="http://yoursite.com/2018/05/27/iOS实战：解耦合-UITableView模块化开发/index.html">
 <meta property="og:site_name" content="Jabber_YQ&#39;s Blog">
-<meta property="og:description" content="需求在项目中，需要一个视图，在TableView没有数据的时候遮盖在其上面，用于提醒用户没有数据并提供用户点击刷新功能。 效果 思路下面记录一下我的心路历程：我刚开始的思路就是直接在控制器中，判断作为数据源的数组是否有数据，如果没有，初始化一个视图add在TableView上面。这样做是可行的，但是当需要遮罩的TableView很多的时候，就需要次次都添加，很麻烦。于是想到了分类，在TableVi">
+<meta property="og:description" content="本篇文章主要的目的是分享一种UITableView模块化开发的思路。 在开发过程中，常常会遇到很复杂的tableview的界面，往往每一个的section都是完全不一样的。比如这样：  这个界面中，每一个section都是不同的。当需要多人去开发这样的界面，每个人负责一到两个section，如何去管理大家的代码，让代码互不冲突呢？ 解决方法就是分模块化开发。大致的思路是这样的：控制器中不写任何和各">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/效果.gif">
-<meta property="og:updated_time" content="2018-01-09T08:37:23.000Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/27/iOS实战：解耦合-UITableView模块化开发/例子.png">
+<meta property="og:updated_time" content="2018-05-27T03:07:36.933Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS实战：自动添加TableView的遮罩刷新视图">
-<meta name="twitter:description" content="需求在项目中，需要一个视图，在TableView没有数据的时候遮盖在其上面，用于提醒用户没有数据并提供用户点击刷新功能。 效果 思路下面记录一下我的心路历程：我刚开始的思路就是直接在控制器中，判断作为数据源的数组是否有数据，如果没有，初始化一个视图add在TableView上面。这样做是可行的，但是当需要遮罩的TableView很多的时候，就需要次次都添加，很麻烦。于是想到了分类，在TableVi">
-<meta name="twitter:image" content="http://yoursite.com/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/效果.gif">
+<meta name="twitter:title" content="iOS实战：解耦合-UITableView模块化开发">
+<meta name="twitter:description" content="本篇文章主要的目的是分享一种UITableView模块化开发的思路。 在开发过程中，常常会遇到很复杂的tableview的界面，往往每一个的section都是完全不一样的。比如这样：  这个界面中，每一个section都是不同的。当需要多人去开发这样的界面，每个人负责一到两个section，如何去管理大家的代码，让代码互不冲突呢？ 解决方法就是分模块化开发。大致的思路是这样的：控制器中不写任何和各">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/27/iOS实战：解耦合-UITableView模块化开发/例子.png">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/27/iOS实战：解耦合-UITableView模块化开发/"/>
 
 
 
 
 
-  <title>iOS实战：自动添加TableView的遮罩刷新视图 | Jabber_YQ's Blog</title>
+  <title>iOS实战：解耦合-UITableView模块化开发 | Jabber_YQ's Blog</title>
   
 
 
@@ -255,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/27/iOS实战：解耦合-UITableView模块化开发/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jabber_YQ">
@@ -272,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS实战：自动添加TableView的遮罩刷新视图</h1>
+          <h1 class="post-title" itemprop="name headline">iOS实战：解耦合-UITableView模块化开发</h1>
         
 
         <div class="post-meta">
@@ -284,8 +284,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-09T15:42:34+08:00">
-                2018-01-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-27T09:41:29+08:00">
+                2018-05-27
               </time>
             
 
@@ -325,8 +325,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/01/09/iOS实战：自动添加TableView的遮罩刷新视图/" itemprop="commentCount"></span>
+                <a href="/2018/05/27/iOS实战：解耦合-UITableView模块化开发/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/05/27/iOS实战：解耦合-UITableView模块化开发/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -354,16 +354,38 @@
       
 
       
-        <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>在项目中，需要一个视图，在TableView没有数据的时候遮盖在其上面，用于提醒用户没有数据并提供用户点击刷新功能。</p>
-<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><p><img src="效果.gif" alt="效果"></p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>下面记录一下我的心路历程：<br>我刚开始的思路就是直接在控制器中，判断作为数据源的数组是否有数据，如果没有，初始化一个视图add在TableView上面。这样做是可行的，但是当需要遮罩的TableView很多的时候，就需要次次都添加，很麻烦。<br>于是想到了分类，在TableView的分类中做判断。但是入口该怎么取呢？<br>因为不是所有的TableView都需要遮罩视图，所以不能使用<code>Method Swizzling</code>。<br>其实方法很简单，创一个方法作为入口，在该方法中判断是否需要添加遮罩，然后调用一下<code>- (void)reloadData;</code>。完成。</p>
-<p>下面有一个问题，该分类如何知道数据源数组是否有数据。<br>我的做法是，使用<code>runtime</code>设置TableView的<code>array</code>属性，在控制器中传入数组即可。</p>
-<p>下面还有一个问题，遮罩视图该如何设置。<br>我的做法是，还是通过使用<code>runtime</code>设置TableView的<code>placeholerView</code>属性，可以在设置TableView之前，把遮罩视图创建好，传过去。同时，设置了默认的<code>placeholerView</code>属性，在没有传<code>placeholerView</code>时，会添加默认的遮罩视图。（如效果的“一”控制器）</p>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">- (void)yq_reloadData</span><br><span class="line">&#123;</span><br><span class="line">    if (!self.array) &#123; // 未传array</span><br><span class="line">        [self reloadData];</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (self.array.count == 0) &#123; // 需要展位图</span><br><span class="line"></span><br><span class="line">        if (!self.placeholerView) &#123; // 未传展位图</span><br><span class="line">        </span><br><span class="line">            // 创建 (省略了placeholderView的属性设置)</span><br><span class="line">            UIView *placeholderView = [[UIView alloc] initWithFrame:self.bounds];</span><br><span class="line">    </span><br><span class="line">            // 赋值</span><br><span class="line">            self.placeholerView = placeholderView;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        [self addSubview:self.placeholerView];</span><br><span class="line">        [self reloadData];</span><br><span class="line">    &#125; else &#123; // 有数据</span><br><span class="line">        [self.placeholerView removeFromSuperview];</span><br><span class="line">        [self reloadData];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的代码是主要的实现，我省略了默认<code>placeholderView</code>的设置，也省略了<code>placeholderView array</code>的<code>setter getter</code>方法。都比较简单。</p>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];</span><br><span class="line">tableView.dataSource = self;</span><br><span class="line">tableView.delegate = self;</span><br><span class="line">[self.view addSubview:tableView];</span><br><span class="line">self.tableView = tableView;</span><br><span class="line"></span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">tableView.array = self.groups;</span><br><span class="line">tableView.reloadButtonClickBlock = ^&#123;</span><br><span class="line">    [weakSelf add];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/* 设置tableView.placeholerView属性</span><br><span class="line">UIView *placeholderV = [[UIView alloc] init];</span><br><span class="line">placeholderV.frame = self.view.bounds;</span><br><span class="line">placeholderV.backgroundColor = [UIColor yellowColor];</span><br><span class="line">tableView.placeholerView = placeholderV;</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">- (void)remove</span><br><span class="line">&#123;</span><br><span class="line">    [self.groups removeAllObjects];</span><br><span class="line">    [self.tableView yq_reloadData];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>只需在初始化时传入<code>tableView.array</code>和<code>tableView.placeholerView</code>，在需要刷新时调用<code>yq_reloadData</code>即可。</p>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p><a href="https://github.com/JabberYQ/YQTableViewPlaceholder" target="_blank" rel="noopener">YQTableViewPlaceholder</a></p>
+        <p>本篇文章主要的目的是分享一种<code>UITableView</code>模块化开发的思路。</p>
+<p>在开发过程中，常常会遇到很复杂的<code>tableview</code>的界面，往往每一个的<code>section</code>都是完全不一样的。比如这样：</p>
+<p><img src="例子.png" alt="例子.png"></p>
+<p>这个界面中，每一个<code>section</code>都是不同的。当需要多人去开发这样的界面，每个人负责一到两个<code>section</code>，如何去管理大家的代码，让代码互不冲突呢？</p>
+<p>解决方法就是分模块化开发。大致的思路是这样的：控制器中不写任何和各个<code>section</code>相关的代码，只需创建<code>UITableView</code>并编写其相关的数据源方法。这里的每一个<code>section</code>对应一个继承自<code>NSObject</code>的<code>control</code>类。在控制器中，添加一个个<code>control</code>到数组<code>controls</code>中。可将<code>control</code>作为一个控制器，所有的数据获取，逻辑处理均可在其中完成。</p>
+<p>说到这里，你如果看过<a href="http://jabberyq.top/2018/03/06/%E8%87%AA%E9%80%A0%E8%BD%AE%E5%AD%90%EF%BC%9AYQCommonCell%E3%80%81%E7%AE%80%E5%8C%96%E8%A1%A8%E5%8D%95%E8%A7%86%E5%9B%BE%E5%BC%80%E5%8F%91/" target="_blank" rel="noopener">自造轮子：YQCommonCell 简化表单视图开发</a>，应该会发现两者在思路上是类似的，将<code>section</code>对应模型抽离出，相关<code>section</code>的属性均在模型中编写。</p>
+<p>但是，目前存在两个问题：</p>
+<p>1.如何将每一个<code>section</code>都正确的显示在界面上。或者说，<code>section</code>界面设置的入口改在哪？</p>
+<p>2.<code>control</code>想要刷新<code>tableview</code>的时候，该如何去做。</p>
+<hr>
+<p><strong>1.如何将每一个<code>section</code>都正确的显示在界面上。或者说，<code>section</code>界面设置的入口改在哪？</strong></p>
+<p>在初学时，遇到这种界面，第一反应就是创建自定义视图cell，在<code>cellForRow</code>中设置对应的cell。这样做的代价是所有的数据请求等都在控制器中完成，而现在要由<code>control</code>来完成。在<code>control</code>中设置一个全局属性view，然后再去<code>cellForRow</code>设置？不是的。</p>
+<p>其实方法很简单，在<code>tableView</code>数据源的方法<code>cellForRow</code>中，让每一个<code>control</code>去实现<code>cellForRow</code>方法，也就是说，在<code>control</code>中，自行设置其对应的<code>section</code>的<code>cell</code>。其他的<code>section</code>属性也是类似的。</p>
+<p>那么，可写个协议，我暂时命名为<code>YQModuleResolveControlProtocol</code>。在该协议中，设置必须实现的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@required</span><br><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRow:(NSInteger)row;</span><br><span class="line">- (CGFloat)heightForRow:(NSInteger)row;</span><br><span class="line">- (NSInteger)numberOfRows;</span><br></pre></td></tr></table></figure>
+<p>还有可选择实现的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@optional</span><br><span class="line">- (CGFloat)heightForHeader;</span><br><span class="line">- (UIView *)viewForHeader;</span><br><span class="line">- (CGFloat)heightForFooter;</span><br><span class="line">- (UIView *)viewForFooter;</span><br><span class="line">- (void)tableView:(UITableView *)tableView cellSelectIndexPath:(NSIndexPath *)indexPath;</span><br></pre></td></tr></table></figure>
+<p>只需让每一个<code>control</code>遵循<code>YQModuleResolveControlProtocol</code>，实现必须实现的方法。</p>
+<p>在控制器中，以<code>cellForRow</code>为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    if (indexPath.section &gt;= self.controls.count) &#123;</span><br><span class="line">        return [[UITableViewCell alloc] init];</span><br><span class="line">    &#125;</span><br><span class="line">    id &lt;YQModuleResolveControlProtocol&gt;control = self.controls[indexPath.section];</span><br><span class="line">    if ([control respondsToSelector:@selector(tableView:cellForRow:)]) &#123;</span><br><span class="line">        return [control tableView:tableView cellForRow:indexPath.row];</span><br><span class="line">    &#125;</span><br><span class="line">    return [[UITableViewCell alloc] init];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，很完美的将代码抽离到一个个模块中。</p>
+<hr>
+<p><strong>2.<code>control</code>想要刷新<code>tableview</code>的时候，该如何去做。</strong></p>
+<p>这个问题的本质就是数据传递或事件传递，很简单，用代理即可。</p>
+<p>新的协议：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@protocol YQModuleResolveControlDelegate &lt;NSObject&gt;</span><br><span class="line">@optional</span><br><span class="line">- (void)reloadControl:(id)control row:(NSInteger)row;</span><br><span class="line">- (void)reloadOwnControl:(id)control;</span><br><span class="line">- (void)reloadAllTableView:(UITableViewRowAnimation)animation;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>让控制器遵循该协议，并实现（以刷新某一行为例）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - YQModuleResolveControlDelegate</span><br><span class="line">- (void)reloadControl:(id)control row:(NSInteger)row</span><br><span class="line">&#123;</span><br><span class="line">    if ([self.controls containsObject:control]) &#123;</span><br><span class="line">        NSInteger section = [self.controls indexOfObject:control];</span><br><span class="line">        NSIndexPath *indexpath = [NSIndexPath indexPathForRow:row inSection:section];</span><br><span class="line">        [self.tv reloadRowsAtIndexPaths:@[indexpath] withRowAnimation:UITableViewRowAnimationFade];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，就能做到<code>control</code>随时主动刷新<code>tableView</code>。</p>
+<hr>
+<p>以上，就能做到本文最开头所写的要求，将每一个<code>section</code>对应的所有代码抽离至<code>control</code>。具体开发时，让每一位开发人员自行创建<code>control</code>即可。而<code>ViewController</code>将会一身轻松且不需要时常修改代码。</p>
+<p>顺便补充一点，如果想让<code>ViewController</code>编写完后就再也不修改任何代码，可将控制器<code>controls</code>添加<code>control</code>这一部分也抽离到分类中，每一位开发人员自行去分类中添加自己的<code>control</code>即可。</p>
 
       
     </div>
@@ -412,9 +434,9 @@
           
             <a href="/tags/iOS-实战/" rel="tag"># iOS 实战</a>
           
-            <a href="/tags/分类/" rel="tag"># 分类</a>
-          
             <a href="/tags/UITableView/" rel="tag"># UITableView</a>
+          
+            <a href="/tags/解耦合/" rel="tag"># 解耦合</a>
           
         </div>
       
@@ -427,8 +449,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/05/iOS进阶：通过引用计数来看NSTimer/" rel="next" title="iOS进阶：通过引用计数来正确使用NSTimer">
-                <i class="fa fa-chevron-left"></i> iOS进阶：通过引用计数来正确使用NSTimer
+              <a href="/2018/04/21/iOS实战：移动一键登录SDK封装/" rel="next" title="iOS实战：移动一键登录SDK封装">
+                <i class="fa fa-chevron-left"></i> iOS实战：移动一键登录SDK封装
               </a>
             
           </div>
@@ -436,10 +458,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/10/iOS基础：atomic和nonatomic区别/" rel="prev" title="iOS基础：atomic和nonatomic区别">
-                iOS基础：atomic和nonatomic区别 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -494,17 +512,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -584,22 +593,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x9700;&#x6C42;" class="headerlink" title="&#x9700;&#x6C42;"></a>&#x9700;&#x6C42;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#效果"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6548;&#x679C;" class="headerlink" title="&#x6548;&#x679C;"></a>&#x6548;&#x679C;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x601D;&#x8DEF;" class="headerlink" title="&#x601D;&#x8DEF;"></a>&#x601D;&#x8DEF;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x5B9E;&#x73B0;" class="headerlink" title="&#x5B9E;&#x73B0;"></a>&#x5B9E;&#x73B0;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;" class="headerlink" title="&#x4F7F;&#x7528;"></a>&#x4F7F;&#x7528;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x4EE3;&#x7801;" class="headerlink" title="&#x4EE3;&#x7801;"></a>&#x4EE3;&#x7801;</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
